@@ -1,4 +1,11 @@
 import db from "./CreateConnection.js"
+import bcrypt from "bcrypt";
+
+const saltRounds = 12;
+
+
+const thorHashPass = await bcrypt.hash("1234", saltRounds);
+const alexHashPass = await bcrypt.hash("0", saltRounds);
 
 db.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -13,8 +20,8 @@ db.query(`
 /* LAV TABLE TIL POSTS  */
 
 
-db.query(`
-    INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '0'), ('Thorminathor', 'thorfa4444@gmail.com', '1234');
-`);
+/*db.query(`
+    INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}'), ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}');
+`);*/
 
 db.end();
