@@ -1,9 +1,11 @@
 <h1>Login</h1>
 
-<div>
-    <imput type="text" id="username"/> 
-    <input type="password" id="password"/>
-    <button type="submit">Login</button>
+<div style="display: block;">
+    <input type="text" placeholder="Username" id="username" value="Ahaubro"/> 
+</br>
+    <input type="password" placeholder="Password" id="password" value="0"/>
+</br>
+    <button type="submit" onclick="login()">Login</button>
 </div>
 
 <script>
@@ -27,15 +29,10 @@
         responseMessage = await res.text();
 
         if (res.status === 404) {
-            
+            console.log("Det gik skidt!")  
         } else {
             
-            
-            
-            setTimeout(() => {
-                navigate("/", { replace: true });
-                location.reload();
-            }, 2000);
+        console.log("Det gik godt!")
         }
     }
 </script>

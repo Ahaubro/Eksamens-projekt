@@ -1,4 +1,7 @@
 {
+  "nodemonConfig": {
+    "ext": "js,html"
+  },
   "type": "module",
   "dependencies": {
     "bcrypt": "^5.0.1",
