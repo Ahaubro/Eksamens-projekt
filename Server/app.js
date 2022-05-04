@@ -5,7 +5,7 @@ import rateLimit from "express-rate-limit";
 
 const app = express();
 
-app.use(express.static("../Client/Public"));
+app.use(express.static("../Client/Public/"));
 app.use(express.json());
 
 import SSR from "./SSR/SSR.js";

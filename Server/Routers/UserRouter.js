@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { response, Router } from "express";
 import db from "../Database/CreateConnection.js";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
@@ -27,7 +27,8 @@ router.post("/auth/login", async (req, res) => {
     let sqlSelect = "SELECT * FROM users WHERE username = ?";
     const foundUser = await db.query(sqlSelect, [username], function (err, result) {
         if(err){
-            throw err
+            console.log(err)
+            return res.status(400).send();
         }
 
         if(result[0]) {
