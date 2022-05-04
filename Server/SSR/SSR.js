@@ -22,7 +22,7 @@ SSR.directory = '../../Client/Public/Components';
 const headerTemplate = SSR.loadFile("/Header.html");
 const header = SSR.replace(headerTemplate, {navbar: '/Navbar.html'});
 
-const pageStylesDirectory = '/Pages/Styles';
+const pageStylesDirectory = './Css';
 const homeStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/HomeStyle.css">`;
 const chatroomStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/ChatroomStyle.css">`;
 const smilePostsStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/SmilePostsStyle.css">`;
