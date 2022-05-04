@@ -1,7 +1,7 @@
 import db from "./CreateConnection.js"
 import bcrypt from "bcrypt";
 
-const saltRounds = 12;
+const saltRounds = process.env.SALTROUNDS;
 
 
 const thorHashPass = await bcrypt.hash("1234", saltRounds);

@@ -1,9 +1,9 @@
 <h1>Login</h1>
 
 <div style="display: block;">
-    <input type="text" placeholder="Username" id="username"/> 
+    <input type="text" placeholder="Username" id="username" /> 
 </br>
-    <input type="password" placeholder="Password" id="password"/>
+    <input type="password" placeholder="Password" id="password" />
 </br>
     <button type="submit" onclick="login()">Login</button>
 </div>
@@ -33,7 +33,7 @@
         });
         responseMessage = await res.text();
 
-        if (res.status != 201) {
+        if (res.status !== 201) {
             console.log("Det gik godt!")  
         } else {
             
