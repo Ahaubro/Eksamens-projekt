@@ -22,8 +22,13 @@ router.use("/auth", authLimiter)
 // Log-in function
 router.post("/auth/login", async (req, res) => {
     const { username, password } = req.body;
-
-    const foundUser = await db.query("SELECT * FROM users WHERE username = ?", [username]);
+    let sqlSelect = "SELECT * FROM users WHERE username = ?";
+    const foundUser = await db.query(sqlSelect, [username], function (err, result) {
+        if(err){
+            throw err
+        }
+        console.log(result)
+    });
 
     if(!foundUser) {
         return res.send("There is no user with that username")
@@ -63,11 +68,23 @@ router.get("/auth/logout", (req, res) => {
 
 //Register user function
 router.post("/auth/signup", async (req, res) => {
-
     const { username, email, password } = req.body
 
-    const foundUsername = await db.query("SELECT * FROM users WHERE username = ?", [username])
-    const foundUsermail = await db.query("SELECT * FROM users WHERE email = ?", [email])
+    const sqlSelect1 = "SELECT * FROM users WHERE username = ?";
+    const foundUsername = await db.query(sqlSelect1, [username], function (err, result) {
+        if(err){
+            throw err
+        }
+        console.log(result)
+    });
+
+    const sqlSelect2 = "SELECT * FROM users WHERE email = ?";
+    const foundUsermail = await db.query(sqlSelect2, [email], function (err, result) {
+        if(err){
+            throw err
+        }
+        console.log(result)
+    });
 
     if(foundUsername) {
         res.send("There is already a user with that username");
@@ -79,7 +96,13 @@ router.post("/auth/signup", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const { changes } = await db.run("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", [username, email, hashedPassword]);
+    const sqlInsertQuery = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    const { changes } = await db.run(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
+        if(err){
+            throw err
+        }
+        console.log(result)
+    });
 
     if(changes === 1) {
         sendMail(email);
