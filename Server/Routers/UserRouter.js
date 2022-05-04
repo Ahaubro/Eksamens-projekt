@@ -115,3 +115,4 @@ function sendMail(email) {
     });
 }
 
+export default router;
