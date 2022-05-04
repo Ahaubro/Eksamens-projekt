@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { response, Router } from "express";
 import db from "../Database/CreateConnection.js";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
@@ -22,14 +22,17 @@ router.use("/auth", authLimiter)
 // Log-in function
 router.post("/auth/login", async (req, res) => {
     const { username, password } = req.body;
+    let user = {};
     let sqlSelect = "SELECT * FROM users WHERE username = ?";
     const foundUser = await db.query(sqlSelect, [username], function (err, result) {
         if(err){
-            throw err
+            console.log(err)
+            return res.status(400).send();
         }
-        console.log(result)
+        return res.status(200).json(result);
     });
 
+   console.log(foundUser);
     if(!foundUser) {
         return res.send("There is no user with that username")
     }
@@ -37,9 +40,9 @@ router.post("/auth/login", async (req, res) => {
     if(!foundUser.password) {
         return res.send("Wrong password")
     }
-
+    
     const isSame = await bcrypt.compare(password, foundUser.password);
-
+    console.log(isSame)
     if(isSame && !req.session.loggedIn) {
         req.session.loggedIn = true;
         req.session.username = username;
