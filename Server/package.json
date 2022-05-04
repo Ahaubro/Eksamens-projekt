@@ -2,6 +2,9 @@
   "nodemonConfig": {
     "ext": "js,html"
   },
+  "scripts": {
+    "n": "nodemon.cmd app.js"
+  },
   "type": "module",
   "dependencies": {
     "bcrypt": "^5.0.1",
