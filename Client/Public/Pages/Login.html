@@ -8,15 +8,18 @@
     <button type="submit" onclick="login()">Login</button>
 </div>
 
+<h4 id="response"></h4>
+
+
+
+
 <script>
     
-    console.log()
-    
-
     async function login() {
         const username = document.getElementById("username").value 
         const password = document.getElementById("password").value 
         let user = {};
+        let responseMessage = "";
         if(username && password != undefined){
             user.username = username;
             user.password = password;
@@ -30,11 +33,13 @@
         });
         responseMessage = await res.text();
 
-        if (res.status !== 201) {
+        if (res.status == 201) {
             console.log("Det gik godt!")  
         } else {
             
         console.log("Det gik skidt!")
         }
+
+        document.getElementById("response").innerText=responseMessage
     }
 </script>

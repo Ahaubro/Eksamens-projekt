@@ -4,14 +4,14 @@ import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
 
-const saltRounds = process.env.SALTROUNDS;
+const saltRounds = parseInt(process.env.SALTROUNDS);
 
 const router = Router();
 
 //Limit TEST FASEN, DER SKAL NOK PILLES EN DEL MERE MED DET HER
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 3,
+    max: 10,
     standardHeaders: true,
     legacyHeaders: false
 });
@@ -22,44 +22,46 @@ router.use("/auth", authLimiter)
 // Log-in function
 router.post("/auth/login", async (req, res) => {
     const { username, password } = req.body;
-    let user = {};
+    let resUser = "";
+    let resPas = "";
     let sqlSelect = "SELECT * FROM users WHERE username = ?";
     const foundUser = await db.query(sqlSelect, [username], function (err, result) {
         if(err){
             console.log(err)
             return res.status(400).send();
         }
-        return res.status(200).json(result);
-    });
 
-   console.log(foundUser);
-    if(!foundUser) {
-        return res.send("There is no user with that username")
-    }
-
-    if(!foundUser.password) {
-        return res.send("Wrong password")
-    }
+        if(result[0]) {
+            resUser = result[0].username
+            resPas = result[0].password
+        }
+        
+        if(!resUser) {
+            return res.send("There is no user with that username")
+        }
     
-    const isSame = await bcrypt.compare(password, foundUser.password);
-    console.log(isSame)
-    if(isSame && !req.session.loggedIn) {
-        req.session.loggedIn = true;
-        req.session.username = username;
-        return res.status(201).send("You have succesfully been logged in to user: " + username)
-    }
+        async function isSame() {
+            await bcrypt.compare(password, resPas);
+        } 
 
-    if(req.session.loggedIn) {
-        return res.send("You are already loged in")
-    }
+        if(isSame && !req.session.loggedIn) {
+            req.session.loggedIn = true;
+            req.session.username = username;
+            return res.status(201).send("You have succesfully been logged in to user: " + username)
+        }
+    
+        if(req.session.loggedIn) {
+            return res.send("You are already loged in")
+        }
+    
+    });
 });
-
 
 
 //Log-out function
 router.get("/auth/logout", (req, res) => {
     if(req.session.loggedIn) {
-        req.sessin.loggedIn = false;
+        req.session.loggedIn = false;
         const username = req.session.username;
         return res.send("You have been logged out from user: " + username)
     } else {
