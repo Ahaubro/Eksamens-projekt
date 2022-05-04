@@ -33,7 +33,7 @@
         });
         responseMessage = await res.text();
 
-        if (res.status !== 201) {
+        if (res.status == 201) {
             console.log("Det gik godt!")  
         } else {
             
