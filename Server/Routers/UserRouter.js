@@ -11,7 +11,7 @@ const router = Router();
 //Limit TEST FASEN, DER SKAL NOK PILLES EN DEL MERE MED DET HER
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 10,
+    max: 3,
     standardHeaders: true,
     legacyHeaders: false
 });

@@ -1,3 +1,26 @@
+<style>
+    .hidden-modal{
+        display: none;
+    }
+
+    .shown-modal{
+        background-color: rgba(255,255,255, 0.98);
+        border: 1px solid black;
+        padding: 18px;
+        display: block;
+        position: absolute;
+        width: 500px;
+        left: 50%;
+        top: 32%;
+        transform: translateX(-50%);
+        z-index: 1;
+        border-radius: 7px;
+    }
+
+</style>
+
+
+
 <h1>Login</h1>
 
 <div style="display: block;">
@@ -8,8 +31,9 @@
     <button type="submit" onclick="login()">Login</button>
 </div>
 
-<h4 id="response"></h4>
+<button onclick="showModal()">Opret ny bruger</button>
 
+<h4 id="response"></h4>
 
 
 
@@ -34,7 +58,7 @@
         responseMessage = await res.text();
 
         if (res.status == 201) {
-            console.log("Det gik godt!")  
+            console.log("Det gik godt!")
         } else {
             
         console.log("Det gik skidt!")
@@ -42,4 +66,7 @@
 
         document.getElementById("response").innerText=responseMessage
     }
+
+
+
 </script>
