@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
 
-const saltRounds = 12;
+const saltRounds = process.env.SALTROUNDS;
 
 const router = Router();
 
@@ -103,7 +103,7 @@ function sendMail(email) {
         from: 'sharethatsmileforever@gmail.com',
         to: email,
         subject: 'Smiles INC',
-        html:'<p> Tak fordi du oprettede en konto hos os! <br> Kom igang med at dele nu: <a href="http://localhost:9998/"> Klik her </a> </p>'
+        html:'<p> Thanks for signing up at "navn"! <br> Get to sharing the little everyday things that makes you smile at: <a href="http://localhost:9998/"> Smiles™ </a> </p>'
     };
       
     mailTransporter.sendMail(mailDetails, function(err, data) {
