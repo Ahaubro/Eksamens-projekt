@@ -23,7 +23,7 @@ router.use("/auth", authLimiter)
 router.post("/auth/login", async (req, res) => {
     const { username, password } = req.body;
 
-    const foundUser = await db.get("SELECT * FROM users WHERE username = ?", [username]);
+    const foundUser = await db.query("SELECT * FROM users WHERE username = ?", [username]);
 
     if(!foundUser) {
         return res.send("There is no user with that username")
@@ -66,8 +66,8 @@ router.post("/auth/signup", async (req, res) => {
 
     const { username, email, password } = req.body
 
-    const foundUsername = await db.get("SELECT * FROM users WHERE username = ?", [username])
-    const foundUsermail = await db.get("SELECT * FROM users WHERE email = ?", [email])
+    const foundUsername = await db.query("SELECT * FROM users WHERE username = ?", [username])
+    const foundUsermail = await db.query("SELECT * FROM users WHERE email = ?", [email])
 
     if(foundUsername) {
         res.send("There is already a user with that username");

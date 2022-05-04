@@ -20,8 +20,8 @@ db.query(`
 /* LAV TABLE TIL POSTS  */
 
 
-/*db.query(`
+db.query(`
     INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}'), ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}');
-`);*/
+`);
 
 db.end();
