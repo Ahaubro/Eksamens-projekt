@@ -11,7 +11,7 @@ const router = Router();
 //Limit TEST FASEN, DER SKAL NOK PILLES EN DEL MERE MED DET HER
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 3,
+    max: 10,
     standardHeaders: true,
     legacyHeaders: false
 });
@@ -23,15 +23,19 @@ router.use("/auth", authLimiter)
 router.post("/auth/login", async (req, res) => {
     const { username, password } = req.body;
 
-    const foundUser = await db.query("SELECT * FROM users WHERE username = ?", [username]);
+    const foundUser = await db.query("SELECT * FROM users WHERE username = ?", [username], function (err, result) {
+        if(err){
+            throw err
+        }
+        //console.log(result)
+    });
+    
+    console.log(foundUser.username)
 
-    if(!foundUser) {
+    if(foundUser.length == 0) {
         return res.send("There is no user with that username")
     }
 
-    if(!foundUser.password) {
-        return res.send("Wrong password")
-    }
 
     const isSame = await bcrypt.compare(password, foundUser.password);
 

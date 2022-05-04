@@ -34,7 +34,7 @@ app.use(session({
 
 app.use(userRouter);
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8900;
 app.listen(PORT, () => {
     console.log("App running on port " + PORT)
 });
