@@ -16,6 +16,7 @@ nav a{
     padding: 18px 55px;
     text-decoration: none;
     font-weight: 1000;
+    color: white;
 }
 
 nav a:hover:not(.active){
@@ -31,6 +32,8 @@ nav a:hover:not(.active){
     font-weight: 1000;
     background-color: #f07272;
     border: none;
+    color: white;
+    font-size: 16px;
 }
 
 #logoutBtn:hover{
