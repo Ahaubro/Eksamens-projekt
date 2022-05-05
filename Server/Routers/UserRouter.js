@@ -8,10 +8,10 @@ const saltRounds = parseInt(process.env.SALTROUNDS);
 
 const router = Router();
 
-//Limit TEST FASEN, DER SKAL NOK PILLES EN DEL MERE MED DET HER
+//Limiter
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 3,
+    max: 5,
     standardHeaders: true,
     legacyHeaders: false
 });
