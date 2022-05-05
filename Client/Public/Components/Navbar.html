@@ -3,5 +3,23 @@
     <li><a href="/chatrooms">Chatrooms</a></li>
     <li><a href="/smileposts">Smile Posts</a></li>
     <li><a href="/login">Login</a></li>
+    <li><button id="logoutBtn" onclick="logout()"> Logout</button></li>
 </ul>
+
+
+
+<script>
+
+    let responseMessage = "";
+
+    async function logout() {
+        const res = await fetch(`/auth/logout`);
+
+        responseMessage = await res.text();
+
+        document.getElementById("response").innerText=responseMessage
+    }
+</script>
+
+<h3 id="response"></h3>
 

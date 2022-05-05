@@ -2,7 +2,7 @@ nav ul {
     list-style-type: none;
     margin: 0;
     overflow: hidden;
-    background-color: #f04d4d;
+    background-color: #f07272;
     width: 100%
 }
 
@@ -19,6 +19,21 @@ nav a{
 }
 
 nav a:hover:not(.active){
-    background-color: #f02a2a;
+    background-color: #e93030;
+    transition: 0.2s;
+}
+
+#logoutBtn{
+    display: block;
+    font-family: Comic Sans MS;
+    padding: 18px 55px;
+    text-decoration: none;
+    font-weight: 1000;
+    background-color: #f07272;
+    border: none;
+}
+
+#logoutBtn:hover{
+    background-color: #e93030;
     transition: 0.2s;
 }

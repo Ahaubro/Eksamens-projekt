@@ -1,41 +1,47 @@
-<style>
-    .hidden-modal{
-        display: none;
-    }
 
-    .shown-modal{
-        background-color: rgba(255,255,255, 0.98);
-        border: 1px solid black;
-        padding: 18px;
-        display: block;
-        position: absolute;
-        width: 500px;
-        left: 50%;
-        top: 32%;
-        transform: translateX(-50%);
-        z-index: 1;
-        border-radius: 7px;
-    }
+<h2>Login or register page</h2>
 
-</style>
+<h4>Login or register now to access our smile posts and chatrooms</h4>
 
+<div id="login">
+    <br>
+    <h3 id="itxt">Login at Smiles.com</h3>
+    <hr>
+    <br>
+    <input type="text" placeholder="Username" id="username" /> 
+    </br>
+    <input type="password" placeholder="Password" id="password" />
+    </br>
 
-
-<h1>Login</h1>
-
-<div style="display: block;">
-    <input type="text" placeholder="Username" id="username" value="Ahaubro"/> 
-</br>
-    <input type="password" placeholder="Password" id="password" value="0"/>
-</br>
-    <button type="submit" onclick="login()">Login</button>
+    <div>
+        <br>
+        <button type="submit" onclick="login()" class="loginButton">Login</button>
+        <br>
+        <br>
+        <button id="showModal" class="createButton">Opret ny bruger</button>
+    </div>
 </div>
 
-<button onclick="showModal()">Opret ny bruger</button>
+
 
 <h4 id="response"></h4>
 
 
+
+<!-- Leg med Modal starter her-->
+
+<div id="modal" class="hidden-modal"> 
+    <h3>Create new user</h3>
+    <label>Name:</label>
+    <input id="username"/>
+    <br>
+    <label>Age:</label>
+    <input id="password"/>
+    <br>
+    <button id="reg-button">Register new user</button>
+    <button id="close-button">Close</button>
+</div>
+<!-- Leg med Modal slutter her-->
 
 <script>
     
@@ -67,6 +73,21 @@
         document.getElementById("response").innerText=responseMessage
     }
 
+    // MODAL
 
+    function showEditModal(){
+		modal.class = 'shown-modal';
+	}
+
+	function hideEditModal(){
+		modal.class = 'hidden-modal';
+	}
+
+    function setHandlers() {
+        document.getElementById("showModal").onclick=showEditModal
+        document.getElementById("close-button").onclick=hideEditModal
+    }
+
+    // Slutter her
 
 </script>
