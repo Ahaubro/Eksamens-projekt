@@ -25,9 +25,14 @@ db.query(`
 
 /* LAV TABLE TIL POSTS  */
 
+db.query(`DELETE FROM users`);
+db.query(`DELETE FROM posts`);
+
 db.query(`
-    INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}'), ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}');
+    INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}'),
+    ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}');
 `);
+
 db.query(`
     INSERT INTO posts(text) VALUES ('This is a test post'), ('This is another test post'), ('This is a third test post');
 `);

@@ -4,13 +4,17 @@
 
 </div>
 
+<button onclick="createPost()">Create New Post</button>
+
 <script>
     const postsDiv = document.getElementById("posts");
     let posts;
+
     async function loadPosts(){
         const response = await fetch("/api/posts");
         const result = await response.json();
         posts = result;
+        postsDiv.innerHTML = "";
         for(let i in posts){
             const {text} = posts[i];
             postsDiv.innerHTML += `<p>
@@ -19,6 +23,20 @@
             </p>`;
         }
     }
+
+    async function createPost(){
+        const response = await fetch("/api/posts", {
+            headers: {
+                "content-type": "application/json",
+            },
+            method: "POST",
+            body: `{"text": "This is a new post"}`
+        });
+        const result = await response.json();
+        loadPosts();
+    }
+
     loadPosts();
+
 
 </script>
