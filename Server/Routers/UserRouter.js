@@ -11,7 +11,7 @@ const router = Router();
 //Limiter
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 5,
+    max: 30,
     standardHeaders: true,
     legacyHeaders: false
 });
@@ -85,36 +85,38 @@ router.post("/auth/signup", async (req, res) => {
     let foundUsername = "";
     let foundUsermail = "";
 
-
     // Username check
-   
     const sqlSelect1 = "SELECT * FROM users WHERE username = ? OR email = ?";
     foundUsername = await db.query(sqlSelect1, [username, email], function (err, result) {
         if(err) throw err;
 
         if(result[0]) {
             resUsername = result[0].username
-            resMail = result[0].resMail 
-            if(resUsername != undefined) {
-                return res.status(404).send("There is already a user with the username: ")
-            }
-        }
-        
-    });
-
-
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    const sqlInsertQuery = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    const res1 = await db.query(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
-        if(err) throw err;
-    
-        console.log(result)
+            resMail = result[0].email
+            console.log(resUsername + resMail) 
             
-        sendMail(email);
-        return res.status(201).send("You have signed up new user " + username)
+            return res.status(404).send("There is already a user with the username: ")
+        } else {
+
+            async function hash() {
+                const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+                const sqlInsertQuery = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+                const res1 = await db.query(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
+                if(err) throw err;
+    
+                console.log(result)
+            
+                sendMail(email);
+                return res.status(201).send("You have signed up new user " + username)
         
-    });
+                });
+            }
+
+            hash();
+
+            }
+        });
 
 });
 

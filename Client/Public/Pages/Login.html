@@ -96,15 +96,12 @@
                 body: JSON.stringify(user)
             });
 
-            if(res.status == 201) {
-                responseMessage = await res.text();
+            responseMessage = await res.text();
 
-                console.log(responseMessage)
+            console.log(responseMessage)
 
-                document.getElementById("response").innerText=responseMessage
-            } else {
-                responseMessage = "Nope"
-            }
+            document.getElementById("response").innerText=responseMessage
+            
     }
 
 
