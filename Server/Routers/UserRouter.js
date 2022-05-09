@@ -41,14 +41,19 @@ router.post("/auth/login", async (req, res) => {
         }
     
         async function isSame() {
-            await bcrypt.compare(password, resPas);
-        } 
+            const result = await bcrypt.compare(password, resPas);
+            console.log(password + " " + resPas)
 
-        if(isSame && !req.session.loggedIn) {
-            req.session.loggedIn = true;
-            req.session.username = username;
-            return res.status(201).send("You have succesfully been logged in to user: " + username)
+            if(result && !req.session.loggedIn) {
+                req.session.loggedIn = true;
+                req.session.username = username;
+                return res.status(201).send("You have succesfully been logged in to user: " + username)
+            } else {
+                return res.send("Wrong password");
+            }
         }
+
+        isSame();
     
         if(req.session.loggedIn) {
             return res.send("You are already loged in")

@@ -18,36 +18,39 @@
         <button type="submit" onclick="login()" class="loginButton">Login</button>
         <br>
         <br>
-        <button id="showModal" class="createButton">Opret ny bruger</button>
+        <button onclick="showEditModal()" class="createButton">Opret ny bruger</button>
     </div>
 </div>
-
 
 
 <h4 id="response"></h4>
 
 
-
-<!-- Leg med Modal starter her-->
+<!-- Modal starter her-->
 
 <div id="modal" class="hidden-modal"> 
     <h3>Create new user</h3>
-    <label>Name:</label>
-    <input id="username"/>
+    <label>Email:</label>
+    <input id="email" placeholder="Email"/>
     <br>
-    <label>Age:</label>
-    <input id="password"/>
+    <label>Username:</label>
+    <input id="username" placeholder="Username"/>
     <br>
-    <button id="reg-button">Register new user</button>
-    <button id="close-button">Close</button>
+    <label>Password:</label>
+    <input id="password" placeholder="Password"/>
+    <br>
+    <button id="reg-button" onclick="register()">Register new user</button>
+    <button onclick="hideEditModal()">Close</button>
 </div>
-<!-- Leg med Modal slutter her-->
+<!-- Modal slutter her -->
 
 <script>
     
+    // Login funktion
     async function login() {
-        const username = document.getElementById("username").value 
-        const password = document.getElementById("password").value 
+
+        const username = document.getElementById("username").value; 
+        const password = document.getElementById("password").value; 
         let user = {};
         let responseMessage = "";
         if(username && password != undefined){
@@ -73,21 +76,37 @@
         document.getElementById("response").innerText=responseMessage
     }
 
+    // Register funktion
+    async function register() {
+
+        const email = document.getElementById("email").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        let user = {};
+        let responseMessage = "";
+
+        if(username && password && email) {
+            const res = await fetch(`/auth/signup`, {
+                headers: {
+                    "content-type": "application/json"
+                }
+            })
+        }
+
+
+    }
+
+
+
     // MODAL
 
     function showEditModal(){
-		modal.class = 'shown-modal';
+		modal.className = 'shown-modal';
 	}
 
 	function hideEditModal(){
-		modal.class = 'hidden-modal';
+		modal.className = 'hidden-modal';
 	}
-
-    function setHandlers() {
-        document.getElementById("showModal").onclick=showEditModal
-        document.getElementById("close-button").onclick=hideEditModal
-    }
-
-    // Slutter her
 
 </script>

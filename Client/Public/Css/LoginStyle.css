@@ -32,17 +32,15 @@ h4{
 }
 
 input{
-    width: 90%;
+    width: 80%;
     font-size: 15px;
     padding: 7px;
-
 }
 
 #itxt{
     font-size: 25px;
     font-weight: 700;
     color: white;
-
 }
 
 .createButton{
@@ -58,8 +56,6 @@ input{
     width: 65%;
     color: white;
     font-weight: 600;
-    
-
 }
 
 .createButton:hover{
