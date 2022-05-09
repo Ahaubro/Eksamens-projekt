@@ -1,1 +1,55 @@
 <h1>Smile Posts</h1>
+
+<div id="posts">
+
+</div>
+
+<button onclick="createPost()">Create New Post</button>
+<button onclick="editPost()">Edit Post</button>
+
+<script>
+    const postsDiv = document.getElementById("posts");
+    let posts;
+
+    loadPosts();
+
+    async function loadPosts(){
+        const response = await fetch("/api/posts");
+        const result = await response.json();
+        posts = result;
+        postsDiv.innerHTML = "";
+        for(let i in posts){
+            const {id, text} = posts[i];
+            postsDiv.innerHTML += `<p>
+                <b>Random user</b><br>
+                (${id}) ${text}
+            </p>`;
+        }
+    }
+
+    async function createPost(){
+        const response = await fetch("/api/posts", {
+            headers: {
+                "content-type": "application/json",
+            },
+            method: "POST",
+            body: `{"text": "This is a new post"}`
+        });
+        const result = await response.json();
+        loadPosts();
+    }
+
+    async function editPost(){
+        const response = await fetch("/api/posts/4", {
+            headers: {
+                "content-type": "application/json",
+            },
+            method: "PUT",
+            body: `{"text": "This post has been editted"}`
+        });
+        const result = await response.json();
+        console.log(result);
+        loadPosts();
+    }
+
+</script>
