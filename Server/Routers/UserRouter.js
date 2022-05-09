@@ -37,7 +37,7 @@ router.post("/auth/login", async (req, res) => {
         }
         
         if(!resUser) {
-            return res.send("There is no user with that username")
+            return res.send("Wrong username or password");
         }
     
         async function isSame() {
@@ -49,7 +49,7 @@ router.post("/auth/login", async (req, res) => {
                 req.session.username = username;
                 return res.status(201).send("You have succesfully been logged in to user: " + username)
             } else {
-                return res.send("Wrong password");
+                return res.send("Wrong username or password");
             }
         }
 
