@@ -3,9 +3,11 @@ import bcrypt from "bcrypt";
 
 const saltRounds = parseInt(process.env.SALTROUNDS);
 
-
 const thorHashPass = await bcrypt.hash("1234", saltRounds);
 const alexHashPass = await bcrypt.hash("0", saltRounds);
+
+db.query(`DROP TABLE IF EXISTS users`);
+db.query(`DROP TABLE IF EXISTS posts`);
 
 db.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -26,8 +28,10 @@ db.query(`
 /* LAV TABLE TIL POSTS  */
 
 db.query(`
-    INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}'), ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}');
+    INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}'),
+    ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}');
 `);
+
 db.query(`
     INSERT INTO posts(text) VALUES ('This is a test post'), ('This is another test post'), ('This is a third test post');
 `);
