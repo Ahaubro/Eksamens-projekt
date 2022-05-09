@@ -80,44 +80,42 @@ router.get("/auth/logout", (req, res) => {
 router.post("/auth/signup", async (req, res) => {
     const { username, email, password } = req.body
 
-    const sqlSelect1 = "SELECT * FROM users WHERE username = ?";
-    const foundUsername = await db.query(sqlSelect1, [username], function (err, result) {
-        if(err){
-            throw err
+    let resMail = "";
+    let resUsername  = "";
+    let foundUsername = "";
+    let foundUsermail = "";
+
+
+    // Username check
+   
+    const sqlSelect1 = "SELECT * FROM users WHERE username = ? OR email = ?";
+    foundUsername = await db.query(sqlSelect1, [username, email], function (err, result) {
+        if(err) throw err;
+
+        if(result[0]) {
+            resUsername = result[0].username
+            resMail = result[0].resMail 
+            if(resUsername != undefined) {
+                return res.status(404).send("There is already a user with the username: ")
+            }
         }
-        console.log(result)
+        
     });
 
-    const sqlSelect2 = "SELECT * FROM users WHERE email = ?";
-    const foundUsermail = await db.query(sqlSelect2, [email], function (err, result) {
-        if(err){
-            throw err
-        }
-        console.log(result)
-    });
-
-    if(foundUsername) {
-        res.send("There is already a user with that username");
-    }
-
-    if(foundUsermail) {
-        res.send("There is already a user with that email");
-    }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const sqlInsertQuery = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    const { changes } = await db.run(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
-        if(err){
-            throw err
-        }
+    const res1 = await db.query(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
+        if(err) throw err;
+    
         console.log(result)
+            
+        sendMail(email);
+        return res.status(201).send("You have signed up new user " + username)
+        
     });
 
-    if(changes === 1) {
-        sendMail(email);
-        return res.send("You have signed up new user " + username)
-    }
 });
 
 
