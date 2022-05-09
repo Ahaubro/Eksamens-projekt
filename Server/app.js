@@ -2,6 +2,7 @@ import express from "express";
 import session from "express-session";
 import userRouter from "./Routers/UserRouter.js";
 import rateLimit from "express-rate-limit";
+import postsRouter from "./Routers/PostsRouter.js";
 
 const app = express();
 
@@ -33,6 +34,8 @@ app.use(session({
 }));
 
 app.use(userRouter);
+
+app.use(postsRouter);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

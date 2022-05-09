@@ -1,1 +1,24 @@
 <h1>Smile Posts</h1>
+
+<div id="posts">
+
+</div>
+
+<script>
+    const postsDiv = document.getElementById("posts");
+    let posts;
+    async function loadPosts(){
+        const response = await fetch("/api/posts");
+        const result = await response.json();
+        posts = result;
+        for(let i in posts){
+            const {text} = posts[i];
+            postsDiv.innerHTML += `<p>
+                <b>Random user</b><br>
+                ${text}
+            </p>`;
+        }
+    }
+    loadPosts();
+
+</script>
