@@ -5,6 +5,21 @@
 </div>
 
 <script>
+
+    setActive()
+    function setActive(){
+
+        const currentPage = window.location.pathname.substring(1)
+        let aTags = document.getElementsByTagName('a')
+        for (let i = 0; i < 4; i++) {
+            if(aTags[i].className === "active"){
+                aTags[i].id === aTags[i].className
+            }
+        }
+        document.getElementById(currentPage).className = "active"
+    }
+
+
     const postsDiv = document.getElementById("posts");
     let posts;
     async function loadPosts(){

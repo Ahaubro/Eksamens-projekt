@@ -1,14 +1,13 @@
-
 <h2>Login or register page</h2>
 
 <h4>Login or register now to access our smile posts and chatrooms</h4>
 
-<div id="login">
+<div id="login-container">
     <br>
     <h3 id="itxt">Login at Smiles.com</h3>
     <hr>
     <br>
-    <input type="text" placeholder="Username" id="username" /> 
+    <input type="text" placeholder="Username" id="username" />
     </br>
     <input type="password" placeholder="Password" id="password" />
     </br>
@@ -28,16 +27,16 @@
 
 <!-- Modal starter her-->
 
-<div id="modal" class="hidden-modal"> 
+<div id="modal" class="hidden-modal">
     <h3>Create new user</h3>
     <label>Email:</label>
-    <input id="email" placeholder="Email"/>
+    <input id="email" placeholder="Email" />
     <br>
     <label>Username:</label>
-    <input id="username" placeholder="Username"/>
+    <input id="username" placeholder="Username" />
     <br>
     <label>Password:</label>
-    <input id="password" placeholder="Password"/>
+    <input id="password" placeholder="Password" />
     <br>
     <button id="reg-button" onclick="register()">Register new user</button>
     <button onclick="hideEditModal()">Close</button>
@@ -45,15 +44,31 @@
 <!-- Modal slutter her -->
 
 <script>
-    
+
+
+
+    setActive()
+    function setActive(){
+
+        const currentPage = window.location.pathname.substring(1)
+        let aTags = document.getElementsByTagName('a')
+        for (let i = 0; i < 4; i++) {
+            if(aTags[i].className === "active"){
+                aTags[i].id === aTags[i].className
+            }
+        }
+        document.getElementById(currentPage).className = "active"
+    }
+
+
     // Login funktion
     async function login() {
 
-        const username = document.getElementById("username").value; 
-        const password = document.getElementById("password").value; 
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
         let user = {};
         let responseMessage = "";
-        if(username && password != undefined){
+        if (username && password != undefined) {
             user.username = username;
             user.password = password;
         }
@@ -69,11 +84,11 @@
         if (res.status == 201) {
             console.log("Det gik godt!")
         } else {
-            
-        console.log("Det gik skidt!")
+
+            console.log("Det gik skidt!")
         }
 
-        document.getElementById("response").innerText=responseMessage
+        document.getElementById("response").innerText = responseMessage
     }
 
     // Register funktion
@@ -86,7 +101,7 @@
         let user = {};
         let responseMessage = "";
 
-        if(username && password && email) {
+        if (username && password && email) {
             const res = await fetch(`/auth/signup`, {
                 headers: {
                     "content-type": "application/json"
@@ -101,12 +116,12 @@
 
     // MODAL
 
-    function showEditModal(){
-		modal.className = 'shown-modal';
-	}
+    function showEditModal() {
+        modal.className = 'shown-modal';
+    }
 
-	function hideEditModal(){
-		modal.className = 'hidden-modal';
-	}
+    function hideEditModal() {
+        modal.className = 'hidden-modal';
+    }
 
 </script>
