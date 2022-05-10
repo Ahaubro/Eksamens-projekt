@@ -28,18 +28,26 @@
 <!-- Modal starter her-->
 
 <div id="modal" class="hidden-modal">
-    <h3>Create new user</h3>
-    <label>Email:</label>
+    <h3>Register now</h3>
+    <hr>
+    <p>Fill out the information below to register and join Smiles today!</p>
+    <br>
+
+  
     <input id="reg_email" placeholder="Email"/>
     <br>
-    <label>Username:</label>
     <input id="reg_username" placeholder="Username"/>
     <br>
-    <label>Password:</label>
     <input id="reg_password" placeholder="Password"/>
     <br>
-    <button id="reg-button" onclick="register()">Register new user</button>
-    <button onclick="hideEditModal()">Close</button>
+
+
+    <div id="regBtnsPos">
+        <button id="reg-button" onclick="register()">Register new user</button>
+        <br>
+        <button id="close-regmodal" onclick="hideEditModal()">Close</button>
+    </div>
+    
 </div>
 <!-- Modal slutter her -->
 
