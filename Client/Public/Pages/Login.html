@@ -17,7 +17,7 @@
         <button type="submit" onclick="login()" class="loginButton">Login</button>
         <br>
         <br>
-        <button onclick="showEditModal()" class="createButton">Opret ny bruger</button>
+        <button onclick="showRegisterModal()" class="createButton">Opret ny bruger</button>
     </div>
 </div>
 
@@ -25,7 +25,7 @@
 
 <!-- Modal starter her-->
 
-<div id="modal" class="hidden-modal">
+<div id="registerModal" class="hidden-modal">
     <h3>Register now</h3>
     <hr>
     <p>Fill out the information below to register and join Smiles today!</p>
@@ -35,12 +35,12 @@
     <input id="reg_username" placeholder="Username"/>
     <br>
     <input id="reg_password" placeholder="Password"/>
-    <br>
 
     <div id="regBtnsPos">
         <button id="reg-button" onclick="register()">Register new user</button>
         <br>
-        <button id="close-regmodal" onclick="hideEditModal()">Close</button>
+        <br>
+        <button id="close-regmodal" onclick="hideRegisterModal()">Close</button>
     </div>
     
 </div>
@@ -52,6 +52,7 @@
 
 
 <script>
+
     setActive()
     function setActive(){
 
@@ -84,9 +85,18 @@
             method: "POST",
             body: JSON.stringify(user),
         });
+
         responseMessage = await res.text();
 
+        console.log(responseMessage)
+
         document.getElementById("response").innerText=responseMessage
+
+        setTimeout( () => {
+        window.location.replace("/smileposts")
+        }, 2000);
+
+        
     }
 
     // Register funktion
@@ -116,11 +126,21 @@
                 body: JSON.stringify(user)
             });
 
+        
+
             responseMessage = await res.text();
 
             console.log(responseMessage)
 
             document.getElementById("response").innerText=responseMessage
+
+            setTimeout( () => {
+            window.location.replace("/")
+            }, 2000);
+                
+            
+            
+
             
     }
 
@@ -128,12 +148,17 @@
 
     // MODAL
 
-    function showEditModal() {
-        modal.className = 'shown-modal';
+    function showRegisterModal() {
+        registerModal.className = 'shown-modal';
     }
 
-    function hideEditModal() {
-        modal.className = 'hidden-modal';
+    function hideRegisterModal() {
+        registerModal.className = 'hidden-modal';
     }
+
+    document.addEventListener('mouseup', function(event) {
+        if (!registerModal.contains(event.target))
+            hideRegisterModal();
+    });
 
 </script>

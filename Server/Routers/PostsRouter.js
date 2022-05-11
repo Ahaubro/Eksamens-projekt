@@ -26,4 +26,13 @@ router.put("/api/posts/:id", (req, res) => {
     });
 });
 
+router.delete("/api/posts/:id", (req, res) => {
+    const id = Number(req.params.id);
+    db.query("DELETE FROM posts WHERE id = ?", [id], (error, result) => {
+        if(error)
+            return res.send(error);
+        res.send(result);
+    });
+});
+
 export default router;

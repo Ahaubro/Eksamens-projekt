@@ -1,5 +1,14 @@
 <h1>Chatrooms</h1>
 
+<div id="messages"></div>
+
+<input placeholder="Message" id="messageInput">
+<button onclick="sendMessage()">Send message</button>
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
 <script>
     setActive()
     function setActive(){
@@ -14,4 +23,15 @@
         }
         document.getElementById(currentPage).className = "active"
     }
+
+    const socket = io();
+    socket.on("recieved-message", ({username, message}) => {
+        messages.innerHTML+=`<p> ${username} <br> ${message} </p>`
+    });
+    
+    function sendMessage() {
+        const input = document.getElementById("messageInput").value;
+        socket.emit("sent-message", {username: "Test", message: input});
+    }
+       
 </script>
