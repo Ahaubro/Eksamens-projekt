@@ -92,12 +92,11 @@ router.post("/auth/signup", async (req, res) => {
 
         if(result[0]) {
             resUsername = result[0].username
-            resMail = result[0].email
-            console.log(resUsername + resMail) 
+            resMail = result[0].email 
             
-            return res.status(404).send("There is already a user with the username: ")
+            return res.status(404).send("There is already a user with the username or email ")
         } else {
-
+            
             async function hash() {
                 const hashedPassword = await bcrypt.hash(password, saltRounds);
 

@@ -3,18 +3,20 @@
 }
 
 .shown-modal{
-    background-color: rgba(255,255,255, 0.98);
+    background-color: rgba(248, 243, 234, 0.945);
     border: 1px solid black;
     padding: 18px;
     display: block;
     position: absolute;
-    width: 500px;
+    width: 16%;
+    height: 38%;
     left: 50%;
-    top: 32%;
+    top: 28%;
     transform: translateX(-50%);
     z-index: 1;
     border-radius: 7px;
-
+    margin: auto;
+    padding: 5px;
 }
 
 #response{
