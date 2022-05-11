@@ -3,6 +3,8 @@ import session from "express-session";
 import userRouter from "./Routers/UserRouter.js";
 import rateLimit from "express-rate-limit";
 import postsRouter from "./Routers/PostsRouter.js";
+import {Server} from "socket.io";
+import http from "http";
 
 const app = express();
 
@@ -37,7 +39,21 @@ app.use(userRouter);
 
 app.use(postsRouter);
 
+
+// Sockets
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on("connection", socket => {
+    socket.on("sent-message", ({username, message}) => {
+        socket.emit("recieved-message", {username, message});
+        socket.broadcast.emit("recieved-message", {username, message});
+    });
+});
+
+
+
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log("App running on port " + PORT)
 });
