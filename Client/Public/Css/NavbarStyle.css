@@ -40,3 +40,7 @@ nav a:hover:not(.active){
     background-color: #e93030;
     transition: 0.2s;
 }
+
+.active{
+    background-color: #e93030;
+}

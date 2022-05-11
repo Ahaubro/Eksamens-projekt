@@ -11,7 +11,7 @@ const router = Router();
 //Limiter
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 5,
+    max: 30,
     standardHeaders: true,
     legacyHeaders: false
 });
@@ -80,44 +80,43 @@ router.get("/auth/logout", (req, res) => {
 router.post("/auth/signup", async (req, res) => {
     const { username, email, password } = req.body
 
-    const sqlSelect1 = "SELECT * FROM users WHERE username = ?";
-    const foundUsername = await db.query(sqlSelect1, [username], function (err, result) {
-        if(err){
-            throw err
-        }
-        console.log(result)
-    });
+    let resMail = "";
+    let resUsername  = "";
+    let foundUsername = "";
+    let foundUsermail = "";
 
-    const sqlSelect2 = "SELECT * FROM users WHERE email = ?";
-    const foundUsermail = await db.query(sqlSelect2, [email], function (err, result) {
-        if(err){
-            throw err
-        }
-        console.log(result)
-    });
+    // Username check
+    const sqlSelect1 = "SELECT * FROM users WHERE username = ? OR email = ?";
+    foundUsername = await db.query(sqlSelect1, [username, email], function (err, result) {
+        if(err) throw err;
 
-    if(foundUsername) {
-        res.send("There is already a user with that username");
-    }
+        if(result[0]) {
+            resUsername = result[0].username
+            resMail = result[0].email 
+            
+            return res.status(404).send("There is already a user with the username or email ")
+        } else {
+            
+            async function hash() {
+                const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    if(foundUsermail) {
-        res.send("There is already a user with that email");
-    }
+                const sqlInsertQuery = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+                const res1 = await db.query(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
+                if(err) throw err;
+    
+                console.log(result)
+            
+                sendMail(email);
+                return res.status(201).send("You have signed up new user " + username)
+        
+                });
+            }
 
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+            hash();
 
-    const sqlInsertQuery = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    const { changes } = await db.run(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
-        if(err){
-            throw err
-        }
-        console.log(result)
-    });
+            }
+        });
 
-    if(changes === 1) {
-        sendMail(email);
-        return res.send("You have signed up new user " + username)
-    }
 });
 
 

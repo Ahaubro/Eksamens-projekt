@@ -1,15 +1,15 @@
 <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/chatrooms">Chatrooms</a></li>
-    <li><a href="/smileposts">Smile Posts</a></li>
-    <li><a href="/login">Login</a></li>
+    <li><a href="/" id="home">Home</a></li>
+    <li><a href="/chatrooms"  id="chatrooms">Chatrooms</a></li>
+    <li><a href="/smileposts" id="smileposts">Smile Posts</a></li>
+    <li><a href="/login" id="login">Login</a></li>
     <li><button id="logoutBtn" onclick="logout()"> Logout</button></li>
 </ul>
 
 
 
 <script>
-
+    
     let responseMessage = "";
 
     async function logout() {
@@ -19,8 +19,11 @@
 
         document.getElementById("response").innerText=responseMessage
     }
+
     
+
+
 </script>
 
-<h3 id="response"></h3>
+<p id="response"></p>
 

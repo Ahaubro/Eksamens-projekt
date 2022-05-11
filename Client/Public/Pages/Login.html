@@ -1,14 +1,13 @@
-
 <h2>Login or register page</h2>
 
-<h4>Login or register now to access our smile posts and chatrooms</h4>
+<p>Login or register now to access our smile posts and chatrooms</p>
 
-<div id="login">
+<div id="login-container">
     <br>
     <h3 id="itxt">Login at Smiles.com</h3>
     <hr>
     <br>
-    <input type="text" placeholder="Username" id="username" /> 
+    <input type="text" placeholder="Username" id="username" />
     </br>
     <input type="password" placeholder="Password" id="password" />
     </br>
@@ -23,37 +22,58 @@
 </div>
 
 
-<h4 id="response"></h4>
-
 
 <!-- Modal starter her-->
 
-<div id="modal" class="hidden-modal"> 
-    <h3>Create new user</h3>
-    <label>Email:</label>
-    <input id="email" placeholder="Email"/>
+<div id="modal" class="hidden-modal">
+    <h3>Register now</h3>
+    <hr>
+    <p>Fill out the information below to register and join Smiles today!</p>
+  
+    <input id="reg_email" placeholder="Email"/>
     <br>
-    <label>Username:</label>
-    <input id="username" placeholder="Username"/>
+    <input id="reg_username" placeholder="Username"/>
     <br>
-    <label>Password:</label>
-    <input id="password" placeholder="Password"/>
-    <br>
-    <button id="reg-button" onclick="register()">Register new user</button>
-    <button onclick="hideEditModal()">Close</button>
+    <input id="reg_password" placeholder="Password"/>
+
+    <div id="regBtnsPos">
+        <button id="reg-button" onclick="register()">Register new user</button>
+        <br>
+        <br>
+        <button id="close-regmodal" onclick="hideEditModal()">Close</button>
+    </div>
+    
 </div>
 <!-- Modal slutter her -->
 
+<p id="response"></p>
+
+
+
+
 <script>
-    
+    setActive()
+    function setActive(){
+
+        const currentPage = window.location.pathname.substring(1)
+        let aTags = document.getElementsByTagName('a')
+        for (let i = 0; i < 4; i++) {
+            if(aTags[i].className === "active"){
+                aTags[i].id === aTags[i].className
+            }
+        }
+        document.getElementById(currentPage).className = "active"
+    }
+
+
     // Login funktion
     async function login() {
 
-        const username = document.getElementById("username").value; 
-        const password = document.getElementById("password").value; 
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
         let user = {};
         let responseMessage = "";
-        if(username && password != undefined){
+        if (username && password != undefined) {
             user.username = username;
             user.password = password;
         }
@@ -66,47 +86,54 @@
         });
         responseMessage = await res.text();
 
-        if (res.status == 201) {
-            console.log("Det gik godt!")
-        } else {
-            
-        console.log("Det gik skidt!")
-        }
-
         document.getElementById("response").innerText=responseMessage
     }
 
     // Register funktion
     async function register() {
 
-        const email = document.getElementById("email").value;
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
+        const email = document.getElementById("reg_email").value;
+        const username = document.getElementById("reg_username").value;
+        const password = document.getElementById("reg_password").value;
 
         let user = {};
         let responseMessage = "";
 
         if(username && password && email) {
-            const res = await fetch(`/auth/signup`, {
-                headers: {
-                    "content-type": "application/json"
-                }
-            })
+            user.email = email;
+            user.username = username;
+            user.password = password;
         }
 
+        // FJERNEs
+        console.log(user)
 
+        const res = await fetch(`/auth/signup`, {
+                headers: {
+                    "content-type": "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify(user)
+            });
+
+            responseMessage = await res.text();
+
+            console.log(responseMessage)
+
+            document.getElementById("response").innerText=responseMessage
+            
     }
 
 
 
     // MODAL
 
-    function showEditModal(){
-		modal.className = 'shown-modal';
-	}
+    function showEditModal() {
+        modal.className = 'shown-modal';
+    }
 
-	function hideEditModal(){
-		modal.className = 'hidden-modal';
-	}
+    function hideEditModal() {
+        modal.className = 'hidden-modal';
+    }
 
 </script>
