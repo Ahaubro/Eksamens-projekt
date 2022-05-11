@@ -16,3 +16,11 @@
     border-radius: 7px;
 
 }
+
+#response{
+    position: fixed;
+    left: 50%;
+    top: 65%;
+    transform: translateX(-50%);
+    font-size: 20px;
+}
