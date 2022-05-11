@@ -4,8 +4,8 @@
 
 </div>
 
+<input id="createText" type="text" width="400">
 <button onclick="createPost()">Create New Post</button>
-<button onclick="editPost()">Edit Post</button>
 
 <script>
     const postsDiv = document.getElementById("posts");
@@ -22,30 +22,54 @@
             const {id, text} = posts[i];
             postsDiv.innerHTML += `<p>
                 <b>Random user</b><br>
-                (${id}) ${text}
+                <span id="edit${id}">
+                    (${id}) <span id="text${id}">${text}</span>
+                    <button onclick="openEdit(${id})">Edit</button>
+                </span>
+                <button onclick="deletePost(${id})">Delete</button>
             </p>`;
         }
     }
 
     async function createPost(){
+        const text = document.getElementById("createText").value;
         const response = await fetch("/api/posts", {
             headers: {
                 "content-type": "application/json",
             },
             method: "POST",
-            body: `{"text": "This is a new post"}`
+            body: `{"text": "${text}"}`
         });
         const result = await response.json();
         loadPosts();
     }
 
-    async function editPost(){
-        const response = await fetch("/api/posts/4", {
+    function openEdit(id){
+        const element = document.getElementById("edit" + id);
+        const text = document.getElementById("text" + id).innerText;
+        element.innerHTML = `<span id="edit${id}">
+                    (${id}) <input id="input${id}" value="${text}">
+                    <button onclick="editPost(${id})">Save</button>
+                </span>`;
+    }
+
+    async function editPost(id){
+        const text = document.getElementById("input" + id).value;
+        const response = await fetch("/api/posts/" + id, {
             headers: {
                 "content-type": "application/json",
             },
             method: "PUT",
-            body: `{"text": "This post has been editted"}`
+            body: `{"text": "${text}"}`
+        });
+        const result = await response.json();
+        console.log(result);
+        loadPosts();
+    }
+
+    async function deletePost(id){
+        const response = await fetch("/api/posts/" + id, {
+            method: "DELETE"
         });
         const result = await response.json();
         console.log(result);
