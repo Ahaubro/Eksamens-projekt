@@ -14,6 +14,7 @@ app.get("/", (req, res) => res.send(SSR.homePage) );
 app.get("/chatrooms", (req, res) => res.send(SSR.chatroomsPage) );
 app.get("/smileposts", (req, res) => res.send(SSR.smilePostsPage) );
 app.get("/login", (req, res) => res.send(SSR.loginPage) );
+app.get("/editProfile", (req, res) => res.send(SSR.editPage) );
 
 const baseLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
