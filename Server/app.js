@@ -1,8 +1,9 @@
 import express from "express";
 import session from "express-session";
-import userRouter from "./Routers/UserRouter.js";
+import usersRouter from "./Routers/UsersRouter.js";
 import rateLimit from "express-rate-limit";
 import postsRouter from "./Routers/PostsRouter.js";
+import chatroomsRouter from "./Routers/ChatroomsRouter.js";
 import {Server} from "socket.io";
 import http from "http";
 
@@ -35,9 +36,11 @@ app.use(session({
     cookie: {secure: false}
 }));
 
-app.use(userRouter);
+app.use(usersRouter);
 
 app.use(postsRouter);
+
+app.use(chatroomsRouter);
 
 
 // Sockets
@@ -45,9 +48,9 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 io.on("connection", socket => {
-    socket.on("sent-message", ({username, message}) => {
-        socket.emit("recieved-message", {username, message});
-        socket.broadcast.emit("recieved-message", {username, message});
+    socket.on("sent-message", ({username, message, roomId}) => {
+        socket.emit("recieved-message", {username, message, roomId});
+        socket.broadcast.emit("recieved-message", {username, message, roomId});
     });
 });
 

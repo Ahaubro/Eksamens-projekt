@@ -16,7 +16,7 @@ const authLimiter = rateLimit({
     legacyHeaders: false
 });
 
-router.use("/auth", authLimiter)
+router.use("/auth", authLimiter);
 
 
 // Log-in function

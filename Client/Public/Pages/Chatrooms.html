@@ -1,37 +1,91 @@
-<h1>Chatrooms</h1>
+<div id="content">
 
-<div id="messages"></div>
+    <h1>Chatrooms</h1>
 
-<input placeholder="Message" id="messageInput">
-<button onclick="sendMessage()">Send message</button>
+    <div id="chatroomsList"></div>
 
-
-
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    setActive()
+
+    //Set active function
+    setActive();
     function setActive(){
 
         const currentPage = window.location.pathname.substring(1)
-        console.log(currentPage)
+        
         let aTags = document.getElementsByTagName('a')
         for (let i = 0; i < 4; i++) {
             if(aTags[i].className === "active"){
                 aTags[i].id === aTags[i].className
             }
         }
+
         document.getElementById(currentPage).className = "active"
     }
 
+    // Chatrooms
+    let currentRoomId = 0;
+
     const socket = io();
-    socket.on("recieved-message", ({username, message}) => {
-        messages.innerHTML+=`<p> ${username} <br> ${message} </p>`
+    socket.on("recieved-message", ({username, message, roomId}) => {
+        if(currentRoomId == roomId) {
+            messages.innerHTML+=`<p> ${username} <br> ${message} </p>`
+        } 
     });
     
-    function sendMessage() {
+    function sendMessage(roomId) {
+
         const input = document.getElementById("messageInput").value;
-        socket.emit("sent-message", {username: "Test", message: input});
+        socket.emit("sent-message", {username: "Test", message: input, roomId});
     }
-       
+
+    let chatroomsDiv = document.getElementById("chatroomsList");
+    let chatrooms;
+
+    async function loadChatrooms(chatroomsDiv){
+
+        const response = await fetch("/api/chatrooms");
+        const result = await response.json();
+        chatrooms = result;
+        chatroomsDiv.innerHTML = "";
+        for(let i in chatrooms){
+            const {id, name} = chatrooms[i];
+            chatroomsDiv.innerHTML+= `<p>
+                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}"> (${id}) ${name} </button>
+            </p>`;
+        }
+    }
+
+    loadChatrooms(chatroomsDiv);
+    const contentDiv = document.getElementById("content");
+
+    function joinRoom(id, name) {
+        console.log(id + name)
+
+        currentRoomId = id;
+
+        contentDiv.innerHTML= `
+            <h1> (${id}) ${name} </h1>
+            <div id="messages"></div>
+
+            <input placeholder="Message" id="messageInput">
+            <button onclick="sendMessage(${id})">Send message</button>
+            <button onclick="leaveChatroom()">Leave chatroom</button>
+        `;
+    }
+
+    function leaveChatroom() {
+        currentRoomId = 0;
+        contentDiv.innerHTML= ` 
+            <h1>Chatrooms</h1>
+            <div id="chatroomsList"></div>
+        `;
+
+        let chatroomsDiv = document.getElementById("chatroomsList");
+
+        loadChatrooms(chatroomsDiv);
+    }
+
 </script>
