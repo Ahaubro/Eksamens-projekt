@@ -15,9 +15,18 @@ db.query(`DROP TABLE IF EXISTS chatrooms`);
 db.query(`
     CREATE TABLE IF NOT EXISTS users (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        username VARCHAR(50),
-        email VARCHAR(100),
-        password VARCHAR(150)
+        username VARCHAR(50) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        password VARCHAR(150) NOT NULL,
+        firstname VARCHAR(25),
+        middlename VARCHAR(30),
+        lastname VARCHAR(30),
+        birthday DATE,
+        address VARCHAR(50),
+        country VARCHAR(50),
+        city VARCHAR(45),
+        zipcode SMALLINT(4),
+        profilecolor VARCHAR(7)
     );
 `);
 
