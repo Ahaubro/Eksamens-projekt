@@ -67,27 +67,39 @@
 
 	async function saveChanges(){
 		let user = {}
-		
-		if ( uname != undefined && pass != undefined && fname != undefined 
-		&& mname != undefined && lname != undefined && bday != undefined && address != undefined 
-		&& country != undefined && city != undefined && zip != undefined && pcolor != undefined) {
-		user.username = uname.value
-		if(pass.value != null)
-		user.password = pass.value
-		user.firstname = fname.value
-        user.middlename = mname.value  
-        user.lastname = lname.value  
-        user.birthday = bday.value 
-        user.address = address.value
-        user.country = countrySelect.value
-        user.city = city.value
-        user.zipcode = zip.value
-        user.profilecolor = colorSelect.value
+		console.log("first",uname.value)
+		//find en smartere løsning
+		if ( uname.value )
+			user.username = uname.value
+		if( pass.value  ){  
+			if(pass.value !== null)
+				user.password = pass.value
+				console.log("second: ", pass.value)
 		}
+		if( fname.value  )
+			user.firstname = fname.value
+		if( mname.value ) 
+			user.middlename = mname.value  
+		if( lname.value  )
+			user.lastname = lname.value  
+		if( bday.value ) 
+        	user.birthday = bday.value 
+			
+		if( address.value  )
+        	user.address = address.value
+		if( country.value  )
+        	 user.country = countrySelect.value
+		if( city.value  ) 
+        	user.city = city.value
+		if( zip.value  ) 
+    		user.zipcode = zip.value
+		if( pcolor.value ) 
+			user.profilecolor = colorSelect.value
+		
 		
 		if(pass.value != cpass.value)
 		return alert("the two passwords are not the same")
-
+		console.log(user)
 		const res = await fetch(`/auth/editProfile`, {
             headers: {
                 "content-type": "application/json"
