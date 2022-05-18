@@ -58,7 +58,7 @@ db.query(`
 `);
 
 db.query(`
-    INSERT INTO chatrooms(name) VALUES ('Thors chatroom'), ('Alex chatroom'), ('Maltes chatroom');
+    INSERT INTO chatrooms(name) VALUES ('Chatroom - Alfa'), ('Chatroom - Beta'), ('Chatroom - Delta');
 `);
 
 db.end();
