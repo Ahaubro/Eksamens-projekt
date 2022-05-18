@@ -1,6 +1,7 @@
 import express from "express";
 import session from "express-session";
 import usersRouter from "./Routers/UsersRouter.js";
+import loginRouter from "./Routers/LoginRouter.js"
 import rateLimit from "express-rate-limit";
 import postsRouter from "./Routers/PostsRouter.js";
 import chatroomsRouter from "./Routers/ChatroomsRouter.js";
@@ -26,18 +27,21 @@ app.get("/smileposts", (req, res) => res.send(SSR.loggedInDependent(SSR.smilePos
 app.get("/login", (req, res) => res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID)) );
 app.get("/editProfile", (req, res) => res.send(SSR.loggedInDependent(SSR.editPage, req.session.userID)) );
 
-const baseLimiter = rateLimit({
+//Skal nok ikke bruges
+/*const baseLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 50,
     standardHeaders: true,
     legacyHeaders: false
 });
 
-app.use(baseLimiter);
+app.use(baseLimiter); */
 
 app.use(express.json());
 
 app.use(usersRouter);
+
+app.use(loginRouter);
 
 app.use(postsRouter);
 

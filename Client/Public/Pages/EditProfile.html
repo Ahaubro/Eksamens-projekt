@@ -46,7 +46,7 @@
     responseMessage = ""
     getProfileInformation()
     async function getProfileInformation() {
-        const res = await fetch(`/auth/getProfile`)
+        const res = await fetch(`/getProfile`)
         const user = await res.json()
         uname.value = user.username
         fname.value = user.firstname
@@ -97,7 +97,7 @@
 		if(pass.value != cpass.value)
 		return alert("the two passwords are not the same")
 		console.log(user)
-		const res = await fetch(`/auth/editProfile`, {
+		const res = await fetch(`/editProfile`, {
             headers: {
                 "content-type": "application/json"
             },
