@@ -11,7 +11,8 @@ router.get("/api/posts", (req, res) => {
 
 router.post("/api/posts", (req, res) => {
     const {text} = req.body;
-    db.query("INSERT INTO posts(text) VALUES (?)", [text], (error, result) => {
+    const { username } = req.session;
+    db.query("INSERT INTO posts(text, username) VALUES (?, ?)", [text, username], (error, result) => {
         res.send(result);
     });
 });

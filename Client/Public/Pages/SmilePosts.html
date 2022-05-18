@@ -34,9 +34,9 @@
         posts = result;
         postsDiv.innerHTML = "";
         for(let i in posts){
-            const {id, text} = posts[i];
+            const {id, text, username} = posts[i];
             postsDiv.innerHTML += `<p>
-                <b>Random user</b><br>
+                <b>${username}</b><br>
                 <span id="edit${id}">
                     (${id}) <span id="text${id}">${text}</span>
                     <button onclick="openEdit(${id})">Edit</button>

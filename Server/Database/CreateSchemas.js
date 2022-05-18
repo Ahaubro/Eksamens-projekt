@@ -34,6 +34,7 @@ db.query(`
 db.query(`
     CREATE TABLE IF NOT EXISTS posts (
         id INT PRIMARY KEY AUTO_INCREMENT,
+        username VARCHAR(50),
         text VARCHAR(500)
     );
 `);
@@ -54,7 +55,7 @@ db.query(`
 `);
 
 db.query(`
-    INSERT INTO posts(text) VALUES ('This is a test post'), ('This is another test post'), ('This is a third test post');
+    INSERT INTO posts(text, username) VALUES ('This is a test post', 'Ahaubro'), ('This is another test post', 'Thorminathor'), ('This is a third test post', 'Ahaubro');
 `);
 
 db.query(`
