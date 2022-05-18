@@ -1,0 +1,27 @@
+#posts{
+    color: rgba(19, 18, 18, 0.849);
+}
+
+h3{
+    font-size: 24px;
+}
+
+b{
+    font-size: 20px;
+    text-align: center;
+}
+
+.postArticle {
+    background-color: rgba(255, 204, 212, 0.897);
+    border: 1px solid salmon;
+    padding: 10px;
+    text-align: center;
+
+}
+
+#postsPos{
+    display: flex;
+    justify-content: center;
+}
+
+

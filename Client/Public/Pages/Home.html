@@ -1,7 +1,14 @@
-<h1>Home</h1>
-<h3>At Smiles.com we share our positive feelings. Sign up now and post what ever made you happy today!</h3>
+<br>
+<h3>At Smiles.com we share our positive feelings.</h3>
+<br>
+<h3>Sign up now and post what ever made you happy today!</h3>
+<br>
+<br>
+<br>
 
-<div id="posts">
+<div id="postsPos">
+    <div id="posts">
+    </div>
 
 </div>
 
@@ -38,11 +45,12 @@
             const {id, text, userId} = posts[i];
             const res = await fetch(`/getUsername/${userId}`);
             const foundUsername = await res.text();
-            console.log(foundUsername)
-            postsDiv.innerHTML += `<p>
+            postsDiv.innerHTML += ` <br> 
+                <article class="postArticle">
                 <b>${foundUsername}</b><br>
                 (${id}) <span id="text${id}">${text}</span>
-            </p>`;
+            </article> 
+            <br>`;
         }
     }
 
