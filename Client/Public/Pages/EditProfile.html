@@ -42,29 +42,29 @@
 </div>
 
 <script>
-
-	responseMessage = ""
-	getProfileInformation()
-	async function getProfileInformation() {
-		const res = await fetch(`/getProfile`)
-		const user = await res.json()
-		uname.value = user.username
-		fname.value = user.firstname
-		mname.value = user.middlename
-		lname.value = user.lastname
-		bday.value = user.birthday
-		address.value = user.address
-		countrySelect.value = user.country
-		city.value = user.city
-		zip.value = user.zipcode
-		colorSelect.value = user.profilecolor
-
-		//repsonseMessage = await res.text();
-
-		console.log(user)
-	};
-
-	async function saveChanges() {
+    
+    responseMessage = ""
+    getProfileInformation()
+    async function getProfileInformation() {
+        const res = await fetch(`/getProfile`)
+        const user = await res.json()
+        uname.value = user.username
+        fname.value = user.firstname
+        mname.value = user.middlename
+        lname.value = user.lastname
+        bday.value = user.birthday
+        address.value = user.address
+        countrySelect.value = user.country
+        city.value = user.city
+        zip.value = user.zipcode
+        colorSelect.value = user.profilecolor
+        
+        //repsonseMessage = await res.text();
+        
+        console.log(user)
+    };
+	
+	async function saveChanges(){
 		let user = {}
 		console.log("first", uname.value)
 		//find en smartere løsning
@@ -91,13 +91,13 @@
 			return alert("the two passwords are not the same")
 		console.log(user)
 		const res = await fetch(`/editProfile`, {
-			headers: {
-				"content-type": "application/json"
-			},
-			method: "PATCH",
-			body: JSON.stringify(user)
-		});
-
+            headers: {
+                "content-type": "application/json"
+            },
+        	method: "PATCH",
+            body: JSON.stringify(user)
+        });
+		
 
 
 	}

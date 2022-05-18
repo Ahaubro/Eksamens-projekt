@@ -35,7 +35,7 @@
         postsDiv.innerHTML = ""; 
         for(let i in posts){
             const {id, text, userId} = posts[i];
-            const res = await fetch(`/auth/getUser/${userId}`);
+            const res = await fetch(`/getUsername/${userId}`);
             const foundUsername = await res.text();
             console.log(foundUsername)
             postsDiv.innerHTML += `<p>
