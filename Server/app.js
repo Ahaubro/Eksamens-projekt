@@ -11,6 +11,7 @@ const app = express();
 
 app.use(express.static("../Client/Public/"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
     secret: 'We love teddys',
