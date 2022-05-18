@@ -41,11 +41,7 @@
             console.log(foundUsername)
             postsDiv.innerHTML += `<p>
                 <b>${foundUsername}</b><br>
-                <span id="edit${id}">
-                    (${id}) <span id="text${id}">${text}</span>
-                    <button onclick="openEdit(${id})">Edit</button>
-                </span>
-                <button onclick="deletePost(${id})">Delete</button>
+                (${id}) <span id="text${id}">${text}</span>
             </p>`;
         }
     }
