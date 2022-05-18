@@ -12,9 +12,21 @@
     async function logout() {
         const res = await fetch(`/auth/logout`);
 
-        responseMessage = await res.text();
+        if(res.status == 201) {
 
-        document.getElementById("response").innerText=responseMessage
+            responseMessage = await res.text();
+
+            document.getElementById("response").innerText=responseMessage
+
+            setTimeout( () => {
+            window.location.replace("/")
+            }, 2000);
+
+        } else {
+            responseMessage = await res.text();
+
+            document.getElementById("response").innerText=responseMessage
+        }
     }
 
     
