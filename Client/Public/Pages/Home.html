@@ -1,30 +1,15 @@
 <h1>Home</h1>
 <h3>At Smiles.com we share our positive feelings. Sign up now and post what ever made you happy today!</h3>
 
-<p>
-    <b>Post 1</b>
-    <br>
-    post text
-</p>
+<div id="posts">
 
-<p>
-    <b>Post 2</b>
-    <br>
-    post text
-</p>
-
-<p>
-    <b>Post 3</b>
-    <br>
-    post text
-</p>
-
+</div>
 
 <p id="response"></p>
 
 <script>
     //Global metode som vi kan bruge til vi implemintere JS filer
-    setActive()
+    //setActive()
     function setActive(){
         let currentPage = window.location.pathname
         let aTags = document.getElementsByTagName('a')
@@ -37,6 +22,28 @@
             currentPage = "home"
         }
         document.getElementById(currentPage).className = "active"
+    }
+
+    const postsDiv = document.getElementById("posts");
+    let posts;
+
+    loadPosts();
+
+    async function loadPosts(){
+        const response = await fetch("/api/posts");
+        const result = await response.json();
+        posts = result;
+        postsDiv.innerHTML = ""; 
+        for(let i in posts){
+            const {id, text, userId} = posts[i];
+            const res = await fetch(`/auth/getUser/${userId}`);
+            const foundUsername = await res.text();
+            console.log(foundUsername)
+            postsDiv.innerHTML += `<p>
+                <b>${foundUsername}</b><br>
+                (${id}) <span id="text${id}">${text}</span>
+            </p>`;
+        }
     }
 
 </script>

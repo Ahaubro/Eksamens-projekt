@@ -12,12 +12,19 @@ const app = express();
 app.use(express.static("../Client/Public/"));
 app.use(express.json());
 
+app.use(session({
+    secret: 'We love teddys',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {secure: false}
+}));
+
 import SSR from "./SSR/SSR.js";
-app.get("/", (req, res) => res.send(SSR.homePage) );
-app.get("/chatrooms", (req, res) => res.send(SSR.chatroomsPage) );
-app.get("/smileposts", (req, res) => res.send(SSR.smilePostsPage) );
-app.get("/login", (req, res) => res.send(SSR.loginPage) );
-app.get("/editProfile", (req, res) => res.send(SSR.editPage) );
+app.get("/", (req, res) => res.send(SSR.loggedInDependent(SSR.homePage, req.session.userID)));
+app.get("/chatrooms", (req, res) => res.send(SSR.loggedInDependent(SSR.chatroomsPage, req.session.userID)) );
+app.get("/smileposts", (req, res) => res.send(SSR.loggedInDependent(SSR.smilePostsPage, req.session.userID)) );
+app.get("/login", (req, res) => res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID)) );
+app.get("/editProfile", (req, res) => res.send(SSR.loggedInDependent(SSR.editPage, req.session.userID)) );
 
 const baseLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -29,13 +36,6 @@ const baseLimiter = rateLimit({
 app.use(baseLimiter);
 
 app.use(express.json());
-
-app.use(session({
-    secret: 'We love teddys',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {secure: false}
-}));
 
 app.use(usersRouter);
 

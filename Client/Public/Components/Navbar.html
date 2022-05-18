@@ -1,11 +1,6 @@
 <ul>
     <li><a href="/" id="home">Home</a></li>
-    <li><a href="/chatrooms"  id="chatrooms">Chatrooms</a></li>
-    <li><a href="/smileposts" id="smileposts">Smile Posts</a></li>
-    <li><a href="/login" id="login">Login</a></li>
-    <li><button id="logoutBtn" onclick="logout()"> Logout</button></li>
-    <li><a href="/editProfile">Edit Profile</a></li>
-    <li><a href="/auth/getProfile">Edit Profile get</a></li>
+    %%LOGGEDIN%%
 </ul>
 
 
@@ -17,9 +12,21 @@
     async function logout() {
         const res = await fetch(`/auth/logout`);
 
-        responseMessage = await res.text();
+        if(res.status == 201) {
 
-        document.getElementById("response").innerText=responseMessage
+            responseMessage = await res.text();
+
+            document.getElementById("response").innerText=responseMessage
+
+            setTimeout( () => {
+            window.location.replace("/")
+            }, 2000);
+
+        } else {
+            responseMessage = await res.text();
+
+            document.getElementById("response").innerText=responseMessage
+        }
     }
 
     

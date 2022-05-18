@@ -7,8 +7,8 @@ const thorHashPass = await bcrypt.hash("1234", saltRounds);
 const alexHashPass = await bcrypt.hash("0", saltRounds);
 
 //Resetting if tables exists
-db.query(`DROP TABLE IF EXISTS users`);
 db.query(`DROP TABLE IF EXISTS posts`);
+db.query(`DROP TABLE IF EXISTS users`);
 db.query(`DROP TABLE IF EXISTS chatrooms`);
 
 //Users table
@@ -34,7 +34,9 @@ db.query(`
 db.query(`
     CREATE TABLE IF NOT EXISTS posts (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        text VARCHAR(500)
+        userId INT,
+        text VARCHAR(500),
+        FOREIGN KEY(userId) REFERENCES users(id)
     );
 `);
 
@@ -54,11 +56,11 @@ db.query(`
 `);
 
 db.query(`
-    INSERT INTO posts(text) VALUES ('This is a test post'), ('This is another test post'), ('This is a third test post');
+    INSERT INTO posts(text, userId) VALUES ('This is a test post', 1), ('This is another test post', 2), ('This is a third test post', 1);
 `);
 
 db.query(`
-    INSERT INTO chatrooms(name) VALUES ('Thors chatroom'), ('Alex chatroom'), ('Maltes chatroom');
+    INSERT INTO chatrooms(name) VALUES ('Chatroom - Alfa'), ('Chatroom - Beta'), ('Chatroom - Delta');
 `);
 
 db.end();

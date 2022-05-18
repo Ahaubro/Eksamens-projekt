@@ -17,7 +17,7 @@
         for (let i = 0; i < 4; i++) {
             if(aTags[i].className === "active"){
                 aTags[i].id === aTags[i].className
-            }
+            }   
         }
         document.getElementById(currentPage).className = "active"
     }
@@ -32,11 +32,14 @@
         const response = await fetch("/api/posts");
         const result = await response.json();
         posts = result;
-        postsDiv.innerHTML = "";
+        postsDiv.innerHTML = ""; 
         for(let i in posts){
-            const {id, text} = posts[i];
+            const {id, text, userId} = posts[i];
+            const res = await fetch(`/auth/getUser/${userId}`);
+            const foundUsername = await res.text();
+            console.log(foundUsername)
             postsDiv.innerHTML += `<p>
-                <b>Random user</b><br>
+                <b>${foundUsername}</b><br>
                 <span id="edit${id}">
                     (${id}) <span id="text${id}">${text}</span>
                     <button onclick="openEdit(${id})">Edit</button>

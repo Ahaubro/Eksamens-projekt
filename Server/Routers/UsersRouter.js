@@ -18,6 +18,17 @@ const authLimiter = rateLimit({
 
 router.use("/auth", authLimiter);
 
+//Get one user by id
+router.get("/auth/getUser/:id", async (req, res) => {
+    const  id = req.params.id
+    const sqlSelect = "SELECT username FROM users WHERE id = ?";
+    const foundUser = await db.query(sqlSelect, [id], function(err, result) {
+        if(err) throw err;
+
+        res.send(result[0].username);
+    });
+});
+
 
 // Log-in function
 router.post("/auth/login", async (req, res) => {
@@ -71,9 +82,11 @@ router.get("/auth/logout", (req, res) => {
     if (req.session.loggedIn) {
         req.session.loggedIn = false;
         const username = req.session.username;
-        return res.send("You have been logged out from user: " + username)
+        req.session.username = "";
+        req.session.userID = 0;
+        return res.status(201).send("You have been logged out from user: " + username);
     } else {
-        return res.send("You are not logged in")
+        return res.status(404).send("You are not logged in");
     }
 });
 
