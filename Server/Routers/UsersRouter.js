@@ -18,7 +18,6 @@ const authLimiter = rateLimit({
 
 router.use("/auth", authLimiter);
 
-
 // Log-in function
 router.post("/auth/login", async (req, res) => {
     const { username, password } = req.body;
@@ -71,6 +70,8 @@ router.get("/auth/logout", (req, res) => {
     if (req.session.loggedIn) {
         req.session.loggedIn = false;
         const username = req.session.username;
+        req.session.username = "";
+        req.session.userID = 0;
         return res.send("You have been logged out from user: " + username)
     } else {
         return res.send("You are not logged in")
