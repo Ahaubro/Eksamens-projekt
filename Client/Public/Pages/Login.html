@@ -7,9 +7,9 @@
     <h3 id="itxt">Login at Smiles.com</h3>
     <hr>
     <br>
-    <input type="text" placeholder="Username" id="username" value="malte"/>
+    <input type="text" placeholder="Username" id="username"/>
     </br>
-    <input type="password" placeholder="Password" id="password" value="123"/>
+    <input type="password" placeholder="Password" id="password"/>
     </br>
 
     <div>
@@ -86,17 +86,20 @@
             body: JSON.stringify(user),
         });
 
-        responseMessage = await res.text();
+        if(res.status == 201) {
 
-        console.log(responseMessage)
+            responseMessage = await res.text();
 
-        document.getElementById("response").innerText=responseMessage
+            document.getElementById("response").innerText=responseMessage
 
-        setTimeout( () => {
-        window.location.replace("/smileposts")
-        }, 2000);
+            setTimeout( () => {
+            window.location.replace("/smileposts")
+            }, 2000);
+        } else {
+            responseMessage = await res.text();
 
-        
+            document.getElementById("response").innerText=responseMessage
+        }
     }
 
     // Register funktion
@@ -126,22 +129,22 @@
                 body: JSON.stringify(user)
             });
 
-        
 
-            responseMessage = await res.text();
+            if(res.status == 201) {
 
-            console.log(responseMessage)
+                responseMessage = await res.text();
 
-            document.getElementById("response").innerText=responseMessage
+                document.getElementById("response").innerText=responseMessage
 
-            setTimeout( () => {
-            window.location.replace("/")
-            }, 2000);
+                setTimeout( () => {
+                window.location.replace("/")
+                }, 2000);
+            } else {
+                responseMessage = await res.text();
+
+                document.getElementById("response").innerText=responseMessage
+            }
                 
-            
-            
-
-            
     }
 
 
