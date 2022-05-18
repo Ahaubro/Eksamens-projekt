@@ -72,9 +72,9 @@ router.get("/auth/logout", (req, res) => {
         const username = req.session.username;
         req.session.username = "";
         req.session.userID = 0;
-        return res.send("You have been logged out from user: " + username)
+        return res.status(201).send("You have been logged out from user: " + username);
     } else {
-        return res.send("You are not logged in")
+        return res.status(404).send("You are not logged in");
     }
 });
 
