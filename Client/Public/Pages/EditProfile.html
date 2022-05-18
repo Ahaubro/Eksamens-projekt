@@ -1,4 +1,4 @@
-<h1>Edit your profile</h1>
+<h1 id="welcome">Hello </h1>
 
 <div>
     <label for="uname">Edit username</label>
@@ -52,7 +52,6 @@
         fname.value = user.firstname
         mname.value = user.middlename
         lname.value = user.lastname
-		console.log(user.bday)
         bday.value = user.birthday
         address.value = user.address
         countrySelect.value = user.country
@@ -61,10 +60,10 @@
         colorSelect.value = user.profilecolor
         
         //repsonseMessage = await res.text();
-        console.log(user.username)
+        
         console.log(user)
     };
-
+	
 	async function saveChanges(){
 		let user = {}
 		console.log("first",uname.value)
@@ -74,7 +73,6 @@
 		if( pass.value  ){  
 			if(pass.value !== null)
 				user.password = pass.value
-				console.log("second: ", pass.value)
 		}
 		if( fname.value  )
 			user.firstname = fname.value
@@ -84,16 +82,15 @@
 			user.lastname = lname.value  
 		if( bday.value ) 
         	user.birthday = bday.value 
-			
 		if( address.value  )
         	user.address = address.value
-		if( country.value  )
-        	 user.country = countrySelect.value
+		if( countrySelect.value  )
+        	user.country = countrySelect.value
 		if( city.value  ) 
         	user.city = city.value
 		if( zip.value  ) 
     		user.zipcode = zip.value
-		if( pcolor.value ) 
+		if( colorSelect.value ) 
 			user.profilecolor = colorSelect.value
 		
 		
