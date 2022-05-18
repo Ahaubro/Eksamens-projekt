@@ -1,44 +1,44 @@
 <h1 id="welcome">Hello </h1>
 
 <div>
-    <label for="uname">Edit username</label>
-    <input id="uname" type="text"></input>
-    <br>
-    <label for="pass">Edit password</label>
-    <input id="pass" type="password" ></input>
-    <br>
-    <label for="cpass">Confirm password</label>
-    <input id="cpass" type="password" ></input>
-    <br>
-    <label for="fname">Edit firstname</label>
-    <input id="fname" type="text" ></input>
-    <br>
-    <label for="mname">Edit middlename</label>
-    <input id="mname" type="text" ></input>
-    <br>
-    <label for="lname">Edit lastname</label>
-    <input id="lname" type="text" ></input>
-    <br>
-    <label for="bday">Edit birthday</label>
-    <input id="bday" type="date" ></input>
-    <br>
-    <label for="address">Edit address</label>
-    <input id="address" type="text" ></input>
-    <br>
-    <label for="country">Edit country</label>
-    <div id="country" ></div>
-    <br>
-    <label for="city">Edit city</label>
-    <input id="city" type="text" ></input>
-    <br>
-    <label for="zip">Edit zipcode</label>
-    <input id="zip" type="number"></input>
-    <br>
-    <label for="pcolor">Edit profile color</label>
-    <div id="pcolor"></div>
+	<label for="uname">Edit username</label>
+	<input id="uname" type="text"></input>
+	<br>
+	<label for="pass">Edit password</label>
+	<input id="pass" type="password"></input>
+	<br>
+	<label for="cpass">Confirm password</label>
+	<input id="cpass" type="password"></input>
+	<br>
+	<label for="fname">Edit firstname</label>
+	<input id="fname" type="text"></input>
+	<br>
+	<label for="mname">Edit middlename</label>
+	<input id="mname" type="text"></input>
+	<br>
+	<label for="lname">Edit lastname</label>
+	<input id="lname" type="text"></input>
+	<br>
+	<label for="bday">Edit birthday</label>
+	<input id="bday" type="date" value="2022-01-01"></input>
+	<br>
+	<label for="address">Edit address</label>
+	<input id="address" type="text"></input>
+	<br>
+	<label for="country">Edit country</label>
+	<div id="country"></div>
+	<br>
+	<label for="city">Edit city</label>
+	<input id="city" type="text"></input>
+	<br>
+	<label for="zip">Edit zipcode</label>
+	<input id="zip" type="number"></input>
+	<br>
+	<label for="pcolor">Edit profile color</label>
+	<div id="pcolor"></div>
 
-    <button onclick="saveChanges()">Save Changes </button>
-    <div id="reponse"></div>
+	<button onclick="saveChanges()">Save Changes </button>
+	<div id="reponse"></div>
 </div>
 
 <script>
@@ -66,36 +66,29 @@
 	
 	async function saveChanges(){
 		let user = {}
-		console.log("first",uname.value)
+		console.log("first", uname.value)
 		//find en smartere løsning
-		if ( uname.value )
-			user.username = uname.value
-		if( pass.value  ){  
-			if(pass.value !== null)
+
+		user.username = uname.value
+		if (pass.value) {
+			if (pass.value !== null)
 				user.password = pass.value
 		}
-		if( fname.value  )
-			user.firstname = fname.value
-		if( mname.value ) 
-			user.middlename = mname.value  
-		if( lname.value  )
-			user.lastname = lname.value  
-		if( bday.value ) 
-        	user.birthday = bday.value 
-		if( address.value  )
-        	user.address = address.value
-		if( countrySelect.value  )
-        	user.country = countrySelect.value
-		if( city.value  ) 
-        	user.city = city.value
-		if( zip.value  ) 
-    		user.zipcode = zip.value
-		if( colorSelect.value ) 
-			user.profilecolor = colorSelect.value
+		user.firstname = fname.value
+		user.middlename = mname.value
+		user.lastname = lname.value
+		if(bday.value)
+		user.birthday = bday.value
 		
-		
-		if(pass.value != cpass.value)
-		return alert("the two passwords are not the same")
+		user.address = address.value
+		user.country = countrySelect.value
+		user.city = city.value
+		user.zipcode = zip.value
+		user.profilecolor = colorSelect.value
+
+
+		if (pass.value != cpass.value)
+			return alert("the two passwords are not the same")
 		console.log(user)
 		const res = await fetch(`/editProfile`, {
             headers: {
@@ -108,7 +101,7 @@
 
 
 	}
-    pcolor.innerHTML = `
+	pcolor.innerHTML = `
                 <select id="colorSelect">
                     <option value="G">Green</option>
                     <option value="B">Blue</option>
@@ -119,7 +112,7 @@
                     <option value="BL">Black</option>
                 </select>
                 `;
-    country.innerHTML = `<select id="countrySelect">
+	country.innerHTML = `<select id="countrySelect">
 	<option value="AF">Afghanistan</option>
 	<option value="AX">Åland Islands</option>
 	<option value="AL">Albania</option>

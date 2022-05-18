@@ -10,8 +10,8 @@ const router = Router();
 router.get("/getUsername/:id", async (req, res) => {
     const  id = req.params.id
     const sqlSelect = "SELECT username FROM users WHERE id = ?";
-    const foundUser = await db.query(sqlSelect, [id], function(err, result) {
-        if(err) throw err;
+    const foundUser = await db.query(sqlSelect, [id], function (err, result) {
+        if (err) throw err;
 
         res.send(result[0].username);
     });
@@ -26,8 +26,8 @@ router.get("/getProfile", async (req, res) => {
             res.send(err)
 
         if (result[0]) {
-            let { username: username, password: password, firstname: firstname, middlename: middlename, 
-                lastname: lastname, birthday: birthday, address: address, country: country, city: city, 
+            let { username: username, firstname: firstname, middlename: middlename,
+                lastname: lastname, birthday: birthday, address: address, country: country, city: city,
                 zipcode: zipcode, profilecolor: profilecolor } = result[0]
             res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor }))
         } else {
@@ -39,33 +39,27 @@ router.get("/getProfile", async (req, res) => {
 router.patch("/editProfile", async (req, res) => {
 
     const id = req.session.userID
-    const { username, password, firstname, middlename,
-    lastname, birthday, address, country, city, zipcode, profilecolor } = req.body
-
-    let sqlSelect = "SELECT * FROM users WHERE id = ?";
+    let password = req.body.password;
+    const sqlSelect = "SELECT * FROM users WHERE id = ?";
     const foundUser = await db.query(sqlSelect, [id], function (err, result) {
-        
+
         if (err) {
             return res.status(400).send();
         }
 
         if (!id) {
             return res.send("Something went wrong - contact an admin");
-        
+
         } else {
             async function editProfile() {
                 let hashedPassword = ""
-                let tempPass = password
-                if( password ) {
+                if (password) {
                     hashedPassword = await bcrypt.hash(password, saltRounds);
-                    tempPass = hashedPassword;
+                    req.body.password = hashedPassword;
                 }
-                let updateProfile1 = `UPDATE users SET username = IFNULL(?, username), password = IFNULL(?, password), firstname = IFNULL(?, firstname), 
-                    middlename = IFNULL(?, middlename), lastname = IFNULL(?, lastname), birthday = IFNULL(?, birthday), address = IFNULL(?, address), 
-                    country = IFNULL(?, country), city = IFNULL(?, city), zipcode = IFNULL(?, zipcode), profilecolor = IFNULL(?, profilecolor) WHERE id = ?`
-                const editQuery = await db.query(updateProfile1, [username, tempPass, firstname, middlename, lastname, birthday, address, country, 
-                    city, zipcode, profilecolor, id], function (err, result) {
-                    console.log("kommer du herind?")
+
+                const updateProfile = "UPDATE users SET ? WHERE id = ?"
+                const editQuery = await db.query(updateProfile, [req.body, id], function (err, result) {
 
                     if (err) {
                         console.log(err)

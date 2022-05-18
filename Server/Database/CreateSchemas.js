@@ -25,7 +25,7 @@ db.query(`
         address VARCHAR(50),
         country VARCHAR(50),
         city VARCHAR(45),
-        zipcode SMALLINT(4),
+        zipcode VARCHAR(4),
         profilecolor VARCHAR(7)
     );
 `);
