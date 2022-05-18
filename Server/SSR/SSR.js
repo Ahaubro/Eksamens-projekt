@@ -22,6 +22,15 @@ SSR.directory = '../../Client/Public/Components';
 const headerTemplate = SSR.loadFile("/Header.html");
 const header = SSR.replace(headerTemplate, {navbar: '/Navbar.html'});
 
+function loggedInDependent(page, isLoggedIn){
+    SSR.directory = '../../Client/Public/Components';
+    if(isLoggedIn){
+        return SSR.replace(page, {loggedIn: '/LoggedIn.html'})
+    }else{
+        return SSR.replace(page, {loggedIn: '/LoggedOut.html'})
+    }
+}
+
 const pageStylesDirectory = './Css';
 const homeStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/HomeStyle.css">`;
 const chatroomStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/ChatroomStyle.css">`;
@@ -62,7 +71,6 @@ const editPage = SSR.replace(templatePage, {
     title: 'Smiles - edit Profile',
     styles: editStyles,
     content: '/EditProfile.html'
-
 })
 
 export default {
@@ -70,5 +78,6 @@ export default {
     chatroomsPage,
     smilePostsPage,
     loginPage, 
-    editPage
+    editPage,
+    loggedInDependent
 };
