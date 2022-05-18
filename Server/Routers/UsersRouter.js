@@ -18,6 +18,18 @@ const authLimiter = rateLimit({
 
 router.use("/auth", authLimiter);
 
+//Get one user by id
+router.get("/auth/getUser/:id", async (req, res) => {
+    const  id = req.params.id
+    const sqlSelect = "SELECT username FROM users WHERE id = ?";
+    const foundUser = await db.query(sqlSelect, [id], function(err, result) {
+        if(err) throw err;
+
+        res.send(result[0].username);
+    });
+});
+
+
 // Log-in function
 router.post("/auth/login", async (req, res) => {
     const { username, password } = req.body;
