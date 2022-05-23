@@ -1,6 +1,22 @@
-<h1 id="welcome">Hello </h1>
+<h1 id="welcome">Hello (username)</h1>
 
-<div>
+<div id="myPage">
+
+	<br>
+	<h3>Welcome to your page</h3>
+
+	<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
+
+</div>
+
+
+<!-- Modal starter her-->
+
+<div id="editModal" class="hidden-modal">
+	<h3>Update user information</h3>
+	<hr>
+	<p>Update your information below</p>
+
 	<label for="uname">Edit username</label>
 	<input id="uname" type="text"></input>
 	<br>
@@ -39,9 +55,26 @@
 
 	<button onclick="saveChanges()">Save Changes </button>
 	<div id="reponse"></div>
+
 </div>
+<!-- Modal slutter her -->
 
 <script>
+
+	 // MODAL
+
+	 function showEditModal() {
+        editModal.className = 'shown-modal';
+    }
+
+    function hideEditModal() {
+        editModal.className = 'hidden-modal';
+    }
+
+    document.addEventListener('mouseup', function(event) {
+        if (!editModal.contains(event.target))
+            hideEditModal();
+    });
     
     responseMessage = ""
     getProfileInformation()
@@ -62,6 +95,7 @@
         //repsonseMessage = await res.text();
         
         console.log(user)
+
     };
 	
 	async function saveChanges(){

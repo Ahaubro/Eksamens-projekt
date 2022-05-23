@@ -1,0 +1,45 @@
+.hidden-modal{
+    display: none;
+}
+
+.shown-modal{
+    background-color: rgba(248, 243, 234, 0.945);
+    border: 1px solid black;
+    padding: 18px;
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    z-index: 1;
+    border-radius: 7px;
+    margin: auto;
+    padding: 5px;
+}
+
+#myPage{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 70%;
+    background-color: rgb(250, 217, 235);
+    border-radius: 5px;
+}
+
+#editBtn{
+    background-color: rgb(176, 225, 253);
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 600;
+    padding: 10px;
+    border: none;
+}
+
+#editBtn:hover{
+    transition: 0.3s;
+    background-color: rgb(104, 167, 204);
+}
+
+h3{
+    font-size: 25px;
+    font-weight: 600;
+}
