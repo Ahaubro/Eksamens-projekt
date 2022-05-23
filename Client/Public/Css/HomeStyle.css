@@ -12,10 +12,12 @@ b{
 }
 
 .postArticle {
-    background-color: rgba(255, 204, 212, 0.897);
+    background-color: rgba(255, 244, 245, 0.897);
     border: 1px solid salmon;
     padding: 10px;
     text-align: center;
+    border: 1px solid black;
+
 
 }
 
