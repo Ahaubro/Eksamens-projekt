@@ -21,7 +21,7 @@
     transform: translateX(-50%);
     width: 60%;
     height: 70%;
-    background-color: rgb(250, 217, 235);
+    background-color: #f19797;
     border-radius: 5px;
 }
 
@@ -47,7 +47,7 @@ h3{
 #editBtnPos{
     position: fixed;
     left: 50%;
-    top: 70%;
-    -ms-transform: translateY(70%);
+    top: 65%;
+    -ms-transform: translateY(65%);
     transform: translateX(-50%);
 }
