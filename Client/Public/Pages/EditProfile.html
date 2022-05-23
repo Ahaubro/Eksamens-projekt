@@ -5,8 +5,10 @@
 	<br>
 	<h3>Welcome to your page</h3>
 
-	<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
-
+	<div id="editBtnPos">
+		<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
+	</div>
+	
 </div>
 
 
@@ -55,6 +57,8 @@
 
 	<button onclick="saveChanges()">Save Changes </button>
 	<div id="reponse"></div>
+	<br>
+	<button id="close-regmodal" onclick="hideEditModal()">Close</button>
 
 </div>
 <!-- Modal slutter her -->
@@ -132,8 +136,6 @@
             body: JSON.stringify(user)
         });
 		
-
-
 	}
 	pcolor.innerHTML = `
                 <select id="colorSelect">

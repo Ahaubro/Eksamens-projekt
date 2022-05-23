@@ -43,3 +43,11 @@ h3{
     font-size: 25px;
     font-weight: 600;
 }
+
+#editBtnPos{
+    position: fixed;
+    left: 50%;
+    top: 70%;
+    -ms-transform: translateY(70%);
+    transform: translateX(-50%);
+}
