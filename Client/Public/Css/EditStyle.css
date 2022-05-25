@@ -128,3 +128,11 @@ p{
     height: 4em;
     width: 50%;
 }
+
+#display_image{
+    width: 211px;
+    height: 375px;
+    border: 1px solid black;
+    background-position: center;
+    background-size: cover;
+}
