@@ -36,7 +36,9 @@ db.query(`
         id INT PRIMARY KEY AUTO_INCREMENT,
         userId INT,
         text VARCHAR(500),
-        dateTime DATETIME,
+        date DATE,
+        hours INT,
+        minutes INT,
         FOREIGN KEY(userId) REFERENCES users(id)
     );
 `);

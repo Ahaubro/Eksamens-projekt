@@ -40,17 +40,22 @@
         postsDiv.innerHTML = ""; 
         for(let i in posts){
             console.log(posts)
-            const {id, text, userId, dateTime} = posts[i];
+            const {id, text, userId, date, hours, minutes} = posts[i];
             const res = await fetch(`/getUsername/${userId}`);
             const foundUsername = await res.text();
             postsDiv.innerHTML += ` <br> 
                 <article class="postArticle">
-                    <br> <b> ${dateTime} </b> <br>
-                <b>${foundUsername}</b><br>
-            <span id="text${id}">${text}</span>
-            </article> 
-            <button onclick="deletePost(${id})"> Delete </button>
-            <br>`;
+                    <b id="username">${foundUsername}</b>
+                    <br>
+                    <br>
+                    <span id="text${id}">${text}</span>
+                    <br>
+                    <br>
+                    <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                    <br>
+                </article> 
+                <button onclick="deletePost(${id})"> Delete </button>
+                <br>`;
         }
     }
 

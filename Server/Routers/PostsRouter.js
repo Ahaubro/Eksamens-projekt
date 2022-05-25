@@ -21,9 +21,12 @@ router.get("/api/posts", (req, res) => {
 
 router.post("/api/posts", (req, res) => {
     const dateNow = new Date();
+    const hours = formatTime(dateNow.getHours())
+    const minutes = formatTime(dateNow.getMinutes())
+    console.log(hours, minutes)
     const {text} = req.body;
     const { userID } = req.session;
-    db.query("INSERT INTO posts(text, userid, dateTime) VALUES (?, ?, ?)", [text, userID, dateNow], (error, result) => {
+    db.query("INSERT INTO posts(text, userid, date, hours, minutes) VALUES (?, ?, ?, ?, ?)", [text, userID, dateNow, hours, minutes], (error, result) => {
         res.send(result);
     });
 });
@@ -48,5 +51,16 @@ router.delete("/api/posts/:id", (req, res) => {
         res.send(result);
     });
 });
+
+
+//Function that formats time for posts creation
+function formatTime(time) {
+    
+    if ( time < 10 ) {
+
+        return '0' + time;
+    }
+    return time;
+}
 
 export default router;
