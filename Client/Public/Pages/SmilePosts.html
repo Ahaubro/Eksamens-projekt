@@ -1,11 +1,16 @@
 <h1>Smile Posts</h1>
 
-<div id="posts">
+<div id="postsPos">
+    <div id="posts">
+    </div>
 
 </div>
 
-<input id="createText" type="text" width="400">
-<button onclick="createPost()">Create New Post</button>
+<div id="postsPos">
+    <input id="createText" type="text" width="400">
+    <button onclick="createPost()">Create New Post</button>
+</div>
+
 
 <script>
 
@@ -38,14 +43,12 @@
             const res = await fetch(`/getUsername/${userId}`);
             const foundUsername = await res.text();
             console.log(foundUsername)
-            postsDiv.innerHTML += `<p>
+            postsDiv.innerHTML += ` <br> 
+                <article class="postArticle">
                 <b>${foundUsername}</b><br>
-                <span id="edit${id}">
-                    (${id}) <span id="text${id}">${text}</span>
-                    <button onclick="openEdit(${id})">Edit</button>
-                </span>
-                <button onclick="deletePost(${id})">Delete</button>
-            </p>`;
+                (${id}) <span id="text${id}">${text}</span>
+            </article> 
+            <br>`;
         }
     }
 
