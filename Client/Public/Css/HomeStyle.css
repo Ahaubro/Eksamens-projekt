@@ -6,11 +6,6 @@ h3{
     font-size: 24px;
 }
 
-b{
-    font-size: 20px;
-    text-align: center;
-}
-
 .postArticle {
     background-color: rgba(255, 244, 245, 0.897);
     border: 1px solid salmon;
@@ -24,6 +19,30 @@ b{
 #postsPos{
     display: flex;
     justify-content: center;
+}
+
+#time{
+    float: right;
+    text-align: right;
+    font-size: 7;
+}
+
+#date{
+    float: left;
+    text-align: left;
+    font-size: 7;
+}
+
+#username{
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+span{
+    font-size: 18px;
+    text-align: center;
 }
 
 
