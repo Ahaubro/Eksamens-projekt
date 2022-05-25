@@ -19,6 +19,14 @@ router.get("/api/posts", (req, res) => {
     });
 });
 
+//Endpoint der kun læser posts tilhørende den user der er logget ind
+router.get("/api/postsOfInterest", (req, res) => {
+    const userId = req.session.userID
+    db.query("SELECT * FROM posts WHERE userId = ?", [userId], (error, result) => {
+        res.send(result);
+    });
+});
+
 router.get("/api/getPostByID/:id", (req, res) => {
     const id = Number(req.params.id)
     db.query("SELECT * FROM posts WHERE id = ?", [id], (error, result) => {
