@@ -43,11 +43,13 @@
         for(let i in posts){
             console.log(posts)
             const {id, text, userId, date, hours, minutes} = posts[i];
-            const res = await fetch(`/getUsername/${userId}`);
-            const foundUsername = await res.text();
+
+            const resObj = await fetch(`/getUserById/${userId}`);
+            const foundUser = await resObj.json();
+           
             postsDiv.innerHTML += ` <br> 
                 <article class="postArticle">
-                    <b id="username">${foundUsername}</b>
+                    <b id="username">${foundUser.username}</b>
                     <br>
                     <div id="edit${id}">
                         <span id="text${id}">${text}</span>
@@ -60,6 +62,7 @@
                 </article> 
                 <button onclick="deletePost(${id})"> Delete </button>
                 <br>`;
+            
         }
     }
 

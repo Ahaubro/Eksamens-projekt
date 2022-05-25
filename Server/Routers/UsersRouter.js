@@ -17,6 +17,17 @@ router.get("/getUsername/:id", async (req, res) => {
     });
 });
 
+//Get one user by id LEGER LIDT HER
+router.get("/getUserById/:id", async (req, res) => {
+    const  id = req.params.id
+    const sqlSelect = "SELECT * FROM users WHERE id = ?";
+    const foundUser = await db.query(sqlSelect, [id], function (err, result) {
+        if (err) throw err;
+
+        res.send(result[0]);
+    });
+});
+
 router.get("/getProfile", async (req, res) => {
 
     const id = req.session.userID
