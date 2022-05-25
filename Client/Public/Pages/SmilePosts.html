@@ -115,11 +115,20 @@
 
 
     async function deletePost(id){
-        const response = await fetch("/api/posts/" + id, {
-            method: "DELETE"
+        let resMessage = "";
+
+        const firstResponse = await fetch(`/api/getPostByID/${id}`);
+        const firstResult = await firstResponse.json();
+        const post = firstResult;
+        const userId = post.userId
+
+        const response = await fetch(`/api/posts/${id}/${userId}`, {
+            method: "DELETE",
         });
-        const result = await response.json();
-        console.log(result);
+        
+        resMessage = await response.text();
+        document.getElementById("response").innerText=resMessage
+
         loadPosts();
     }
 

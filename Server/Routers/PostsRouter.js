@@ -56,13 +56,18 @@ router.put("/api/posts/:id", (req, res) => {
 
 // TIL HER ------------------------------------
 
-router.delete("/api/posts/:id", (req, res) => {
+router.delete("/api/posts/:id/:userId", (req, res) => {
     const id = Number(req.params.id);
-    db.query("DELETE FROM posts WHERE id = ?", [id], (error, result) => {
-        if(error)
-            return res.send(error);
-        res.send(result);
-    });
+    const userId = Number(req.params.userId);
+    if(userId == req.session.userID) {
+        db.query("DELETE FROM posts WHERE id = ?", [id], (error, result) => {
+            if(error)
+                return res.send(error);
+            res.send("The post have been deleted");
+        });
+    } else {
+        res.status(400).send("You can only delete your own posts")
+    }
 });
 
 
