@@ -39,15 +39,17 @@
         posts = result;
         postsDiv.innerHTML = ""; 
         for(let i in posts){
-            const {id, text, userId} = posts[i];
+            console.log(posts)
+            const {id, text, userId, dateTime} = posts[i];
             const res = await fetch(`/getUsername/${userId}`);
             const foundUsername = await res.text();
-            console.log(foundUsername)
             postsDiv.innerHTML += ` <br> 
                 <article class="postArticle">
+                    <br> <b> ${dateTime} </b> <br>
                 <b>${foundUsername}</b><br>
-                (${id}) <span id="text${id}">${text}</span>
+            <span id="text${id}">${text}</span>
             </article> 
+            <button onclick="deletePost(${id})"> Delete </button>
             <br>`;
         }
     }
@@ -65,14 +67,14 @@
         loadPosts();
     }
 
-    function openEdit(id){
+    /*function openEdit(id){
         const element = document.getElementById("edit" + id);
         const text = document.getElementById("text" + id).innerText;
         element.innerHTML = `<span id="edit${id}">
                     (${id}) <input id="input${id}" value="${text}">
                     <button onclick="editPost(${id})">Save</button>
                 </span>`;
-    }
+    }*/
 
     async function editPost(id){
         const text = document.getElementById("input" + id).value;
