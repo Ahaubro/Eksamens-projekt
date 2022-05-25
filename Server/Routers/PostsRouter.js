@@ -19,11 +19,18 @@ router.get("/api/posts", (req, res) => {
     });
 });
 
-router.post("/api/posts", (req, res) => {
+router.get("/api/getPostByID/:id", (req, res) => {
+    const id = Number(req.params.id)
+    db.query("SELECT * FROM posts WHERE id = ?", [id], (error, result) => {
+        res.send(result[0]);
+    });
+});
+
+router.post("/api/posts/", (req, res) => {
     const dateNow = new Date();
     const hours = formatTime(dateNow.getHours())
     const minutes = formatTime(dateNow.getMinutes())
-    console.log(hours, minutes)
+    //console.log(hours, minutes)
     const {text} = req.body;
     const { userID } = req.session;
     db.query("INSERT INTO posts(text, userid, date, hours, minutes) VALUES (?, ?, ?, ?, ?)", [text, userID, dateNow, hours, minutes], (error, result) => {
@@ -33,12 +40,18 @@ router.post("/api/posts", (req, res) => {
 
 router.put("/api/posts/:id", (req, res) => {
     const id = Number(req.params.id);
-    const {text} = req.body;
-    db.query("UPDATE posts SET text = ? WHERE id = ?", [text, id], (error, result) => {
-        if(error)
-            return res.send(error);
-        res.send(result);
-    });
+    const {text, userId} = req.body;
+
+    console.log("Userid: " +  userId + "sessionId: " + req.session.userID);
+    if(userId == req.session.userID) {
+        db.query("UPDATE posts SET text = ? WHERE id = ?", [text, id], (error, result) => {
+            if(error)
+                return res.send(error);
+            res.send("Succesfully updated post");
+        });
+    } else {
+        res.status(400).send("You can only edit your own posts")
+    }
 });
 
 // TIL HER ------------------------------------
