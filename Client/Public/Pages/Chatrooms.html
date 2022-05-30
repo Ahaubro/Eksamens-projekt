@@ -1,9 +1,8 @@
 <div id="content">
-
     <h1>Chatrooms</h1>
-
     <div id="chatroomsList"></div>
-
+    <input id="chatroomName"/>
+    <button onclick="createChatroom()">Create</button>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -53,7 +52,7 @@
         for(let i in chatrooms){
             const {id, name} = chatrooms[i];
             chatroomsDiv.innerHTML+= `<p>
-                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> (${id}) ${name} </button>
+                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> ${name} </button>
             </p>`;
         }
     }
@@ -67,7 +66,7 @@
         currentRoomId = id;
 
         contentDiv.innerHTML= `
-            <h1> (${id}) ${name} </h1>
+            <h1> ${name} </h1>
             <div id="messages"></div>
 
             <input placeholder="Message" id="messageInput">
@@ -81,10 +80,23 @@
         contentDiv.innerHTML= ` 
             <h1>Chatrooms</h1>
             <div id="chatroomsList"></div>
+            <input id="chatroomName"/>
+            <button onclick="createChatroom()">Create</button>
         `;
 
         let chatroomsDiv = document.getElementById("chatroomsList");
 
+        loadChatrooms(chatroomsDiv);
+    }
+
+    async function createChatroom(){
+        let chatroomsDiv = document.getElementById("chatroomsList");
+        const name = document.getElementById("chatroomName").value;
+        const response = await fetch("/api/chatrooms", {
+            headers: {"content-type": "application/json"},
+            method: "POST",
+            body: JSON.stringify({name})
+        });
         loadChatrooms(chatroomsDiv);
     }
 
