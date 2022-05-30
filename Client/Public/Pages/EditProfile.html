@@ -112,7 +112,7 @@
 		data.append('sampleFile', input.files[0])
 		
 
-		await fetch('/uploadPicture', {
+		await fetch('/api/uploadPicture', {
 			method: 'POST',
 			body: data
 		})
@@ -151,7 +151,7 @@
             console.log(posts)
             const {id, text, userId, date, hours, minutes} = posts[i];
 
-            const resObj = await fetch(`/getUserById/${userId}`);
+            const resObj = await fetch(`/api/getUserById/${userId}`);
             const foundUser = await resObj.json();
            
             postsDiv.innerHTML += ` <br> 
@@ -260,7 +260,7 @@
     responseMessage = ""
     getProfileInformation()
     async function getProfileInformation() {
-        const res = await fetch(`/getProfile`)
+        const res = await fetch(`/api/getProfile`)
         const user = await res.json()
         uname.value = user.username
         fname.value = user.firstname
@@ -316,7 +316,7 @@
 		if (pass.value != cpass.value)
 			return alert("the two passwords are not the same")
 		console.log(user)
-		const res = await fetch(`/editProfile`, {
+		const res = await fetch(`/api/editProfile`, {
             headers: {
                 "content-type": "application/json"
             },

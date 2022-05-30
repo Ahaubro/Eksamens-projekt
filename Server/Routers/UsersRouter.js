@@ -11,7 +11,7 @@ const saltRounds = parseInt(process.env.SALTROUNDS);
 const router = Router();
 
 //Get one user by id
-router.get("/getUsername/:id", async (req, res) => {
+router.get("/api/getUsername/:id", async (req, res) => {
     const  id = req.params.id
     const sqlSelect = "SELECT username FROM users WHERE id = ?";
     const foundUser = await db.query(sqlSelect, [id], function (err, result) {
@@ -22,7 +22,7 @@ router.get("/getUsername/:id", async (req, res) => {
 });
 
 //Get one user by id LEGER LIDT HER
-router.get("/getUserById/:id", async (req, res) => {
+router.get("/api/getUserById/:id", async (req, res) => {
     const  id = req.params.id
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
     const foundUser = await db.query(sqlSelect, [id], function (err, result) {
@@ -32,7 +32,7 @@ router.get("/getUserById/:id", async (req, res) => {
     });
 });
 
-router.get("/getProfile", async (req, res) => {
+router.get("/api/getProfile", async (req, res) => {
 
     const id = req.session.userID
     let sqlSelect = "SELECT * FROM users WHERE id = ?";
@@ -52,7 +52,7 @@ router.get("/getProfile", async (req, res) => {
     })
 });
 
-router.patch("/editProfile", async (req, res) => {
+router.patch("/api/editProfile", async (req, res) => {
     const id = req.session.userID
     let password = req.body.password;
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
@@ -92,7 +92,7 @@ router.patch("/editProfile", async (req, res) => {
 router.use(express.static("../Client/Public/"));
 router.use(fileUpload())
 
-router.post("/uploadPicture", (req, res) => {
+router.post("/api/uploadPicture", (req, res) => {
 
     if(!req.files || Object.keys(req.files).length === 0){
         return res.status(400).send("No files were uploaded")

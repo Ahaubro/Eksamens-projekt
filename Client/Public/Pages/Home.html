@@ -46,7 +46,7 @@
             const {id, text, userId, date, hours, minutes, categori} = posts[i];
 
             if(categori == 'home') {
-                const res = await fetch(`/getUsername/${userId}`);
+                const res = await fetch(`/api/getUsername/${userId}`);
                 const foundUsername = await res.text();
                 postsDiv.innerHTML += ` <br> 
                 <article class="postArticle">

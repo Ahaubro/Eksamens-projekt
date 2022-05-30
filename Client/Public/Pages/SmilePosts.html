@@ -42,7 +42,7 @@
 
                 const likes = posts[i].likes || 0;
 
-                const resObj = await fetch(`/getUserById/${userId}`);
+                const resObj = await fetch(`/api/getUserById/${userId}`);
                 const foundUser = await resObj.json();
             
                 postsDiv.innerHTML += ` <br> 
