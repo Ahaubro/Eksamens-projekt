@@ -43,6 +43,7 @@ db.query(`
         date DATE,
         hours INT,
         minutes INT,
+        categori VARCHAR(50),
         FOREIGN KEY(userId) REFERENCES users(id)
     );
 `);
