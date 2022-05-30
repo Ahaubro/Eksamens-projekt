@@ -36,25 +36,28 @@
         postsDiv.innerHTML = "";
         for(let i in posts){
             console.log(posts)
-            const {id, text, userId, date, hours, minutes} = posts[i];
-            const likes = posts[i].likes || 0;
+            const {id, text, userId, date, hours, minutes, categori} = posts[i];
 
-            const resObj = await fetch(`/getUserById/${userId}`);
-            const foundUser = await resObj.json();
-           
-            postsDiv.innerHTML += ` <br> 
-                <article class="postArticle">
-                    <b id="username">${foundUser.username}</b>
-                    <br>
-                    <span id="text${id}">${text}</span>
-                    <br>
-                    <br>
-                    <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
-                    <br>
-                    <span id="likeCount${id}">${likes}</span> <span>Likes</span> <div id="likeButton${id}"><button onclick="likePost(${id})">Like</button></div>
-                </article> 
-                <br>`;
+            if(categori!= 'home') {
+
+                const likes = posts[i].likes || 0;
+
+                const resObj = await fetch(`/getUserById/${userId}`);
+                const foundUser = await resObj.json();
             
+                postsDiv.innerHTML += ` <br> 
+                    <article class="postArticle">
+                        <b id="username">${foundUser.username}</b>
+                        <br>
+                        <span id="text${id}">${text}</span>
+                        <br>
+                        <br>
+                        <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                        <br>
+                        <span id="likeCount${id}">${likes}</span> <span>Likes</span> <div id="likeButton${id}"><button onclick="likePost(${id})">Like</button></div>
+                    </article> 
+                    <br>`;
+            }
         }
     }
 

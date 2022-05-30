@@ -43,10 +43,12 @@
         posts = result;
         postsDiv.innerHTML = ""; 
         for(let i in posts){
-            const {id, text, userId, date, hours, minutes} = posts[i];
-            const res = await fetch(`/getUsername/${userId}`);
-            const foundUsername = await res.text();
-            postsDiv.innerHTML += ` <br> 
+            const {id, text, userId, date, hours, minutes, categori} = posts[i];
+
+            if(categori == 'home') {
+                const res = await fetch(`/getUsername/${userId}`);
+                const foundUsername = await res.text();
+                postsDiv.innerHTML += ` <br> 
                 <article class="postArticle">
                     <b id="username">${foundUsername}</b>
                     <br>
@@ -57,6 +59,8 @@
                     <br>
                 </article> 
             <br>`;
+            
+            }
         }
     }
 
