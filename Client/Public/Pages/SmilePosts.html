@@ -34,10 +34,11 @@
         const response = await fetch("/api/posts");
         const result = await response.json();
         posts = result;
-        postsDiv.innerHTML = ""; 
+        postsDiv.innerHTML = "";
         for(let i in posts){
             console.log(posts)
             const {id, text, userId, date, hours, minutes} = posts[i];
+            const likes = posts[i].likes || 0;
 
             const resObj = await fetch(`/getUserById/${userId}`);
             const foundUser = await resObj.json();
@@ -51,10 +52,19 @@
                     <br>
                     <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
                     <br>
+                    <span id="likeCount${id}">${likes}</span> <span>Likes</span> <div id="likeButton${id}"><button onclick="likePost(${id})">Like</button></div>
                 </article> 
                 <br>`;
             
         }
+    }
+
+    function likePost(id){
+        let likeCountElement = document.getElementById("likeCount" + id);
+        let likeCount = Number(likeCountElement.innerText);
+        likeCountElement.innerText = ++likeCount;
+        let buttonDiv = document.getElementById("likeButton" + id);
+        buttonDiv.innerHTML = "";
     }
 
 </script>
