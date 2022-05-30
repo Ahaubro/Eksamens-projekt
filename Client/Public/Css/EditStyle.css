@@ -55,8 +55,10 @@ p{
 
 #editBtnPos{
     position: fixed;
-    left: 50%;
-    top: 85%;
+    left: 15%;
+    top: 1%;
+    border: 1px solid black;
+    border-radius: 6px;
     -ms-transform: translateY(85%);
     transform: translateX(-50%);
 }
@@ -69,6 +71,14 @@ p{
     border-radius: 5px;
 }
 
+#profile_picture_div{
+    height: 30%;
+    width: 20%;
+    background-position: center;
+    background-size: cover;
+    margin: 10px;
+    border-radius: 20px;
+}
 #postsPos{
     display: flex;
     justify-content: center;

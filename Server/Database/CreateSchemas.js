@@ -27,7 +27,7 @@ db.query(`
         city VARCHAR(45),
         zipcode VARCHAR(4),
         profilecolor VARCHAR(7),
-        profilePicture LONGBLOB
+        profilepicture VARCHAR(255)
     );
 `);
 

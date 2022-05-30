@@ -2,6 +2,9 @@ import { response, Router } from "express";
 import db from "../Database/CreateConnection.js";
 import bcrypt from "bcrypt";
 import stream from "stream";
+import fileUpload from "express-fileupload"
+import path from "path"
+import express from "express";
 
 const saltRounds = parseInt(process.env.SALTROUNDS);
 
@@ -40,9 +43,9 @@ router.get("/getProfile", async (req, res) => {
         if (result[0]) {
             let { username: username, firstname: firstname, middlename: middlename,
                 lastname: lastname, birthday: birthday, address: address, country: country, city: city,
-                zipcode: zipcode, profilecolor: profilecolor, profilePicture: profilePicture } = result[0]
+                zipcode: zipcode, profilecolor: profilecolor, profilepicture: profilepicture } = result[0]
                 
-            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor, profilePicture}))
+            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor, profilepicture}))
         } else {
             res.send("didnt find anything")
         }
@@ -50,7 +53,6 @@ router.get("/getProfile", async (req, res) => {
 });
 
 router.patch("/editProfile", async (req, res) => {
-
     const id = req.session.userID
     let password = req.body.password;
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
@@ -86,5 +88,27 @@ router.patch("/editProfile", async (req, res) => {
 
     });
 });
+
+router.use(express.static("../Client/Public/"));
+router.use(fileUpload())
+
+router.post("/uploadPicture", (req, res) => {
+
+    if(!req.files || Object.keys(req.files).length === 0){
+        return res.status(400).send("No files were uploaded")
+    }
+
+    const sampleFile = req.files.sampleFile
+    console.log(sampleFile)
+    
+    const uploadPath = '../Client/Public/Images/Uploads/' + sampleFile.name
+    sampleFile.mv(uploadPath, function(err) {
+        if(err) return res.status(500).send(err)
+
+        res.send('file uploaded!')
+
+
+    })
+})
 
 export default router;

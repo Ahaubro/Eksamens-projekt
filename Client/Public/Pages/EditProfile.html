@@ -5,6 +5,13 @@
 	<br>
 	<h3>Welcome to your page</h3>
 	<p>Here you can edit your smile posts and personal information</p>
+    <div id="profile_picture_div">
+
+    </div>
+
+    <br>
+    <br>
+    <br>
 
 	<div id="postsPos">
 		<div id="posts">
@@ -14,7 +21,12 @@
 	<br>
 
 	<div id="createPost">
-		<input id="createText" type="text">
+        <input id="createText" type="text">
+		<select id="categoriSelect">
+			<option value="love"> Love post</option>
+			<option value="work"> Work post</option>
+			<option value="random"> Random post</option>
+		</select>
 		<br>
 		<button id="createPostBtn" onclick="createPost()">Create New Post</button>
 	</div>
@@ -78,19 +90,36 @@
 	<label for="profilePic"> Upload profile picture</label>
 	<input type="file" id="image_input" accept="image/jpeg, image/png">
 	<div id="display_image"></div>
+    <button onclick="uploadPicture()">Upload & Save image</button>
 
 
-	<button onclick="saveChanges()">Save Changes </button>
 	<div id="reponse"></div>
 	<br>
-	<button id="close-regmodal" onclick="hideEditModal()">Close</button>
+    <div style="display: flex"></div>
+	<button id="close-regmodal" onclick="hideEditModal()" style="margin-left: 0; margin-right: auto">Close</button>
+	<button onclick="saveChanges()" style="margin-left: auto; margin-right: 0">Save Changes</button>
 
 </div>
 <!-- Modal slutter her -->
 
 <script>
 	// Forsøg med image upload HER OG LINJE 244
-	const image_input = document.querySelector("#image_input")
+	async function uploadPicture() {
+		let input = document.querySelector('input[type="file"]')
+		console.log(input.files[0].name)
+        let data = new FormData()
+		
+		data.append('sampleFile', input.files[0])
+		
+
+		await fetch('/uploadPicture', {
+			method: 'POST',
+			body: data
+		})
+
+	}
+
+    const image_input = document.querySelector("#image_input")
 	let uploaded_image = "";
 
 	image_input.addEventListener("change", function() {
@@ -102,6 +131,8 @@
 		});
 		reader.readAsDataURL(this.files[0]);
 	})
+
+    
 
 
 
@@ -145,12 +176,13 @@
 
 	async function createPost(){
         const text = document.getElementById("createText").value;
+		const categori = document.getElementById("categoriSelect").value;
         const response = await fetch("/api/posts", {
             headers: {
                 "content-type": "application/json",
             },
             method: "POST",
-            body: `{"text": "${text}"}`
+            body: `{"text": "${text}", "categori": "${categori}"}`
         });
         const result = await response.json();
         loadPosts();
@@ -241,6 +273,8 @@
         zip.value = user.zipcode
         colorSelect.value = user.profilecolor
 
+        display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
+        profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
 		//Profilew pic testing
 		let data = user.profilePicture
 		let binaryData = [];
@@ -254,7 +288,9 @@
 	
 	async function saveChanges(){
 		let user = {}
-		console.log("first", uname.value)
+        let input = document.querySelector('input[type="file"]')
+
+        console.log("first", uname.value)
 		//find en smartere løsning
 
 		user.username = uname.value
@@ -273,7 +309,7 @@
 		user.city = city.value
 		user.zipcode = zip.value
 		user.profilecolor = colorSelect.value
-		user.profilePicture = uploaded_image
+		user.profilePicture = input.files[0].name
 	
 
 
