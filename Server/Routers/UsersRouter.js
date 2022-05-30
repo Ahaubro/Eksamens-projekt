@@ -1,6 +1,7 @@
 import { response, Router } from "express";
 import db from "../Database/CreateConnection.js";
 import bcrypt from "bcrypt";
+import stream from "stream";
 
 const saltRounds = parseInt(process.env.SALTROUNDS);
 
@@ -39,8 +40,9 @@ router.get("/getProfile", async (req, res) => {
         if (result[0]) {
             let { username: username, firstname: firstname, middlename: middlename,
                 lastname: lastname, birthday: birthday, address: address, country: country, city: city,
-                zipcode: zipcode, profilecolor: profilecolor } = result[0]
-            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor }))
+                zipcode: zipcode, profilecolor: profilecolor, profilePicture: profilePicture } = result[0]
+                
+            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor, profilePicture}))
         } else {
             res.send("didnt find anything")
         }

@@ -25,9 +25,9 @@
 		<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
 	</div>
 
-	<input type="file" id="image_input" accept="image/png, image/jpg">
+	<!--<input type="file" id="image_input" accept="image/png, image/jpg">
 
-	<div id="display_image"></div>
+	<div id="display_image"></div>-->
 
 </div>
 
@@ -75,6 +75,11 @@
 	<label for="pcolor">Edit profile color</label>
 	<div id="pcolor"></div>
 
+	<label for="profilePic"> Upload profile picture</label>
+	<input type="file" id="image_input" accept="image/jpeg, image/png">
+	<div id="display_image"></div>
+
+
 	<button onclick="saveChanges()">Save Changes </button>
 	<div id="reponse"></div>
 	<br>
@@ -84,7 +89,7 @@
 <!-- Modal slutter her -->
 
 <script>
-	//Image upload
+	// Forsøg med image upload HER OG LINJE 244
 	const image_input = document.querySelector("#image_input")
 	let uploaded_image = "";
 
@@ -92,7 +97,8 @@
 		const reader = new FileReader();
 		reader.addEventListener("load", () => {
 			uploaded_image = reader.result;
-			document.getElementById("display_image").style.backgroundImage = `url(${uploaded_image})`;
+			pic = document.getElementById("display_image").style.backgroundImage = `url(${uploaded_image})`;
+			//console.log("Just pic: " + pic)
 		});
 		reader.readAsDataURL(this.files[0]);
 	})
@@ -135,6 +141,7 @@
             
         }
     }
+
 
 	async function createPost(){
         const text = document.getElementById("createText").value;
@@ -233,11 +240,16 @@
         city.value = user.city
         zip.value = user.zipcode
         colorSelect.value = user.profilecolor
-        
-        //repsonseMessage = await res.text();
-        
-        console.log(user)
 
+		//Profilew pic testing
+		let data = user.profilePicture
+		let binaryData = [];
+		binaryData.push(data);
+
+		display_image.src = window.URL.createObjectURL(new Blob(binaryData.data, {type: "image/jpeg"}))
+
+		console.log("Læses her d_i.src: " + display_image.src)
+        
     };
 	
 	async function saveChanges(){
@@ -261,6 +273,8 @@
 		user.city = city.value
 		user.zipcode = zip.value
 		user.profilecolor = colorSelect.value
+		user.profilePicture = uploaded_image
+	
 
 
 		if (pass.value != cpass.value)

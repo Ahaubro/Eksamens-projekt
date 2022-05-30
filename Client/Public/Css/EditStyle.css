@@ -25,6 +25,7 @@
     border-radius: 5px;
     border: 1px solid rgb(105, 100, 100);
     opacity: 0.9;
+    overflow-y: scroll;
 }
 
 #editBtn{
@@ -55,8 +56,8 @@ p{
 #editBtnPos{
     position: fixed;
     left: 50%;
-    top: 75%;
-    -ms-transform: translateY(65%);
+    top: 85%;
+    -ms-transform: translateY(85%);
     transform: translateX(-50%);
 }
 
@@ -130,8 +131,8 @@ p{
 }
 
 #display_image{
-    width: 211px;
-    height: 375px;
+    width: 120px;
+    height: 175px;
     border: 1px solid black;
     background-position: center;
     background-size: cover;

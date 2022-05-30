@@ -7,10 +7,17 @@ import postsRouter from "./Routers/PostsRouter.js";
 import chatroomsRouter from "./Routers/ChatroomsRouter.js";
 import {Server} from "socket.io";
 import http from "http";
+import bodyParser from "body-parser";
 
 const app = express();
 
 app.use(express.static("../Client/Public/"));
+
+// Bruges til image upload
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+//Hertil -----------------------------
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

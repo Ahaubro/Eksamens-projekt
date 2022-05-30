@@ -6,11 +6,6 @@
 
 </div>
 
-<!--<div id="postsPos">
-    <input id="createText" type="text" width="400">
-    <button onclick="createPost()">Create New Post</button>
-</div> -->
-
 <p id="response"></p>
 
 
@@ -51,10 +46,7 @@
                 <article class="postArticle">
                     <b id="username">${foundUser.username}</b>
                     <br>
-                   
                     <span id="text${id}">${text}</span>
-                    
-                    
                     <br>
                     <br>
                     <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
@@ -64,71 +56,5 @@
             
         }
     }
-
-    /*async function createPost(){
-        const text = document.getElementById("createText").value;
-        const response = await fetch("/api/posts", {
-            headers: {
-                "content-type": "application/json",
-            },
-            method: "POST",
-            body: `{"text": "${text}"}`
-        });
-        const result = await response.json();
-        loadPosts();
-    }
-
-    function openEdit(id){
-        const element = document.getElementById("edit" + id);
-        const text = document.getElementById("text" + id).innerText;
-        element.innerHTML = `<div id="edit${id}">
-                    <input id="input${id}" value="${text}">
-                    <button onclick="editPost(${id})">Save</button>
-                </div>`;
-    }
-
-    async function editPost(id){
-        let resMessage = "";
-
-        const firstResponse = await fetch(`/api/getPostByID/${id}`);
-        const firstResult = await firstResponse.json();
-        const post = firstResult;
-        const userId = post.userId
-
-        const text = document.getElementById("input" + id).value;
-        const response = await fetch(`/api/posts/` + id, {
-            headers: {
-                "content-type": "application/json",
-            },
-            method: "PUT",
-            body: JSON.stringify({text, userId})
-        });
-        //const result = await response.json();
-        resMessage = await response.text();
-        document.getElementById("response").innerText=resMessage
-        //console.log(result);
-        
-        loadPosts();
-    }
-
-
-
-    async function deletePost(id){
-        let resMessage = "";
-
-        const firstResponse = await fetch(`/api/getPostByID/${id}`);
-        const firstResult = await firstResponse.json();
-        const post = firstResult;
-        const userId = post.userId
-
-        const response = await fetch(`/api/posts/${id}/${userId}`, {
-            method: "DELETE",
-        });
-
-        resMessage = await response.text();
-        document.getElementById("response").innerText=resMessage
-
-        loadPosts();
-    }*/
 
 </script>

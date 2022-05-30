@@ -36,8 +36,8 @@ router.get("/api/getPostByID/:id", (req, res) => {
 
 router.post("/api/posts/", (req, res) => {
     const dateNow = new Date();
-    const hours = formatTime(dateNow.getHours())
-    const minutes = formatTime(dateNow.getMinutes())
+    const hours = dateNow.getHours()
+    const minutes = dateNow.getMinutes()
     //console.log(hours, minutes)
     const {text} = req.body;
     const { userID } = req.session;
@@ -77,16 +77,5 @@ router.delete("/api/posts/:id/:userId", (req, res) => {
         res.status(400).send("You can only delete your own posts")
     }
 });
-
-
-//Function that formats time for posts creation
-function formatTime(time) {
-    
-    if ( time < 10 ) {
-
-        return '0' + time;
-    }
-    return time;
-}
 
 export default router;
