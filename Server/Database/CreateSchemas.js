@@ -7,9 +7,11 @@ const thorHashPass = await bcrypt.hash("1234", saltRounds);
 const alexHashPass = await bcrypt.hash("0", saltRounds);
 
 //Resetting if tables exists
+db.query(`DROP TABLE IF EXISTS messages`);
 db.query(`DROP TABLE IF EXISTS posts`);
 db.query(`DROP TABLE IF EXISTS users`);
 db.query(`DROP TABLE IF EXISTS chatrooms`);
+
 
 //Users table
 db.query(`
@@ -37,6 +39,7 @@ db.query(`
         id INT PRIMARY KEY AUTO_INCREMENT,
         userId INT,
         text VARCHAR(500),
+        likes INT,
         date DATE,
         hours INT,
         minutes INT,
