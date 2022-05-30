@@ -15,6 +15,10 @@
 
 	<div id="createPost">
 		<input id="createText" type="text">
+		<select id="categoriSelect">
+			<option value="love"> Love post</option>
+			<option value="work"> Work post</option>
+		</select>
 		<br>
 		<button id="createPostBtn" onclick="createPost()">Create New Post</button>
 	</div>
@@ -145,12 +149,13 @@
 
 	async function createPost(){
         const text = document.getElementById("createText").value;
+		const categori = document.getElementById("categoriSelect").value;
         const response = await fetch("/api/posts", {
             headers: {
                 "content-type": "application/json",
             },
             method: "POST",
-            body: `{"text": "${text}"}`
+            body: `{"text": "${text}", "categori": "${categori}"}`
         });
         const result = await response.json();
         loadPosts();
