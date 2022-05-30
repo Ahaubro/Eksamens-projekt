@@ -1,4 +1,5 @@
-<h1>Smile Posts</h1>
+<h1>Workplace smileposts</h1>
+<br>
 
 <div id="postsPos">
     <div id="posts">
@@ -7,23 +8,7 @@
 </div>
 
 
-
 <script>
-
-    setActive()
-    function setActive(){
-
-        const currentPage = window.location.pathname.substring(1)
-        let aTags = document.getElementsByTagName('a')
-        for (let i = 0; i < 4; i++) {
-            if(aTags[i].className === "active"){
-                aTags[i].id === aTags[i].className
-            }   
-        }
-        document.getElementById(currentPage).className = "active"
-    }
-
-
     const postsDiv = document.getElementById("posts");
     let posts;
 
@@ -37,14 +22,13 @@
         for(let i in posts){
             console.log(posts)
             const {id, text, userId, date, hours, minutes, categori} = posts[i];
+            const likes = posts[i].likes || 0;
 
-            if(categori!= 'home') {
-
-                const likes = posts[i].likes || 0;
+            if(categori == "work") {
 
                 const resObj = await fetch(`/getUserById/${userId}`);
                 const foundUser = await resObj.json();
-            
+        
                 postsDiv.innerHTML += ` <br> 
                     <article class="postArticle">
                         <b id="username">${foundUser.username}</b>
@@ -61,12 +45,5 @@
         }
     }
 
-    function likePost(id){
-        let likeCountElement = document.getElementById("likeCount" + id);
-        let likeCount = Number(likeCountElement.innerText);
-        likeCountElement.innerText = ++likeCount;
-        let buttonDiv = document.getElementById("likeButton" + id);
-        buttonDiv.innerHTML = "";
-    }
 
 </script>

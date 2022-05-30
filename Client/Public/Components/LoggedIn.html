@@ -1,4 +1,39 @@
-<li><a href="/smileposts" id="smileposts">Smile Posts</a></li>
+<li> <button onmouseover="showDropdown()" class="dropbtn">Smileposts</button> 
+
+    <div class="dropdown">
+        <div id="myDropdown" class="dropdown-content">
+            <a href="/smileposts" id="smileposts">Smile Posts</a>
+            <a href="/smilepostsOne" id="smileposts">Romantic posts</a>
+            <a href="/smilepostsTwo" id="smileposts">Happy work posts</a>
+        </div>
+      </div>
+</li>
+
 <li><a href="/chatrooms"  id="chatrooms">Chatrooms</a></li>
 <li><a href="/editProfile">My Profile</a></li>
 <li><button id="logoutBtn" onclick="logout()"> Logout</button></li>
+
+
+
+<script>
+
+    function showDropdown() {
+        document.getElementById("myDropdown").classList.toggle("show");
+        console.log("Kørt")
+    }
+
+
+    window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+            }
+        }
+    }
+    }
+
+</script>

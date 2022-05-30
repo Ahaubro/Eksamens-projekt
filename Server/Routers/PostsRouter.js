@@ -39,9 +39,9 @@ router.post("/api/posts/", (req, res) => {
     const hours = dateNow.getHours()
     const minutes = dateNow.getMinutes()
     //console.log(hours, minutes)
-    const {text} = req.body;
+    const { text, categori } = req.body;
     const { userID } = req.session;
-    db.query("INSERT INTO posts(text, userid, date, hours, minutes) VALUES (?, ?, ?, ?, ?)", [text, userID, dateNow, hours, minutes], (error, result) => {
+    db.query("INSERT INTO posts(text, userid, date, hours, minutes, categori) VALUES (?, ?, ?, ?, ?, ?)", [text, userID, dateNow, hours, minutes, categori], (error, result) => {
         res.send(result);
     });
 });

@@ -19,6 +19,11 @@ router.get("/api/chatrooms/:id", (req, res) => {
     });
 });
 
-
+router.post("/api/chatrooms", (req, res) => {
+    const { name } = req.body;
+    db.query("INSERT INTO chatrooms(name) VALUES (?)", [name], (error, result) => {
+        res.send(result);
+    });
+});
 
 export default router;

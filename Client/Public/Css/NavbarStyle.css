@@ -3,11 +3,7 @@ nav ul {
     margin: 0;
     overflow: hidden;
     background-color: #f07272;
-    width: 100%
-}
-
-nav li{
-    float: left;
+    width: 100%;
 }
 
 nav a{
@@ -23,6 +19,58 @@ nav a:hover:not(.active){
     background-color: #e93030;
     transition: 0.2s;
 }
+
+nav ul li{
+    float: left;
+    width: 200px;
+}
+
+/*   Leger her    */
+.dropbtn{
+    display: block;
+    font-family: Comic Sans MS;
+    padding: 18px 55px;
+    text-decoration: none;
+    font-weight: 1000;
+    background-color: #f07272;
+    border: none;
+    color: white;
+    font-size: 16px;
+}
+
+.dropbtn:hover{
+    background-color: #e93030;
+    transition: 0.2s;
+}
+
+.dropdown{
+    background-color: #f07272;
+}
+
+.dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: #f07272;
+    min-width: 191px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+  
+ 
+.dropdown-content a:hover {background-color: #ddd}
+  
+
+.show {display:block;}
+
+ /*   ---------------- */
+
 
 #logoutBtn{
     display: block;
