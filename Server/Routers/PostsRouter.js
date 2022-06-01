@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { readSync } from "fs";
 import db from "../Database/CreateConnection.js";
 import ssr from "../SSR/SSR.js"
 
@@ -15,6 +16,15 @@ const router = Router();
 
 router.get("/api/posts", (req, res) => {
     db.query("SELECT * FROM posts", (error, result) => {
+        res.send(result);
+    });
+});
+
+//Posts that are liked by user
+router.get("/api/likedPosts/:postId", (req, res) => {
+    const postId = req.params.postId;
+    const userId = req.session.userID;
+    db.query("SELECT * FROM likedPost WHERE userId = ? AND postId = ?", [userId, postId] , (error, result) => {
         res.send(result);
     });
 });
@@ -45,18 +55,24 @@ router.post("/api/posts/", (req, res) => {
     });
 });
 
-router.put("/api/posts/:id", (req, res) => {
-    const id = Number(req.params.id);
-    const {text, userId, likes} = req.body;
+router.put("/api/posts/:id", async (req, res) => {
+    const postId = Number(req.params.id);
+    const userId = req.session.userID;
 
-    
-        db.query("UPDATE posts SET  ? WHERE id = ?", [req.body, id], (error, result) => {
+    const sqlSelect = "SELECT * FROM likedPosts WHERE userId = ? AND postId = ?";
+    const foundUser = await db.query(sqlSelect, [userId, postId], function (err, result) {
+
+    if(result[0]) {
+        return res.status(500).send("No more liking")
+    } else {
+        db.query("INSERT INTO likedPosts (userId, postId, haveLiked) VALUES (?, ?, ?)", [userId, postId, 1]) 
+        db.query("UPDATE posts SET  ? WHERE id = ?", [req.body, postId], (error, result) => {
             if(error)
                 return res.send(error);
-            res.send("Succesfully updated post");
-            console.log("Kommer her " + id)
+            return res.send("Succesfully updated post");
         });
-    
+    }
+    })
 });
 
 // TIL HER ------------------------------------

@@ -11,6 +11,7 @@ db.query(`DROP TABLE IF EXISTS messages`);
 db.query(`DROP TABLE IF EXISTS posts`);
 db.query(`DROP TABLE IF EXISTS users`);
 db.query(`DROP TABLE IF EXISTS chatrooms`);
+db.query(`DROP TABLE IF EXISTS likedPosts`);
 
 
 //Users table
@@ -44,6 +45,7 @@ db.query(`
         hours INT,
         minutes INT,
         categori VARCHAR(50),
+        haveLiked BOOLEAN DEFAULT false,
         FOREIGN KEY(userId) REFERENCES users(id)
     );
 `);
@@ -53,6 +55,18 @@ db.query(`
     CREATE TABLE IF NOT EXISTS chatrooms (
         id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(80)
+    );
+`);
+
+// Posts table
+db.query(`
+    CREATE TABLE IF NOT EXISTS likedPosts (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        userId INT,
+        postId INT,
+        haveLiked BOOLEAN DEFAULT false,
+        FOREIGN KEY(userId) REFERENCES users(id),
+        FOREIGN KEY(postId) REFERENCES posts(id)
     );
 `);
 
