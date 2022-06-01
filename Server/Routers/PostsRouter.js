@@ -59,6 +59,20 @@ router.put("/api/posts/:id", async (req, res) => {
     const postId = Number(req.params.id);
     const userId = req.session.userID;
 
+    db.query("UPDATE posts SET  ? WHERE id = ?", [req.body, postId], (error, result) => {
+        if(error)
+            return res.send(error);
+        return res.send("Succesfully updated post");
+    });
+    
+   
+});
+
+
+router.put("/api/postsOnlyLikes/:id", async (req, res) => {
+    const postId = Number(req.params.id);
+    const userId = req.session.userID;
+
     const sqlSelect = "SELECT * FROM likedPosts WHERE userId = ? AND postId = ?";
     const foundUser = await db.query(sqlSelect, [userId, postId], function (err, result) {
 

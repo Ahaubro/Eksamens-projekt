@@ -14,7 +14,7 @@
 
     <div>
         <br>
-        <button type="submit" onclick="login()" class="loginButton">Login</button>
+        <button type="submit" onclick="login(), showSnackbar()" class="loginButton">Login</button>
         <br>
         <br>
         <button onclick="showRegisterModal()" class="createButton">Opret ny bruger</button>
@@ -46,7 +46,13 @@
 </div>
 <!-- Modal slutter her -->
 
-<p id="response"></p>
+<!------------- Leg med notification -------------------->
+
+ <div id="snackbar"> Login succes! </div>
+
+ <!------------- Leg med notification -------------------->
+
+ <p id="response"></p>
 
 
 <script>
@@ -116,9 +122,6 @@
             user.password = password;
         }
 
-        // FJERNEs
-        console.log(user)
-
         const res = await fetch(`/auth/signup`, {
                 headers: {
                     "content-type": "application/json"
@@ -161,6 +164,13 @@
         if (!registerModal.contains(event.target))
             hideRegisterModal();
     });
+
+    // ------------- Leg med notification --------------------
+    function showSnackbar() {
+    var x = document.getElementById("snackbar");
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
 
     
 
