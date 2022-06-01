@@ -38,16 +38,40 @@
             console.log(posts)
             const {id, text, userId, date, hours, minutes, categori} = posts[i];
 
+            // Vi er her, og vi arvejder på kun at læse de posts der er blevet liked
+            //const likedResponse = await fetch(`/api/likedPosts/${id}`);
+            //const likedResult = await likedResponse.json();
+            //likedPosts = likedResult
+
             if(categori!= 'home') {
 
                 const likes = posts[i].likes || 0;
 
-                const resObj = await fetch(`/getUserById/${userId}`);
+                const resObj = await fetch(`/api/getUserById/${userId}`);
                 const foundUser = await resObj.json();
             
                 postsDiv.innerHTML += ` <br> 
+                <article class="postArticle">
+                        <b id="username">${foundUser.username} - ${categori} post</b>
+                        <br>
+                        <span id="text${id}">${text}</span>
+                        <br>
+                        <br>
+                        <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                        <br>
+                        <span id="likeCount${id}">${likes}</span> <span>❤️</span> <div id="likeButton${id}"><button onclick="likePost(${id})">❤️</button></div>
+                    </article> 
+                    <br>`;
+            } /* else {
+
+                /*const likes = posts[i].likes || 0;
+
+                const resObj = await fetch(`/api/getUserById/${userId}`);
+                const foundUser = await resObj.json();
+
+                postsDiv.innerHTML += ` <br> 
                     <article class="postArticle">
-                        <b id="username">${foundUser.username}</b>
+                        <b id="username">${foundUser.username} - ${categori} post</b>
                         <br>
                         <span id="text${id}">${text}</span>
                         <br>
@@ -57,16 +81,30 @@
                         <span id="likeCount${id}">${likes}</span> <span>Likes</span> <div id="likeButton${id}"><button onclick="likePost(${id})">Like</button></div>
                     </article> 
                     <br>`;
-            }
+            }*/
         }
     }
 
-    function likePost(id){
+    async function likePost(id){
         let likeCountElement = document.getElementById("likeCount" + id);
         let likeCount = Number(likeCountElement.innerText);
         likeCountElement.innerText = ++likeCount;
         let buttonDiv = document.getElementById("likeButton" + id);
         buttonDiv.innerHTML = "";
+        let likes = likeCount;
+
+
+        const response = await fetch(`/api/postsOnlyLikes/` + id, {
+            headers: {
+                "content-type": "application/json",
+            },
+            method: "PUT",
+            body: JSON.stringify({likes})
+        });
+    }
+
+    async function checkLikedPosts() {
+        const res = await fetch(`/api/likedPosts`);
     }
 
 </script>

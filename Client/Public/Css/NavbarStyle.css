@@ -1,3 +1,9 @@
+nav{
+    position: sticky;
+    top: 0%;
+    z-index: 100;
+}
+
 nav ul {
     list-style-type: none;
     margin: 0;
@@ -23,6 +29,7 @@ nav a:hover:not(.active){
 nav ul li{
     float: left;
     width: 200px;
+    text-align: center;
 }
 
 /*   Leger her    */

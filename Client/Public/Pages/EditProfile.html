@@ -1,13 +1,12 @@
-<h1 id="welcome">Hello (username)</h1>
+<h1 id="welcome"></h1>
+<p>Here you can edit your smile posts and personal information</p>
 
 <div id="myPage">
 
-	<br>
-	<h3>Welcome to your page</h3>
-	<p>Here you can edit your smile posts and personal information</p>
-    <div id="profile_picture_div">
-
-    </div>
+	
+	<div id="profile_picture_div">
+	</div>
+    
 
     <br>
     <br>
@@ -36,10 +35,6 @@
 	<div id="editBtnPos">
 		<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
 	</div>
-
-	<!--<input type="file" id="image_input" accept="image/png, image/jpg">
-
-	<div id="display_image"></div>-->
 
 </div>
 
@@ -112,7 +107,7 @@
 		data.append('sampleFile', input.files[0])
 		
 
-		await fetch('/uploadPicture', {
+		await fetch('/api/uploadPicture', {
 			method: 'POST',
 			body: data
 		})
@@ -127,7 +122,6 @@
 		reader.addEventListener("load", () => {
 			uploaded_image = reader.result;
 			pic = document.getElementById("display_image").style.backgroundImage = `url(${uploaded_image})`;
-			//console.log("Just pic: " + pic)
 		});
 		reader.readAsDataURL(this.files[0]);
 	})
@@ -151,7 +145,7 @@
             console.log(posts)
             const {id, text, userId, date, hours, minutes} = posts[i];
 
-            const resObj = await fetch(`/getUserById/${userId}`);
+            const resObj = await fetch(`/api/getUserById/${userId}`);
             const foundUser = await resObj.json();
            
             postsDiv.innerHTML += ` <br> 
@@ -213,10 +207,9 @@
             method: "PUT",
             body: JSON.stringify({text, userId})
         });
-        //const result = await response.json();
+
         resMessage = await response.text();
         document.getElementById("response").innerText=resMessage
-        //console.log(result);
         
         loadPosts();
     }
@@ -260,7 +253,7 @@
     responseMessage = ""
     getProfileInformation()
     async function getProfileInformation() {
-        const res = await fetch(`/getProfile`)
+        const res = await fetch(`/api/getProfile`)
         const user = await res.json()
         uname.value = user.username
         fname.value = user.firstname
@@ -273,16 +266,19 @@
         zip.value = user.zipcode
         colorSelect.value = user.profilecolor
 
+		
+		document.getElementById("welcome").innerText = "Hello" + " " + user.username + ", welcome to your page"
+
         display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
         profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
-		//Profilew pic testing
+		/*//Profilew pic testing
 		let data = user.profilePicture
 		let binaryData = [];
 		binaryData.push(data);
 
 		display_image.src = window.URL.createObjectURL(new Blob(binaryData.data, {type: "image/jpeg"}))
 
-		console.log("Læses her d_i.src: " + display_image.src)
+		console.log("Læses her d_i.src: " + display_image.src)*/
         
     };
 	
@@ -316,7 +312,7 @@
 		if (pass.value != cpass.value)
 			return alert("the two passwords are not the same")
 		console.log(user)
-		const res = await fetch(`/editProfile`, {
+		const res = await fetch(`/api/editProfile`, {
             headers: {
                 "content-type": "application/json"
             },

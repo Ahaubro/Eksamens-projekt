@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { readSync } from "fs";
 import db from "../Database/CreateConnection.js";
 import ssr from "../SSR/SSR.js"
 
@@ -15,6 +16,15 @@ const router = Router();
 
 router.get("/api/posts", (req, res) => {
     db.query("SELECT * FROM posts", (error, result) => {
+        res.send(result);
+    });
+});
+
+//Posts that are liked by user
+router.get("/api/likedPosts/:postId", (req, res) => {
+    const postId = req.params.postId;
+    const userId = req.session.userID;
+    db.query("SELECT * FROM likedPost WHERE userId = ? AND postId = ?", [userId, postId] , (error, result) => {
         res.send(result);
     });
 });
@@ -38,7 +48,6 @@ router.post("/api/posts/", (req, res) => {
     const dateNow = new Date();
     const hours = dateNow.getHours()
     const minutes = dateNow.getMinutes()
-    //console.log(hours, minutes)
     const { text, categori } = req.body;
     const { userID } = req.session;
     db.query("INSERT INTO posts(text, userid, date, hours, minutes, categori) VALUES (?, ?, ?, ?, ?, ?)", [text, userID, dateNow, hours, minutes, categori], (error, result) => {
@@ -46,20 +55,38 @@ router.post("/api/posts/", (req, res) => {
     });
 });
 
-router.put("/api/posts/:id", (req, res) => {
-    const id = Number(req.params.id);
-    const {text, userId} = req.body;
+router.put("/api/posts/:id", async (req, res) => {
+    const postId = Number(req.params.id);
+    const userId = req.session.userID;
 
-    console.log("Userid: " +  userId + "sessionId: " + req.session.userID);
-    if(userId == req.session.userID) {
-        db.query("UPDATE posts SET text = ? WHERE id = ?", [text, id], (error, result) => {
+    db.query("UPDATE posts SET  ? WHERE id = ?", [req.body, postId], (error, result) => {
+        if(error)
+            return res.send(error);
+        return res.send("Succesfully updated post");
+    });
+    
+   
+});
+
+
+router.put("/api/postsOnlyLikes/:id", async (req, res) => {
+    const postId = Number(req.params.id);
+    const userId = req.session.userID;
+
+    const sqlSelect = "SELECT * FROM likedPosts WHERE userId = ? AND postId = ?";
+    const foundUser = await db.query(sqlSelect, [userId, postId], function (err, result) {
+
+    if(result[0]) {
+        return res.status(500).send("No more liking")
+    } else {
+        db.query("INSERT INTO likedPosts (userId, postId, haveLiked) VALUES (?, ?, ?)", [userId, postId, 1]) 
+        db.query("UPDATE posts SET  ? WHERE id = ?", [req.body, postId], (error, result) => {
             if(error)
                 return res.send(error);
-            res.send("Succesfully updated post");
+            return res.send("Succesfully updated post");
         });
-    } else {
-        res.status(400).send("You can only edit your own posts")
     }
+    })
 });
 
 // TIL HER ------------------------------------
