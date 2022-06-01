@@ -38,7 +38,6 @@ router.post("/api/posts/", (req, res) => {
     const dateNow = new Date();
     const hours = dateNow.getHours()
     const minutes = dateNow.getMinutes()
-    //console.log(hours, minutes)
     const { text, categori } = req.body;
     const { userID } = req.session;
     db.query("INSERT INTO posts(text, userid, date, hours, minutes, categori) VALUES (?, ?, ?, ?, ?, ?)", [text, userID, dateNow, hours, minutes, categori], (error, result) => {
@@ -48,18 +47,16 @@ router.post("/api/posts/", (req, res) => {
 
 router.put("/api/posts/:id", (req, res) => {
     const id = Number(req.params.id);
-    const {text, userId} = req.body;
+    const {text, userId, likes} = req.body;
 
-    console.log("Userid: " +  userId + "sessionId: " + req.session.userID);
-    if(userId == req.session.userID) {
-        db.query("UPDATE posts SET text = ? WHERE id = ?", [text, id], (error, result) => {
+    
+        db.query("UPDATE posts SET  ? WHERE id = ?", [req.body, id], (error, result) => {
             if(error)
                 return res.send(error);
             res.send("Succesfully updated post");
+            console.log("Kommer her " + id)
         });
-    } else {
-        res.status(400).send("You can only edit your own posts")
-    }
+    
 });
 
 // TIL HER ------------------------------------

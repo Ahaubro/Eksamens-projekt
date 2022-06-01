@@ -23,6 +23,7 @@ nav a:hover:not(.active){
 nav ul li{
     float: left;
     width: 200px;
+    text-align: center;
 }
 
 /*   Leger her    */

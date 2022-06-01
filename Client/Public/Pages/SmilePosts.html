@@ -61,12 +61,22 @@
         }
     }
 
-    function likePost(id){
+    async function likePost(id){
         let likeCountElement = document.getElementById("likeCount" + id);
         let likeCount = Number(likeCountElement.innerText);
         likeCountElement.innerText = ++likeCount;
         let buttonDiv = document.getElementById("likeButton" + id);
         buttonDiv.innerHTML = "";
+        let likes = likeCount;
+        console.log(likes)
+
+        const response = await fetch(`/api/posts/` + id, {
+            headers: {
+                "content-type": "application/json",
+            },
+            method: "PUT",
+            body: JSON.stringify({likes})
+        });
     }
 
 </script>

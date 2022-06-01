@@ -122,7 +122,6 @@
 		reader.addEventListener("load", () => {
 			uploaded_image = reader.result;
 			pic = document.getElementById("display_image").style.backgroundImage = `url(${uploaded_image})`;
-			//console.log("Just pic: " + pic)
 		});
 		reader.readAsDataURL(this.files[0]);
 	})
@@ -208,10 +207,9 @@
             method: "PUT",
             body: JSON.stringify({text, userId})
         });
-        //const result = await response.json();
+
         resMessage = await response.text();
         document.getElementById("response").innerText=resMessage
-        //console.log(result);
         
         loadPosts();
     }
