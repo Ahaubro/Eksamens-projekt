@@ -9,3 +9,10 @@
 .chatroomBtns{
     background-color: rgb(82, 243, 82);
 }
+
+#response{
+    position: fixed;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+}

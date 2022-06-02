@@ -4,6 +4,7 @@
     <input id="chatroomName"/>
     <button onclick="createChatroom()">Create</button>
 </div>
+<p id="response"></p>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -42,17 +43,36 @@
             messages.innerHTML+=`<p> ${username} <br> ${message} </p>`
         } 
     });
-    
+
     async function sendMessage(roomId) {
-        const message = document.getElementById("messageInput").value;
-        const response = await fetch("/api/chat_messages", {
-            headers: {"content-type": "application/json"},
-            method: "POST",
-            body: JSON.stringify({message, roomId})
-        });
-        const username = await response.text();
-        console.log(username);
-        socket.emit("sent-message", {username, message, roomId});
+
+        document.getElementById("response").innerText = "";
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value;
+        if(message.length > 200)
+            document.getElementById("response").innerText = "Message can not be over 200 characters";
+        else{
+            const response = await fetch("/api/chat_messages", {
+                headers: {"content-type": "application/json"},
+                method: "POST",
+                body: JSON.stringify({message, roomId})
+            });
+            const username = await response.text();
+            console.log(username);
+            socket.emit("sent-message", {username, message, roomId});
+            messageInput.value = "";
+        }
+    }
+
+    function updateMessageLength(){
+        let messageInput = document.getElementById("messageInput");
+        let lengthLimit = document.getElementById("lengthLimit");
+        let msgLength = document.getElementById("msgLength");
+        msgLength.innerText = messageInput.value.length;
+        if(messageInput.value.length > 200 && lengthLimit.style.color != "red")
+            lengthLimit.style.color = "red";
+        else if(messageInput.value.length <= 200 && lengthLimit.style.color != "black")
+            lengthLimit.style.color = "black";
     }
 
     let chatroomsDiv = document.getElementById("chatroomsList");
@@ -84,7 +104,8 @@
             <h1> ${name} </h1>
             <div id="messages"></div>
 
-            <input placeholder="Message" id="messageInput">
+            <input placeholder="Message" id="messageInput" onkeyup="updateMessageLength()"/>
+            <span id="lengthLimit"><span id="msgLength">0</span>/200</span>
             <button id="sendBtn" onclick="sendMessage(${id})">Send message</button>
             <button id="leaveBtn" onclick="leaveChatroom()">Leave chatroom</button>
         `;
