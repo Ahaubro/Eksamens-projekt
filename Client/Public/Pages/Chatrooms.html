@@ -27,6 +27,15 @@
     // Chatrooms
     let currentRoomId = 0;
 
+    async function loadMessages(){
+        const response = await fetch("/api/chat_messages/"+currentRoomId);
+        const oldMessages = await response.json();
+        for(let i in oldMessages){
+            const {username, message} = oldMessages[i];
+            messages.innerHTML+=`<p> ${username} <br> ${message} </p>`;
+        }
+    }
+
     const socket = io();
     socket.on("recieved-message", ({username, message, roomId}) => {
         if(currentRoomId == roomId) {

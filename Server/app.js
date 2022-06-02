@@ -57,23 +57,21 @@ app.use(postsRouter);
 
 app.use(chatroomsRouter);
 
+app.get("/api/chat_messages/:roomId", (req, res) => {
+    const {roomId} = req.params;
+    db.query("SELECT * FROM chat_messages LEFT JOIN users ON chat_messages.userId = users.id WHERE roomId = ?", [roomId], (error, messages) => {
+        console.log(messages)
+        res.send(messages);
+    });
+});
+
 app.post("/api/chat_messages", (req, res) => {
     console.log("Saving message");
     const {message, roomId} = req.body;
     const userId = req.session.userID;
-    console.log(userId);
-    db.query("INSERT INTO chat_messages(userId, message, roomId) VALUES (?, ?, ?)", [userId, message, roomId], (error1, result1) => {
-        if(error1)
-            console.log("Error getting user:", error1)
-        else
-            console.log("User from userId:", result1);
-        console.log("Getting username");
-        db.query("SELECT * FROM users WHERE id = ?", [userId], (error2, result2) => {
-            if(error2)
-                console.log("Error getting user:", error2)
-            else
-                console.log("User from userId:", result2);
-            res.send(result2[0].username);
+    db.query("INSERT INTO chat_messages(userId, message, roomId) VALUES (?, ?, ?)", [userId, message, roomId], () => {
+        db.query("SELECT * FROM users WHERE id = ?", [userId], (error, users) => {
+            res.send(users[0].username);
         });
     });
 });
@@ -85,7 +83,6 @@ const io = new Server(server);
 import db from "./Database/CreateConnection.js";
 io.on("connection", socket => {
     socket.on("sent-message", ({username, message, roomId}) => {
-        console.log(username);
         socket.emit("recieved-message", {username, message, roomId});
         socket.broadcast.emit("recieved-message", {username, message, roomId}); 
     });
