@@ -33,19 +33,18 @@
         const oldMessages = await response.json();
         for(let i in oldMessages){
             const {username, message} = oldMessages[i];
-            messages.innerHTML+=`<p> ${username} <br> ${message} </p>`;
+            messages.innerHTML+=`<p><b>${username}:</b> ${message}</p>`;
         }
     }
 
     const socket = io();
     socket.on("recieved-message", ({username, message, roomId}) => {
         if(currentRoomId == roomId) {
-            messages.innerHTML+=`<p> ${username} <br> ${message} </p>`
+            messages.innerHTML+=`<p><b>${username}:</b> ${message}</p>`;
         } 
     });
 
     async function sendMessage(roomId) {
-
         document.getElementById("response").innerText = "";
         const messageInput = document.getElementById("messageInput");
         const message = messageInput.value;
@@ -61,6 +60,7 @@
             console.log(username);
             socket.emit("sent-message", {username, message, roomId});
             messageInput.value = "";
+            updateMessageLength();
         }
     }
 
@@ -85,9 +85,9 @@
         chatrooms = result;
         chatroomsDiv.innerHTML = "";
         for(let i in chatrooms){
-            const {id, name} = chatrooms[i];
+            const {id, name, username} = chatrooms[i];
             chatroomsDiv.innerHTML+= `<p>
-                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> ${name} </button>
+                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> <h2>${name}</h2><span>By ${username}<span></button>
             </p>`;
         }
     }
@@ -128,6 +128,7 @@
     }
 
     async function createChatroom(){
+        document.getElementById("response").innerText = "";
         let chatroomsDiv = document.getElementById("chatroomsList");
         const name = document.getElementById("chatroomName").value;
         const response = await fetch("/api/chatrooms", {
@@ -135,6 +136,8 @@
             method: "POST",
             body: JSON.stringify({name})
         });
+        const result = await response.text();
+        document.getElementById("response").innerText = result;
         loadChatrooms(chatroomsDiv);
     }
 

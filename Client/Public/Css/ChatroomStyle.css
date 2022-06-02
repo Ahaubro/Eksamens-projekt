@@ -16,3 +16,7 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
+#messageInput{
+    width: 500px;
+}

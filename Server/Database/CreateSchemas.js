@@ -10,8 +10,8 @@ const alexHashPass = await bcrypt.hash("0", saltRounds);
 db.query(`DROP TABLE IF EXISTS chat_messages`);
 db.query(`DROP TABLE IF EXISTS likedPosts`);
 db.query(`DROP TABLE IF EXISTS posts`);
-db.query(`DROP TABLE IF EXISTS users`);
 db.query(`DROP TABLE IF EXISTS chatrooms`);
+db.query(`DROP TABLE IF EXISTS users`);
 
 
 //Users table
@@ -54,7 +54,9 @@ db.query(`
 db.query(`
     CREATE TABLE IF NOT EXISTS chatrooms (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        name VARCHAR(80)
+        creatorId INT,
+        name VARCHAR(80),
+        FOREIGN KEY(creatorId) REFERENCES users(id)
     );
 `);
 
@@ -98,7 +100,7 @@ db.query(`
 `);
 
 db.query(`
-    INSERT INTO chatrooms(name) VALUES ('Chatroom - Alfa'), ('Chatroom - Beta'), ('Chatroom - Delta');
+    INSERT INTO chatrooms(creatorId, name) VALUES (1, 'Chatroom - Alfa'), (1, 'Chatroom - Beta'), (2, 'Chatroom - Delta');
 `);
 
 db.end();
