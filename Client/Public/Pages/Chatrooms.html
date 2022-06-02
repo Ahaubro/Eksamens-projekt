@@ -34,10 +34,16 @@
         } 
     });
     
-    function sendMessage(roomId) {
-
-        const input = document.getElementById("messageInput").value;
-        socket.emit("sent-message", {username: "Test", message: input, roomId});
+    async function sendMessage(roomId) {
+        const message = document.getElementById("messageInput").value;
+        const response = await fetch("/api/chat_messages", {
+            headers: {"content-type": "application/json"},
+            method: "POST",
+            body: JSON.stringify({message, roomId})
+        });
+        const username = await response.text();
+        console.log(username);
+        socket.emit("sent-message", {username, message, roomId});
     }
 
     let chatroomsDiv = document.getElementById("chatroomsList");
@@ -73,6 +79,8 @@
             <button id="sendBtn" onclick="sendMessage(${id})">Send message</button>
             <button id="leaveBtn" onclick="leaveChatroom()">Leave chatroom</button>
         `;
+
+        loadMessages();
     }
 
     function leaveChatroom() {

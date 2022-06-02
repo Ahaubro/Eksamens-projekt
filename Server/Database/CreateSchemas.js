@@ -7,11 +7,11 @@ const thorHashPass = await bcrypt.hash("1234", saltRounds);
 const alexHashPass = await bcrypt.hash("0", saltRounds);
 
 //Resetting if tables exists
-db.query(`DROP TABLE IF EXISTS messages`);
+db.query(`DROP TABLE IF EXISTS chat_messages`);
+db.query(`DROP TABLE IF EXISTS likedPosts`);
 db.query(`DROP TABLE IF EXISTS posts`);
 db.query(`DROP TABLE IF EXISTS users`);
 db.query(`DROP TABLE IF EXISTS chatrooms`);
-db.query(`DROP TABLE IF EXISTS likedPosts`);
 
 
 //Users table
@@ -67,6 +67,18 @@ db.query(`
         haveLiked BOOLEAN DEFAULT false,
         FOREIGN KEY(userId) REFERENCES users(id),
         FOREIGN KEY(postId) REFERENCES posts(id)
+    );
+`);
+
+// Messages table
+db.query(`
+    CREATE TABLE IF NOT EXISTS chat_messages (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        message VARCHAR(200),
+        userId INT,
+        roomId INT,
+        FOREIGN KEY(roomId) REFERENCES chatrooms(id),
+        FOREIGN KEY(userId) REFERENCES users(id)
     );
 `);
 
