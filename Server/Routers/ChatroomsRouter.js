@@ -22,7 +22,6 @@ router.post("/api/chatrooms", (req, res) => {
     const { name } = req.body;
     const userId = req.session.userID;
     db.query("SELECT COUNT(*) AS count FROM chatrooms WHERE creatorId = ?", [userId], (error, result) => {
-        console.log(result);
         if(result[0].count < 3){
             db.query("INSERT INTO chatrooms(creatorId, name) VALUES (?, ?)", [userId, name], (error, result) => {
                 res.send(`Created chatroom: ${name}`);

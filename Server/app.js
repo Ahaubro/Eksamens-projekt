@@ -37,6 +37,24 @@ app.get("/smilepostsTwo", (req, res) => res.send(SSR.loggedInDependent(SSR.smile
 app.get("/login", (req, res) => res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID)) );
 app.get("/editProfile", (req, res) => res.send(SSR.loggedInDependent(SSR.editPage, req.session.userID)) );
 
+app.get("/profile/:id", async (req, res) => {
+    const id = req.params.id;
+    db.query("SELECT * FROM users WHERE id = ?", [id], (error, result) => {
+        if (error)
+            res.send(error);
+        else if (result[0]) {
+            //let { username, firstname, middlename, lastname, birthday, address, country, city,
+            //zipcode, profilecolor, profilepicture } = result[0];
+            const user = result[0];
+            console.log(user);
+            res.send(SSR.loggedInDependent(SSR.loadProfilePage(user), req.session.userID));
+        } else {
+            res.status = 400;
+            res.send("didnt find anything")
+        }
+    })
+});
+
 //Skal nok ikke bruges
 /*const baseLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
