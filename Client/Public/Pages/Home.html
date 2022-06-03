@@ -50,7 +50,7 @@
                 const foundUsername = await res.text();
                 postsDiv.innerHTML += ` <br> 
                 <article class="postArticle">
-                    <b id="username">${foundUsername}</b>
+                    <a href="./profile/${userId}"><b id="username">${foundUsername}</b></a>
                     <br>
                     <span id="text${id}">${text}</span>
                     <br>

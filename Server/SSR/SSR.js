@@ -9,10 +9,12 @@ const SSR = {
     replace: function(page, replacements){
         for(let key in replacements){
             let replacement = replacements[key];
-            if(replacement[0] === '/'){
-                replacement = this.loadFile(replacement);
-            }
-            page = page.replace('%%' + key.toUpperCase() + '%%', replacement);
+            if(replacement){
+                if(replacement[0] === '/')
+                    replacement = this.loadFile(replacement);
+                page = page.replace('%%' + key.toUpperCase() + '%%', replacement);
+            }else
+                page = page.replace('%%' + key.toUpperCase() + '%%', "");
         }
         return page;
     }
@@ -31,13 +33,25 @@ function loggedInDependent(page, isLoggedIn){
     }
 }
 
+function loadProfilePage(user){
+    SSR.directory = '../../Client/Public/Pages';
+    const profilePage = SSR.replace(templatePage, {
+        title: 'Smiles - ' + user.username + ' Profile',
+        styles: profileStyles,
+        content: '/Profile.html'
+    });
+    const {username, firstname, middlename, lastname} = user;
+    console.log({username, firstname, middlename, lastname});
+    return SSR.replace(profilePage, {username, firstname, middlename, lastname});
+}
+
 const pageStylesDirectory = './Css';
 const homeStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/HomeStyle.css">`;
 const chatroomStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/ChatroomStyle.css">`;
 const smilePostsStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/SmilePostsStyle.css">`;
 const loginStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/LoginStyle.css">`;
 const editStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/EditStyle.css">`;
-
+const profileStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/ProfileStyle.css">`;
 
 SSR.directory = '../../Client/Public/Pages';
 const templatePage_Template = SSR.loadFile('/TemplatePage.html');
@@ -93,5 +107,6 @@ export default {
     editPage,
     smilePostsPageOne,
     smilePostsPageTwo,
-    loggedInDependent
+    loggedInDependent,
+    loadProfilePage
 };
