@@ -30,12 +30,28 @@ app.use(session({
 
 import SSR from "./SSR/SSR.js";
 app.get("/", (req, res) => res.send(SSR.loggedInDependent(SSR.homePage, req.session.userID)));
-app.get("/chatrooms", (req, res) => res.send(SSR.loggedInDependent(SSR.chatroomsPage, req.session.userID)));
-app.get("/smileposts", (req, res) => res.send(SSR.loggedInDependent(SSR.smilePostsPage, req.session.userID)) );
-app.get("/smilepostsOne", (req, res) => res.send(SSR.loggedInDependent(SSR.smilePostsPageOne, req.session.userID)) );
-app.get("/smilepostsTwo", (req, res) => res.send(SSR.loggedInDependent(SSR.smilePostsPageTwo, req.session.userID)) );
+app.get("/chatrooms", (req, res) => {
+    if(!req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.chatroomsPage, req.session.userID));
+});
+app.get("/smileposts", (req, res) => {
+    if(!req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.smilePostsPage, req.session.userID))
+});
+app.get("/smilepostsOne", (req, res) => {
+    if(!req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.smilePostsPageOne, req.session.userID))
+});
+app.get("/smilepostsTwo", (req, res) => {
+    if(!req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.smilePostsPageTwo, req.session.userID))
+});
+app.get("/editProfile", (req, res) => {
+    if(!req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.editPage, req.session.userID))
+});
 app.get("/login", (req, res) => res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID)) );
-app.get("/editProfile", (req, res) => res.send(SSR.loggedInDependent(SSR.editPage, req.session.userID)) );
+
 
 app.get("/profile/:id", async (req, res) => {
     const id = req.params.id;
