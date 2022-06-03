@@ -21,10 +21,10 @@ router.get("/api/posts", (req, res) => {
 });
 
 //Posts that are liked by user
-router.get("/api/likedPosts/:postId", (req, res) => {
-    const postId = req.params.postId;
+router.get("/api/likedPosts/", (req, res) => {
     const userId = req.session.userID;
-    db.query("SELECT * FROM likedPost WHERE userId = ? AND postId = ?", [userId, postId] , (error, result) => {
+    db.query("SELECT * FROM likedposts WHERE userId = ?", [userId] , (error, result) => {
+        if(error) throw error;
         res.send(result);
     });
 });
@@ -73,20 +73,31 @@ router.put("/api/postsOnlyLikes/:id", async (req, res) => {
     const postId = Number(req.params.id);
     const userId = req.session.userID;
 
-    const sqlSelect = "SELECT * FROM likedPosts WHERE userId = ? AND postId = ?";
-    const foundUser = await db.query(sqlSelect, [userId, postId], function (err, result) {
+    // const sqlSelect = "SELECT * FROM likedPosts WHERE userId = ? AND postId = ?";
+    // const foundUser = await db.query(sqlSelect, [userId, postId], function (err, result) {
 
-    if(result[0]) {
-        return res.status(500).send("No more liking")
-    } else {
+    // if(result[0]) {
+    //     return res.status(500).send("No more liking")
+    // } else {
         db.query("INSERT INTO likedPosts (userId, postId, haveLiked) VALUES (?, ?, ?)", [userId, postId, 1]) 
-        db.query("UPDATE posts SET  ? WHERE id = ?", [req.body, postId], (error, result) => {
+        db.query("UPDATE posts SET ? WHERE id = ?", [req.body, postId], (error, result) => {
             if(error)
                 return res.send(error);
             return res.send("Succesfully updated post");
         });
-    }
-    })
+    // }
+    // })
+});
+
+router.delete("/api/unlike/:postId", (req, res) => {
+    const postId = Number(req.params.postId);
+    console.log("BACKEND_ " + postId)
+    
+    db.query("DELETE FROM likedposts WHERE postId = ?", [postId], (error, result) => {
+        if(error)
+            return res.send(error);
+        res.send("The post have been deleted");
+    });
 });
 
 // TIL HER ------------------------------------
@@ -95,6 +106,9 @@ router.delete("/api/posts/:id/:userId", (req, res) => {
     const id = Number(req.params.id);
     const userId = Number(req.params.userId);
     if(userId == req.session.userID) {
+        db.query("DELETE FROM likedposts WHERE postId = ?", [id], (error) => {
+            if (error) throw error;
+        })
         db.query("DELETE FROM posts WHERE id = ?", [id], (error, result) => {
             if(error)
                 return res.send(error);
