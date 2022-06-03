@@ -42,6 +42,8 @@ db.query(`
         userId INT,
         text VARCHAR(500),
         likes INT,
+        hearts INT,
+        cares INT,
         date DATE,
         hours INT,
         minutes INT,
@@ -68,6 +70,8 @@ db.query(`
         userId INT,
         postId INT,
         haveLiked BOOLEAN DEFAULT false,
+        haveCared BOOLEAN DEFAULT false,
+        haveHearted BOOLEAN DEFAULT false,
         FOREIGN KEY(userId) REFERENCES users(id),
         FOREIGN KEY(postId) REFERENCES posts(id)
     );

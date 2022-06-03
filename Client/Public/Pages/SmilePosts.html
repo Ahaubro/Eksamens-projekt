@@ -45,8 +45,14 @@
 
             if (categori != 'home') {
                 const likes = posts[i].likes || 0;
+                const hearts = posts[i].hearts || 0;
+                const cares = posts[i].cares || 0;
                 const resObj = await fetch(`/api/getUserById/${userId}`);
                 const foundUser = await resObj.json();
+                
+                const like = "like";
+                const heart = "heart"
+                const care = "care"
 
                 postsDiv.innerHTML += ` <br> 
                             <article class="postArticle">
@@ -59,10 +65,19 @@
                                 <br`
 
                 if (likedPosts.find((post) => post.postId == id)) {
-                    postsDiv.innerHTML += `<span id="likeCount${id}">${likes}</span> <span>Unlike</span> <div id="likeButton${id}"><button onclick="unlikePost(${id})">Unlike</button></div>`
+                    postsDiv.innerHTML += `
+                    <span id="likeCount${id}">${likes}</span> <span>Remove like</span> <div id="likeButton${id}"><button data-reaction="like" onclick="unlikePost(${id})">Unlike</button>
+                    <span id="likeCount${id}">${hearts}</span> <span>Remove heart</span> <div id="likeButton${id}"><button data-reaction="heart" onclick="unlikePost(${id})">Unlike</button>    
+                    <span id="likeCount${id}">${cares}</span> <span>Remove care</span> <div id="likeButton${id}"><button data-reaction="care" onclick="unlikePost(${id})">Unlike</button>
+                    </div>`
 
                 } else {
-                    postsDiv.innerHTML += `<span id="likeCount${id}">${likes}</span> <span>❤️</span> <div id="likeButton${id}"><button onclick="likePost(${id})">❤️</button></div>`;
+                    console.log(like + " " + care + " " + " " + heart)
+                    postsDiv.innerHTML += `
+                    <span id="likeCount${id}">${likes}</span> <span>😍</span> <div id="likeButton${id}"><button data-reaction="like" onclick="likePost(${id}, 'like')">😍</button>
+                    <span id="heartCount${id}">${hearts}</span> <span>❤️</span> <div id="heartButton${id}"><button data-reaction="heart" onclick="likePost(${id}, 'heart')">❤️</button>
+                    <span id="careCount${id}">${cares}</span> <span>🥰</span> <div id="careButton${id}"><button data-reaction="care" onclick="likePost(${id}, 'care')">🥰</button>
+                                </div>`;
                 }
                 postsDiv.innerHTML += `</article> 
                             <br>`
@@ -71,27 +86,44 @@
         }
     }
 
-    async function likePost(id) {
-        let likeCountElement = document.getElementById("likeCount" + id);
-        let likeCount = Number(likeCountElement.innerText);
-        likeCountElement.innerText = ++likeCount;
-        let buttonDiv = document.getElementById("likeButton" + id);
-        buttonDiv.innerHTML = "";
-        let likes = likeCount;
+    async function likePost(id, reaction) {
+        // let likeCountElement = document.getElementById("likeCount" + id);
+        // let heartCountElement = document.getElementById("heartCount" + id);
+        // let careCountElement = document.getElementById("careCount" + id);
+
+        // let likeCount = Number(likeCountElement.innerText);
+        // let heartCount = Number(heartCountElement.innerText);
+        // let careCount = Number(careCountElement.innerText);
+
+        // likeCountElement.innerText = ++likeCount;
+        // heartCountElement.innerText = ++likeCount;
+        // careCountElement.innerText = ++likeCount;
+
+        // let likeButtonDiv = document.getElementById("likeButton" + id + reaction);
+        // let heartButtonDiv = document.getElementById("heartButton" + id + reaction);
+        // let careButtonDiv = document.getElementById("careButton" + id + reaction);
+
+        // likeButtonDiv.innerHTML = "";
+        // heartButtonDiv.innerHTML = "";
+        // careButtonDiv.innerHTML = "";
 
 
-        const response = await fetch(`/api/postsOnlyLikes/` + id, {
+
+        console.log("HALO HALLLo")
+        // const reaction = document.querySelector("data-reaction")
+        // console.log(reaction)
+        const response = await fetch(`/api/postsOnlyLikes/${id}`, {
             headers: {
                 "content-type": "application/json",
             },
             method: "PUT",
-            body: JSON.stringify({ likes })
+            body: JSON.stringify({ reaction })
         });
 
         loadPosts();
     }
 
-    async function unlikePost(id) {
+    async function unlikePost(id, reaction) {
         let likeCountElement = document.getElementById("likeCount" + id);
         let likeCount = Number(likeCountElement.innerText);
         likeCountElement.innerText = --likeCount;
@@ -101,12 +133,12 @@
         console.log(likes)
 
 
-        const response = await fetch(`/api/postsOnlyLikes/` + id, {
+        const response = await fetch(`/api/postsOnlyLikes/${id}`, {
             headers: {
                 "content-type": "application/json",
             },
             method: "PUT",
-            body: JSON.stringify({ likes })
+            body: JSON.stringify({ reaction })
         });
 
         const deleteResponse = await fetch(`/api/unlike/` + id, {
