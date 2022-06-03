@@ -5,6 +5,7 @@ const saltRounds = parseInt(process.env.SALTROUNDS);
 
 const thorHashPass = await bcrypt.hash("1234", saltRounds);
 const alexHashPass = await bcrypt.hash("0", saltRounds);
+const malteHashPass = await bcrypt.hash("0", saltRounds);
 
 //Resetting if tables exists
 db.query(`DROP TABLE IF EXISTS chat_messages`);
@@ -88,7 +89,7 @@ db.query(`
 // Dummy data til db
 db.query(`
     INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}'),
-    ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}');
+    ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}'), ('malte', 'malte@hartvith.dk', '${malteHashPass}');
 `);
 
 db.query(`
