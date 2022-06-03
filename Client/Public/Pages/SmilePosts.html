@@ -11,14 +11,14 @@
 <script>
 
     setActive()
-    function setActive(){
+    function setActive() {
 
         const currentPage = window.location.pathname.substring(1)
         let aTags = document.getElementsByTagName('a')
         for (let i = 0; i < 4; i++) {
-            if(aTags[i].className === "active"){
+            if (aTags[i].className === "active") {
                 aTags[i].id === aTags[i].className
-            }   
+            }
         }
         document.getElementById(currentPage).className = "active"
     }
@@ -29,63 +29,49 @@
 
     loadPosts();
 
-    async function loadPosts(){
+    async function loadPosts() {
         const response = await fetch("/api/posts");
         const result = await response.json();
         posts = result;
         postsDiv.innerHTML = "";
-        for(let i in posts){
-            console.log(posts)
-            const {id, text, userId, date, hours, minutes, categori} = posts[i];
 
-            // Vi er her, og vi arvejder på kun at læse de posts der er blevet liked
-            //const likedResponse = await fetch(`/api/likedPosts/${id}`);
-            //const likedResult = await likedResponse.json();
-            //likedPosts = likedResult
+        const likedResponse = await fetch(`/api/likedPosts/`);
+        const likedResult = await likedResponse.json();
+        likedPosts = likedResult
+        console.log(likedPosts)
 
-            if(categori!= 'home') {
+        for (let i in posts) {
+            const { id, text, userId, date, hours, minutes, categori } = posts[i];
 
+            if (categori != 'home') {
                 const likes = posts[i].likes || 0;
-
-                const resObj = await fetch(`/api/getUserById/${userId}`);
-                const foundUser = await resObj.json();
-            
-                postsDiv.innerHTML += ` <br> 
-                <article class="postArticle">
-                        <b id="username">${foundUser.username} - ${categori} post</b>
-                        <br>
-                        <span id="text${id}">${text}</span>
-                        <br>
-                        <br>
-                        <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
-                        <br>
-                        <span id="likeCount${id}">${likes}</span> <span>❤️</span> <div id="likeButton${id}"><button onclick="likePost(${id})">❤️</button></div>
-                    </article> 
-                    <br>`;
-            } /* else {
-
-                /*const likes = posts[i].likes || 0;
-
                 const resObj = await fetch(`/api/getUserById/${userId}`);
                 const foundUser = await resObj.json();
 
                 postsDiv.innerHTML += ` <br> 
-                    <article class="postArticle">
-                        <b id="username">${foundUser.username} - ${categori} post</b>
-                        <br>
-                        <span id="text${id}">${text}</span>
-                        <br>
-                        <br>
-                        <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
-                        <br>
-                        <span id="likeCount${id}">${likes}</span> <span>Likes</span> <div id="likeButton${id}"><button onclick="likePost(${id})">Like</button></div>
-                    </article> 
-                    <br>`;
-            }*/
+                            <article class="postArticle">
+                                <b id="username">${foundUser.username} - ${categori} post</b>
+                                <br>
+                                <span id="text${id}">${text}</span>
+                                <br>
+                                <br>
+                                <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                                <br`
+
+                if (likedPosts.find((post) => post.postId == id)) {
+                    postsDiv.innerHTML += `<span id="likeCount${id}">${likes}</span> <span>Unlike</span> <div id="likeButton${id}"><button onclick="unlikePost(${id})">Unlike</button></div>`
+
+                } else {
+                    postsDiv.innerHTML += `<span id="likeCount${id}">${likes}</span> <span>❤️</span> <div id="likeButton${id}"><button onclick="likePost(${id})">❤️</button></div>`;
+                }
+                postsDiv.innerHTML += `</article> 
+                            <br>`
+
+            }
         }
     }
 
-    async function likePost(id){
+    async function likePost(id) {
         let likeCountElement = document.getElementById("likeCount" + id);
         let likeCount = Number(likeCountElement.innerText);
         likeCountElement.innerText = ++likeCount;
@@ -99,8 +85,35 @@
                 "content-type": "application/json",
             },
             method: "PUT",
-            body: JSON.stringify({likes})
+            body: JSON.stringify({ likes })
         });
+
+        loadPosts();
+    }
+
+    async function unlikePost(id) {
+        let likeCountElement = document.getElementById("likeCount" + id);
+        let likeCount = Number(likeCountElement.innerText);
+        likeCountElement.innerText = --likeCount;
+        let buttonDiv = document.getElementById("likeButton" + id);
+        buttonDiv.innerHTML = "";
+        let likes = likeCount;
+        console.log(likes)
+
+
+        const response = await fetch(`/api/postsOnlyLikes/` + id, {
+            headers: {
+                "content-type": "application/json",
+            },
+            method: "PUT",
+            body: JSON.stringify({ likes })
+        });
+
+        const deleteResponse = await fetch(`/api/unlike/` + id, {
+            method: "DELETE",
+        });
+
+        loadPosts();
     }
 
     async function checkLikedPosts() {
