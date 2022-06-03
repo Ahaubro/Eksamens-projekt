@@ -75,22 +75,51 @@ router.put("/api/postsOnlyLikes/:id", async (req, res) => {
 
     const { reaction } = req.body
 
-    if (reaction === "like") {
-        db.query("INSERT INTO likedPosts (userId, postId, haveLiked) VALUES (?, ?, ?)", [userId, postId, 1])
-    }
+    let reactionsArray = ['likes', 'hearts', 'cares']
 
-    if (reaction === "heart") {
-        db.query("INSERT INTO likedPosts (userId, postId, haveHearted) VALUES (?, ?, ?)", [userId, postId, 1])
-    }
+    const reactionId = reactionsArray.indexOf[reaction];
 
-    if (reaction === "care") {
-        db.query("INSERT INTO likedPosts (userId, postId, haveCared) VALUES (?, ?, ?)", [userId, postId, 1])
-    }
-        
-    db.query("UPDATE posts SET ? WHERE id = ?", [req.body, postId], (error, result) => {
-        if (error)
-            return res.send(error);
-        return res.send("Succesfully updated post");
+    db.query("INSERT INTO likedPosts (userId, postId, reaction) VALUES (?, ?, ?)", [userId, postId, reactionId])
+
+    db.query(`SELECT ${reaction} FROM posts WHERE id = ?`, [postId], (error, result) => {
+        if (error) throw error;
+        let reactionCount = result[0][reaction]
+
+        reactionCount++;
+
+        db.query(`UPDATE posts SET ${reaction} = ? WHERE id = ?`, [reactionCount, postId], (error, result) => {
+            if (error)
+                return res.send(error);
+            return res.send("Succesfully updated post");
+        });
+
+    });
+});
+
+router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
+    const postId = Number(req.params.id);
+    const userId = req.session.userID;
+
+    const { reaction } = req.body
+
+    let reactionsArray = ['likes', 'hearts', 'cares']
+
+    const reactionId = reactionsArray.indexOf[reaction];
+
+    db.query("INSERT INTO likedPosts (userId, postId, reaction) VALUES (?, ?, ?)", [userId, postId, reactionId])
+
+    db.query(`SELECT ${reaction} FROM posts WHERE id = ?`, [postId], (error, result) => {
+        if (error) throw error;
+        let reactionCount = result[0][reaction]
+
+        reactionCount--;
+
+        db.query(`UPDATE posts SET ${reaction} = ? WHERE id = ?`, [reactionCount, postId], (error, result) => {
+            if (error)
+                return res.send(error);
+            return res.send("Succesfully updated post");
+        });
+
     });
 });
 

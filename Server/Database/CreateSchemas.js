@@ -69,9 +69,7 @@ db.query(`
         id INT PRIMARY KEY AUTO_INCREMENT,
         userId INT,
         postId INT,
-        haveLiked BOOLEAN DEFAULT false,
-        haveCared BOOLEAN DEFAULT false,
-        haveHearted BOOLEAN DEFAULT false,
+        reaction INT,
         FOREIGN KEY(userId) REFERENCES users(id),
         FOREIGN KEY(postId) REFERENCES posts(id)
     );

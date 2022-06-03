@@ -66,17 +66,17 @@
 
                 if (likedPosts.find((post) => post.postId == id)) {
                     postsDiv.innerHTML += `
-                    <span id="likeCount${id}">${likes}</span> <span>Remove like</span> <div id="likeButton${id}"><button data-reaction="like" onclick="unlikePost(${id})">Unlike</button>
-                    <span id="likeCount${id}">${hearts}</span> <span>Remove heart</span> <div id="likeButton${id}"><button data-reaction="heart" onclick="unlikePost(${id})">Unlike</button>    
-                    <span id="likeCount${id}">${cares}</span> <span>Remove care</span> <div id="likeButton${id}"><button data-reaction="care" onclick="unlikePost(${id})">Unlike</button>
+                    <span id="likeCount${id}">${likes}</span> <span>Remove like</span> <div id="likeButton${id}"><button data-reaction="like" onclick="unlikePost(${id}, 'likes')">Unlike</button>
+                    <span id="likeCount${id}">${hearts}</span> <span>Remove heart</span> <div id="likeButton${id}"><button data-reaction="heart" onclick="unlikePost(${id}, 'hearts')">Unlike</button>    
+                    <span id="likeCount${id}">${cares}</span> <span>Remove care</span> <div id="likeButton${id}"><button data-reaction="care" onclick="unlikePost(${id}, 'cares')">Unlike</button>
                     </div>`
 
                 } else {
                     console.log(like + " " + care + " " + " " + heart)
                     postsDiv.innerHTML += `
-                    <span id="likeCount${id}">${likes}</span> <span>😍</span> <div id="likeButton${id}"><button data-reaction="like" onclick="likePost(${id}, 'like')">😍</button>
-                    <span id="heartCount${id}">${hearts}</span> <span>❤️</span> <div id="heartButton${id}"><button data-reaction="heart" onclick="likePost(${id}, 'heart')">❤️</button>
-                    <span id="careCount${id}">${cares}</span> <span>🥰</span> <div id="careButton${id}"><button data-reaction="care" onclick="likePost(${id}, 'care')">🥰</button>
+                    <span id="likeCount${id}">${likes}</span> <span>😍</span> <div id="likeButton${id}"><button data-reaction="like" onclick="likePost(${id}, 'likes')">😍</button>
+                    <span id="heartCount${id}">${hearts}</span> <span>❤️</span> <div id="heartButton${id}"><button data-reaction="heart" onclick="likePost(${id}, 'hearts')">❤️</button>
+                    <span id="careCount${id}">${cares}</span> <span>🥰</span> <div id="careButton${id}"><button data-reaction="care" onclick="likePost(${id}, 'cares')">🥰</button>
                                 </div>`;
                 }
                 postsDiv.innerHTML += `</article> 
@@ -124,16 +124,8 @@
     }
 
     async function unlikePost(id, reaction) {
-        let likeCountElement = document.getElementById("likeCount" + id);
-        let likeCount = Number(likeCountElement.innerText);
-        likeCountElement.innerText = --likeCount;
-        let buttonDiv = document.getElementById("likeButton" + id);
-        buttonDiv.innerHTML = "";
-        let likes = likeCount;
-        console.log(likes)
-
-
-        const response = await fetch(`/api/postsOnlyLikes/${id}`, {
+        console.log(reaction)
+        const response = await fetch(`/api/postsOnlyUnLikes/${id}`, {
             headers: {
                 "content-type": "application/json",
             },
