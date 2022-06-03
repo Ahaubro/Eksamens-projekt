@@ -32,8 +32,8 @@
         const response = await fetch("/api/chat_messages/"+currentRoomId);
         const oldMessages = await response.json();
         for(let i in oldMessages){
-            const {username, message} = oldMessages[i];
-            messages.innerHTML+=`<p><b>${username}:</b> ${message}</p>`;
+            const {userId, username, message} = oldMessages[i];
+            messages.innerHTML+=`<p><a href="/profile/${userId}"><b>${username}:</a></b> ${message}</p>`;
         }
     }
 
@@ -41,7 +41,8 @@
     socket.on("recieved-message", ({username, message, roomId}) => {
         if(currentRoomId == roomId) {
             messages.innerHTML+=`<p><b>${username}:</b> ${message}</p>`;
-        } 
+        }
+        loadMessages();
     });
 
     async function sendMessage(roomId) {
