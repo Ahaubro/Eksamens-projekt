@@ -39,7 +39,6 @@
         const likedResult = await likedResponse.json();
         likedPosts = likedResult
         console.log(likedPosts)
-
         for (let i in posts) {
             const { id, text, userId, date, hours, minutes, categori } = posts[i];
 
@@ -49,69 +48,90 @@
                 const cares = posts[i].cares || 0;
                 const resObj = await fetch(`/api/getUserById/${userId}`);
                 const foundUser = await resObj.json();
-                
+
                 const like = "like";
                 const heart = "heart"
                 const care = "care"
 
-                postsDiv.innerHTML += ` <br> 
-                            <article class="postArticle">
-                                <b id="username">${foundUser.username} - ${categori} post</b>
-                                <br>
-                                <span id="text${id}">${text}</span>
-                                <br>
-                                <br>
-                                <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
-                                <br`
-
-                if (likedPosts.find((post) => post.postId == id)) {
-                    postsDiv.innerHTML += `
-                    <span id="likeCount${id}">${likes}</span> <span>Remove like</span> <div id="likeButton${id}"><button data-reaction="like" onclick="unlikePost(${id}, 'likes')">Unlike</button>
-                    <span id="likeCount${id}">${hearts}</span> <span>Remove heart</span> <div id="likeButton${id}"><button data-reaction="heart" onclick="unlikePost(${id}, 'hearts')">Unlike</button>    
-                    <span id="likeCount${id}">${cares}</span> <span>Remove care</span> <div id="likeButton${id}"><button data-reaction="care" onclick="unlikePost(${id}, 'cares')">Unlike</button>
-                    </div>`
-
+                if (likedPosts.find((post) => post.postId == id && post.reaction === 0)) {
+                postsDiv.innerHTML += `
+                    <br> 
+                        <article class="postArticle">
+                        <b id="username">${foundUser.username} - ${categori} post</b>
+                        <br>
+                        <span id="text${id}">${text}</span>
+                        <br>
+                        <br>
+                        <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                        <div id="reaction-count">
+                            <div id="like-count"> <div id="likeButton${id}"><button id="like-button" onclick="unlikePost(${id}, 'likes')">😍</button> <div id="remove-like" onclick="unlikePost(${id}, 'likes')" >X</div></div>  <b id="likeCount${id}">${likes}</b> </div>
+                            <div id="heart-count"> <div id="heartButton${id}"><span id="heart-button" onclick="unlikePost(${id}, 'hearts') disabled">❤️</button></div>  <b id="heartCount${id}">${hearts}</b>  </div> 
+                            <div id="care-count"> <div id="careButton${id}"><button id="care-button" onclick="unlikePost(${id}, 'cares')" disabled>🥰</button></div>  <b id="careCount${id}">${cares}</b> </div> 
+                        </div>             
+                    <br>   
+                </article> `
+                } else if (likedPosts.find((post) => post.postId == id && post.reaction === 1)) {
+                postsDiv.innerHTML += `
+                    <br> 
+                        <article class="postArticle">
+                        <b id="username">${foundUser.username} - ${categori} post</b>
+                        <br>
+                        <span id="text${id}">${text}</span>
+                        <br>
+                        <br>
+                        <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                        <div id="reaction-count">
+                            <div id="like-count"> <div id="likeButton${id}"><button id="like-button" onclick="unlikePost(${id}, 'likes') disabled">😍</button> </div>  <b id="likeCount${id}">${likes}</b> </div>
+                            <div id="heart-count"> <div id="heartButton${id}"><button id="heart-button" onclick="unlikePost(${id}, 'hearts')">❤️</button> <div id="remove-heart" onclick="unlikePost(${id}, 'likes')" >X</div></div>  <b id="heartCount${id}">${hearts}</b>  </div> 
+                            <div id="care-count"> <div id="careButton${id}"><button id="care-button" onclick="unlikePost(${id}, 'cares') disabled">🥰</button></div>  <b id="careCount${id}">${cares}</b> </div> 
+                        </div>             
+                    <br>   
+                </article> `
+                } else if (likedPosts.find((post) => post.postId == id && post.reaction === 2)) {
+                postsDiv.innerHTML += `
+                    <br> 
+                        <article class="postArticle">
+                        <b id="username">${foundUser.username} - ${categori} post</b>
+                        <br>
+                        <span id="text${id}">${text}</span>
+                        <br>
+                        <br>
+                        <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                        <div id="reaction-count">
+                            <div id="like-count"> <div id="likeButton${id}"><button id="like-button" onclick="unlikePost(${id}, 'likes') disabled">😍</button> </div>  <b id="likeCount${id}">${likes}</b> </div>
+                            <div id="heart-count"> <div id="heartButton${id}"><button id="heart-button" onclick="unlikePost(${id}, 'hearts') disabled">❤️</button></div>  <b id="heartCount${id}">${hearts}</b>  </div> 
+                            <div id="care-count"> <div id="careButton${id}"><button id="care-button" onclick="unlikePost(${id}, 'cares')">🥰</button> <div id="remove-care" onclick="unlikePost(${id}, 'likes')" >X</div> </div>   <b id="careCount${id}">${cares}</b> </div> 
+                        </div>             
+                    <br>   
+                </article> `
                 } else {
-                    console.log(like + " " + care + " " + " " + heart)
-                    postsDiv.innerHTML += `
-                    <span id="likeCount${id}">${likes}</span> <span>😍</span> <div id="likeButton${id}"><button data-reaction="like" onclick="likePost(${id}, 'likes')">😍</button>
-                    <span id="heartCount${id}">${hearts}</span> <span>❤️</span> <div id="heartButton${id}"><button data-reaction="heart" onclick="likePost(${id}, 'hearts')">❤️</button>
-                    <span id="careCount${id}">${cares}</span> <span>🥰</span> <div id="careButton${id}"><button data-reaction="care" onclick="likePost(${id}, 'cares')">🥰</button>
-                                </div>`;
+
+                postsDiv.innerHTML += `
+                    <br> 
+                        <article class="postArticle">
+                        <b id="username">${foundUser.username} - ${categori} post</b>
+                        <br>
+                        <span id="text${id}">${text}</span>
+                        <br>
+                        <br>
+                        <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                        <div id="reaction-count">
+                            <div id="like-count"> <div id="likeButton${id}"><button id="like-button" onclick="likePost(${id}, 'likes')">😍</button></div>  <b id="likeCount${id}">${likes}</b> </div>
+                            <div id="heart-count"> <div id="heartButton${id}"><button id="heart-button" onclick="likePost(${id}, 'hearts')">❤️</button></div>  <b id="heartCount${id}">${hearts}</b>  </div> 
+                            <div id="care-count"> <div id="careButton${id}"><button id="care-button" onclick="likePost(${id}, 'cares')">🥰</button></div>  <b id="careCount${id}">${cares}</b> </div> 
+                        </div> 
+                    <br>
+                          
+                </article> 
+                `;
                 }
-                postsDiv.innerHTML += `</article> 
-                            <br>`
 
             }
         }
     }
-
+    //der kan laves flere forbedringer, såsom at man kigger på om der er liket i databasen og så bliver den disabled, i stedet for det bare er inline som nu 
     async function likePost(id, reaction) {
-        // let likeCountElement = document.getElementById("likeCount" + id);
-        // let heartCountElement = document.getElementById("heartCount" + id);
-        // let careCountElement = document.getElementById("careCount" + id);
 
-        // let likeCount = Number(likeCountElement.innerText);
-        // let heartCount = Number(heartCountElement.innerText);
-        // let careCount = Number(careCountElement.innerText);
-
-        // likeCountElement.innerText = ++likeCount;
-        // heartCountElement.innerText = ++likeCount;
-        // careCountElement.innerText = ++likeCount;
-
-        // let likeButtonDiv = document.getElementById("likeButton" + id + reaction);
-        // let heartButtonDiv = document.getElementById("heartButton" + id + reaction);
-        // let careButtonDiv = document.getElementById("careButton" + id + reaction);
-
-        // likeButtonDiv.innerHTML = "";
-        // heartButtonDiv.innerHTML = "";
-        // careButtonDiv.innerHTML = "";
-
-
-
-        console.log("HALO HALLLo")
-        // const reaction = document.querySelector("data-reaction")
-        // console.log(reaction)
         const response = await fetch(`/api/postsOnlyLikes/${id}`, {
             headers: {
                 "content-type": "application/json",

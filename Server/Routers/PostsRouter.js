@@ -77,7 +77,7 @@ router.put("/api/postsOnlyLikes/:id", async (req, res) => {
 
     let reactionsArray = ['likes', 'hearts', 'cares']
 
-    const reactionId = reactionsArray.indexOf[reaction];
+    const reactionId = reactionsArray.indexOf(reaction);
 
     db.query("INSERT INTO likedPosts (userId, postId, reaction) VALUES (?, ?, ?)", [userId, postId, reactionId])
 
