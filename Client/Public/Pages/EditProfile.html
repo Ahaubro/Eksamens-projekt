@@ -242,6 +242,9 @@
     async function getProfileInformation() {
         const res = await fetch(`/api/loggedInUser`)
         const user = await res.json()
+
+		console.log(user)
+
         uname.value = user.username
         fname.value = user.firstname
         mname.value = user.middlename
@@ -252,24 +255,17 @@
         city.value = user.city
         zip.value = user.zipcode
         colorSelect.value = user.profilecolor
+		display_image.value = user.profilePicture
 
 		
 		document.getElementById("welcome").innerText = "Hello " + user.username + ", welcome to your page"
-		if(user.profilePicture){
-			display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
-			profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
-		}
-		/*//Profilew pic testing
-		let data = user.profilePicture
-		let binaryData = [];
-		binaryData.push(data);
 
-		display_image.src = window.URL.createObjectURL(new Blob(binaryData.data, {type: "image/jpeg"}))
-
-		console.log("Læses her d_i.src: " + display_image.src)*/
-        
+		display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
+		profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
+		
     };
 	
+
 	async function saveChanges(){
 		let user = {}
         let input = document.querySelector('input[type="file"]')

@@ -132,10 +132,12 @@
         document.getElementById("response").innerText = "";
         let chatroomsDiv = document.getElementById("chatroomsList");
         const name = document.getElementById("chatroomName").value;
+
+
         const response = await fetch("/api/chatrooms", {
             headers: {"content-type": "application/json"},
             method: "POST",
-            body: JSON.stringify({name})
+            body: JSON.stringify({name, charLength})
         });
         const result = await response.text();
         document.getElementById("response").innerText = result;
