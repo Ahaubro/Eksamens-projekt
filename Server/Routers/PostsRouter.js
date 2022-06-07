@@ -22,8 +22,15 @@ router.get("/api/likedPosts/", (req, res) => {
 });
 
 //Endpoint der kun læser posts tilhørende den user der er logget ind
-router.get("/api/postsOfInterest", (req, res) => {
+router.get("/api/posts/loggedInUser", (req, res) => {
     const userId = req.session.userID
+    db.query("SELECT * FROM posts WHERE userId = ?", [userId], (error, result) => {
+        res.send(result);
+    });
+});
+
+router.get("/api/posts/byUserId/:id", (req, res) => {
+    const userId = req.params.id
     db.query("SELECT * FROM posts WHERE userId = ?", [userId], (error, result) => {
         res.send(result);
     });

@@ -2,23 +2,14 @@
 <p>Here you can edit your smile posts and personal information</p>
 
 <div id="myPage">
-
-	
-	<div id="profile_picture_div">
-	</div>
-    
-
+	<div id="profile_picture_div"></div>
     <br>
     <br>
     <br>
-
 	<div id="postsPos">
-		<div id="posts">
-		</div>
+		<div id="posts"></div>
 	</div>
-
 	<br>
-
 	<div id="createPost">
 		<textarea id="createText"></textarea>
 		<select id="categoriSelect">
@@ -31,11 +22,9 @@
 	</div>
 	<br>
 	<br>
-
 	<div id="editBtnPos">
 		<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
 	</div>
-
 </div>
 
 
@@ -127,9 +116,6 @@
 	})
 
     
-
-
-
 	// CRUD posts
 	const postsDiv = document.getElementById("posts");
     let posts;
@@ -137,7 +123,7 @@
     loadPosts();
 
     async function loadPosts(){
-        const response = await fetch("/api/postsOfInterest");
+        const response = await fetch("/api/posts/loggedInUser");
         const result = await response.json();
         posts = result;
         postsDiv.innerHTML = ""; 
@@ -251,10 +237,10 @@
             hideEditModal();
     });
     
-    responseMessage = ""
+    responseMessage = "";
     getProfileInformation()
     async function getProfileInformation() {
-        const res = await fetch(`/api/getProfile`)
+        const res = await fetch(`/api/loggedInUser`)
         const user = await res.json()
         uname.value = user.username
         fname.value = user.firstname
@@ -268,10 +254,11 @@
         colorSelect.value = user.profilecolor
 
 		
-		document.getElementById("welcome").innerText = "Hello" + " " + user.username + ", welcome to your page"
-
-        display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
-        profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
+		document.getElementById("welcome").innerText = "Hello " + user.username + ", welcome to your page"
+		if(user.profilePicture){
+			display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
+			profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
+		}
 		/*//Profilew pic testing
 		let data = user.profilePicture
 		let binaryData = [];
@@ -323,16 +310,17 @@
 		
 	}
 	pcolor.innerHTML = `
-                <select id="colorSelect">
-                    <option value="G">Green</option>
-                    <option value="B">Blue</option>
-                    <option value="R">Red</option>
-                    <option value="O">Oragne</option>
-                    <option value="P">Purple</option>
-                    <option value="A">Azure</option>
-                    <option value="BL">Black</option>
-                </select>
-                `;
+	<select id="colorSelect">
+		<option value="G">Green</option>
+		<option value="B">Blue</option>
+		<option value="R">Red</option>
+		<option value="O">Oragne</option>
+		<option value="P">Purple</option>
+		<option value="A">Azure</option>
+		<option value="BL">Black</option>
+	</select>
+	`;
+
 	country.innerHTML = `<select id="countrySelect">
 	<option value="AF">Afghanistan</option>
 	<option value="AX">Åland Islands</option>
@@ -583,7 +571,6 @@
 	<option value="YE">Yemen</option>
 	<option value="ZM">Zambia</option>
 	<option value="ZW">Zimbabwe</option>
-</select>`;
-
+	</select>`;
 
 </script>
