@@ -44,4 +44,35 @@
     background-color: inherit;
     font-family: inherit;
     margin: 0; 
-  }
+}
+
+#userPos{
+      position: absolute;
+      left: 95%;
+      transform: translateX(-50%);
+      background-color: #f07272;
+      padding: 7px;
+      font-size: 16px;
+      height: fit-content;
+      font-size: 2em;
+}
+
+.show-info:hover + .hide{
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.hide{
+    display: none;
+}
+
+#info-pos{
+    position: fixed;
+    left: 92%;
+    top: 15%;
+    background-color: #f07272;
+    padding: 10px;
+    color: white;
+}
+

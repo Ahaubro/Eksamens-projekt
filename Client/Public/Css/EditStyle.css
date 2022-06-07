@@ -140,8 +140,11 @@ p{
 
 #createText{
     height: 4em;
-    width: 50%;
+    width: 40em;
+    font-size: 18px;
 }
+
+
 
 #display_image{
     width: 120px;

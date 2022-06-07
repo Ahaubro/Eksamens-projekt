@@ -1,10 +1,11 @@
-.postArticle {
+.post-div {
     background-color: rgba(255, 244, 245, 0.897);
     border: 1px solid salmon;
     padding: 10px;
     border: 0.1px solid black;
     border-radius: 5px;
     margin-bottom: 0px;
+    max-width: 33em;
 }
 
 #postsPos{
@@ -12,17 +13,27 @@
     justify-content: center;
 }
 
-#time{
-    float: right;
-    text-align: right;
-    font-size: 7;
+#info-and-reaction{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
 }
 
 #date{
-    float: left;
+    flex: 1; 
+    /* float: left;
     text-align: left;
-    font-size: 7;
+    font-size: 7; */
 }
+
+#time{
+    flex: 1; 
+    /* float: right;
+    font-size: 7; */
+    text-align: right;
+}
+
+
 
 #username{
     display: flex;
@@ -55,8 +66,9 @@
 
 #reaction-container{
     justify-content: center;
-    display: flex;
     flex-direction: column-reverse;
+    flex: 2; 
+
 }
 #remove-reaction-container{
     justify-content: center;
@@ -72,10 +84,6 @@
     left: 0.25em;
     opacity: 50%;
 }
-
-
-
-
 
 #reaction-buttons{
     display: none;
@@ -95,5 +103,7 @@
 
 span{
     font-size: 18px;
-    text-align: center;
+    display: block;
+    text-align: justify;
+    line-height: 1.5;
 }

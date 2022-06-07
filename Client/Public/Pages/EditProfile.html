@@ -11,7 +11,7 @@
 	</div>
 	<br>
 	<div id="createPost">
-		<input id="createText" type="text">
+		<textarea id="createText"></textarea>
 		<select id="categoriSelect">
 			<option value="love"> Love post</option>
 			<option value="work"> Work post</option>
@@ -135,20 +135,21 @@
             const foundUser = await resObj.json();
            
             postsDiv.innerHTML += ` <br> 
-			<article class="postArticle">
-				<b id="username">${foundUser.username}</b>
-				<br>
-				<div id="edit${id}">
-					<span id="text${id}">${text}</span>
-					<button id="editPostBtn" onclick="openEdit(${id})"> Edit </button>
-					<button id="deletePostBtn" onclick="deletePost(${id})"> Delete </button>
-				</div>
-				<br>
-				<br>
-				<b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
-				<br>
-			</article> 
-			<br>`;
+                <article class="postArticle">
+                    <b id="username">${foundUser.username}</b>
+                    <br>
+                    <div id="edit${id}">
+                        <span id="text${id}">${text}</span>
+						<br>
+                        <button id="editPostBtn" onclick="openEdit(${id})"> Edit </button>
+						<button id="deletePostBtn" onclick="deletePost(${id})"> Delete </button>
+                    </div>
+                    <br>
+                    <br>
+                    <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                    <br>
+                </article> 
+                <br>`;
             
         }
     }
