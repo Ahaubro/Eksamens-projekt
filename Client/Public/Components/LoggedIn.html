@@ -13,6 +13,16 @@
 <li><a href="/editProfile">My Profile</a></li>
 <li><button id="logoutBtn" onclick="logout()"> Logout</button></li>
 
+<div id="userPos" class="show-info">👤</div>
+
+
+
+<div id="info-pos" class="hide">
+    <p id="username"></p>
+    <p id="firstname"></p>
+
+</div>
+
 
 
 <script>
@@ -23,17 +33,17 @@
     }
 
 
-    window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-            }
-        }
+    showUsername();
+
+    async function showUsername(){
+
+        let username = document.getElementById("username")
+        let firstname = document.getElementById("firstname")
+        const res = await fetch(`/api/getProfile`);
+        const user = await res.json();
+
+        username.innerText = "Logged in to user: " + user.username
     }
-    }
+
 
 </script>
