@@ -20,7 +20,7 @@
 	<br>
 
 	<div id="createPost">
-		<input id="createText" type="text">
+		<textarea id="createText"></textarea>
 		<select id="categoriSelect">
 			<option value="love"> Love post</option>
 			<option value="work"> Work post</option>
@@ -154,6 +154,7 @@
                     <br>
                     <div id="edit${id}">
                         <span id="text${id}">${text}</span>
+						<br>
                         <button id="editPostBtn" onclick="openEdit(${id})"> Edit </button>
 						<button id="deletePostBtn" onclick="deletePost(${id})"> Delete </button>
                     </div>
