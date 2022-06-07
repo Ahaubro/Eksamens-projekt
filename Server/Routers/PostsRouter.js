@@ -104,14 +104,14 @@ router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
 
     let reactionsArray = ['likes', 'hearts', 'cares']
 
-    const reactionId = reactionsArray.indexOf[reaction];
-
+    const reactionId = reactionsArray.indexOf(reaction);
+   
     db.query("INSERT INTO likedPosts (userId, postId, reaction) VALUES (?, ?, ?)", [userId, postId, reactionId])
 
     db.query(`SELECT ${reaction} FROM posts WHERE id = ?`, [postId], (error, result) => {
         if (error) throw error;
         let reactionCount = result[0][reaction]
-
+        
         reactionCount--;
 
         db.query(`UPDATE posts SET ${reaction} = ? WHERE id = ?`, [reactionCount, postId], (error, result) => {
@@ -125,7 +125,6 @@ router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
 
 router.delete("/api/unlike/:postId", (req, res) => {
     const postId = Number(req.params.postId);
-    console.log("BACKEND_ " + postId)
 
     db.query("DELETE FROM likedposts WHERE postId = ?", [postId], (error, result) => {
         if (error)
