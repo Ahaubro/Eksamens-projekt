@@ -67,35 +67,35 @@
                         <div id="info-and-reaction">
                         <b id="date"> ${reverseDate} </b> `
 
-                if (likedPosts.find((post) => post.postId == id && post.reaction === 0)) {
-                    SecondPostPart += ` 
-                        <div id="reaction-count">
-                            <div id="like-count"> <button id="like-button" onclick="unlikePost(${id}, 'likes')">😍</button> <div id="remove-like" onclick="unlikePost(${id}, 'likes')" >X</div>  <b id="likeCount${id}">${likes}</b> </div>
-                            <div id="heart-count"> <span id="heart-button" onclick="unlikePost(${id}, 'hearts') disabled">❤️</button> <b id="heartCount${id}">${hearts}</b>  </div> 
-                            <div id="care-count"> <button id="care-button" onclick="unlikePost(${id}, 'cares')" disabled>🥰</button> <b id="careCount${id}">${cares}</b> </div> 
-                        </div>`
-                } else if (likedPosts.find((post) => post.postId == id && post.reaction === 1)) {
+                // if (likedPosts.find((post) => post.postId == id && post.reaction === 0)) {
+                //     SecondPostPart += ` 
+                //         <div id="reaction-count">
+                //             <div id="like-count"> <button id="like-button" onclick="unaddReaction(${id}, 'likes')">😍</button> <div id="remove-like" onclick="unaddReaction(${id}, 'likes')" >X</div>  <b id="likeCount${id}">${likes}</b> </div>
+                //             <div id="heart-count"> <span id="heart-button" onclick="unaddReaction(${id}, 'hearts') disabled">❤️</button> <b id="heartCount${id}">${hearts}</b>  </div> 
+                //             <div id="care-count"> <button id="care-button" onclick="unaddReaction(${id}, 'cares')" disabled>🥰</button> <b id="careCount${id}">${cares}</b> </div> 
+                //         </div>`
+                // } else if (likedPosts.find((post) => post.postId == id && post.reaction === 1)) {
+                //     SecondPostPart += `
+                //         <div id="reaction-count">
+                //             <div id="like-count"> <button id="like-button" onclick="unaddReaction(${id}, 'likes') disabled">😍</button> <b id="likeCount${id}">${likes}</b> </div>
+                //             <div id="heart-count"> <button id="heart-button" onclick="unaddReaction(${id}, 'hearts')">❤️</button> <div id="remove-heart" onclick="unaddReaction(${id}, 'hearts')" >X</div>  <b id="heartCount${id}">${hearts}</b>  </div> 
+                //             <div id="care-count"> <button id="care-button" onclick="unaddReaction(${id}, 'cares') disabled">🥰</button> <b id="careCount${id}">${cares}</b> </div> 
+                //         </div>`
+                // } else if (likedPosts.find((post) => post.postId == id && post.reaction === 2)) {
+                //     SecondPostPart += `
+                //         <div id="reaction-count">
+                //             <div id="like-count"> <button id="like-button" onclick="unaddReaction(${id}, 'likes') disabled">😍</button> <b id="likeCount${id}">${likes}</b> </div>
+                //             <div id="heart-count"> <button id="heart-button" onclick="unaddReaction(${id}, 'hearts') disabled">❤️</button> <b id="heartCount${id}">${hearts}</b>  </div> 
+                //             <div id="care-count"> <button id="care-button" onclick="unaddReaction(${id}, 'cares')">🥰</button> <div id="remove-care" onclick="removeReaction(${id}, 'cares')" >X</div> <b id="careCount${id}">${cares}</b> </div> 
+                //         </div>`
+                // } else {
                     SecondPostPart += `
                         <div id="reaction-count">
-                            <div id="like-count"> <button id="like-button" onclick="unlikePost(${id}, 'likes') disabled">😍</button> <b id="likeCount${id}">${likes}</b> </div>
-                            <div id="heart-count"> <button id="heart-button" onclick="unlikePost(${id}, 'hearts')">❤️</button> <div id="remove-heart" onclick="unlikePost(${id}, 'hearts')" >X</div>  <b id="heartCount${id}">${hearts}</b>  </div> 
-                            <div id="care-count"> <button id="care-button" onclick="unlikePost(${id}, 'cares') disabled">🥰</button> <b id="careCount${id}">${cares}</b> </div> 
-                        </div>`
-                } else if (likedPosts.find((post) => post.postId == id && post.reaction === 2)) {
-                    SecondPostPart += `
-                        <div id="reaction-count">
-                            <div id="like-count"> <button id="like-button" onclick="unlikePost(${id}, 'likes') disabled">😍</button> <b id="likeCount${id}">${likes}</b> </div>
-                            <div id="heart-count"> <button id="heart-button" onclick="unlikePost(${id}, 'hearts') disabled">❤️</button> <b id="heartCount${id}">${hearts}</b>  </div> 
-                            <div id="care-count"> <button id="care-button" onclick="unlikePost(${id}, 'cares')">🥰</button> <div id="remove-care" onclick="unlikePost(${id}, 'cares')" >X</div> <b id="careCount${id}">${cares}</b> </div> 
-                        </div>`
-                } else {
-                    SecondPostPart += `
-                        <div id="reaction-count">
-                            <div id="like-count"> <div id="likeButton${id}"><button id="like-button" onclick="likePost(${id}, 'likes')">😍</button></div>  <b id="likeCount${id}">${likes}</b> </div>
-                            <div id="heart-count"> <div id="heartButton${id}"><button id="heart-button" onclick="likePost(${id}, 'hearts')">❤️</button></div>  <b id="heartCount${id}">${hearts}</b>  </div> 
-                            <div id="care-count"> <div id="careButton${id}"><button id="care-button" onclick="likePost(${id}, 'cares')">🥰</button></div>  <b id="careCount${id}">${cares}</b> </div> 
+                            <div id="like-count"> <div id="likeButton${id}"><button id="like-button" onclick="addReaction(${id}, 'likes', ${likes})">😍</button></div>  <b id="likeCount${id}">${likes}</b> </div>
+                            <div id="heart-count"> <div id="heartButton${id}"><button id="heart-button" onclick="addReaction(${id}, 'hearts', ${hearts})">❤️</button></div>  <b id="heartCount${id}">${hearts}</b>  </div> 
+                            <div id="care-count"> <div id="careButton${id}"><button id="care-button" onclick="addReaction(${id}, 'cares', ${cares})">🥰</button></div>  <b id="careCount${id}">${cares}</b> </div> 
                         </div> `;
-                }
+                //}
                 const thirdPostPart = `<b id="time"> ${hours}:${minutes}</b>
                                         </div>
                                         <br>   
@@ -106,7 +106,20 @@
         }
     }
     //lav en metode som disabler de andre knapper når man har liket en post. Så skal hele postet ikke laves om og man sparer alle if statements. Brug likebutton{id} til at se om brugeren har liket posten, og hvis de har - disable 
-    async function likePost(id, reaction) {
+    async function addReaction(id, reaction, likes) {
+
+        const reactionArray = ['likes', 'hearts', 'cares']
+        const reactionID = reactionArray.indexOf(reaction)
+        const buttonIDs = ["likeButton", "heartButton", "careButton"]
+        const butId = buttonIDs[reactionID]
+        likes++
+        for(let reactionButton in buttonIDs){
+            document.getElementById(reactionButton+id).innerHTML = `
+            <div id="like-count"> <div ${reactionButton+id}> <button id="like-button" onclick="removeReaction(${id}, 'likes', ${likes})">😍</button> <div id="remove-like" onclick="removeReaction(${id}, 'likes', ${likes})" >X</div> </div>  <b id="likeCount${id}">${likes}</b> </div>
+            `
+            
+        }
+
 
         const response = await fetch(`/api/postsOnlyLikes/${id}`, {
             headers: {
@@ -115,11 +128,14 @@
             method: "PUT",
             body: JSON.stringify({ reaction })
         });
+        
+
+
 
         loadPosts();
     }
 
-    async function unlikePost(id, reaction) {
+    async function removeReaction(id, reaction) {
         console.log("unliked: ",reaction)
         const response = await fetch(`/api/postsOnlyUnLikes/${id}`, {
             headers: {
