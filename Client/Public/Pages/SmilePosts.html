@@ -38,9 +38,16 @@
         const likedResponse = await fetch(`/api/likedPosts/`);
         const likedResult = await likedResponse.json();
         likedPosts = likedResult
-        console.log(likedPosts)
+
+
+
         for (let i in posts) {
-            const { id, text, userId, date, hours, minutes, categori } = posts[i];
+            const { id, text, userId, date, categori } = posts[i];
+            let {minutes, hours } = posts[i];
+
+            minutes = formatTime(minutes);
+            hours = formatTime(hours);
+
 
             if (categori != 'home') {
                 const likes = posts[i].likes || 0;
@@ -163,5 +170,16 @@
     async function checkLikedPosts() {
         const res = await fetch(`/api/likedPosts`);
     }
+
+    function formatTime(time) {
+    
+        if ( time < 10 ) {
+
+            return '0' + time;
+        }
+
+        return time;
+    }
+
 
 </script>
