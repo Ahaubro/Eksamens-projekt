@@ -62,7 +62,6 @@ app.get("/profile/:id", async (req, res) => {
             //let { username, firstname, middlename, lastname, birthday, address, country, city,
             //zipcode, profilecolor, profilepicture } = result[0];
             const user = result[0];
-            console.log(user);
             res.send(SSR.loggedInDependent(SSR.loadProfilePage(user), req.session.userID));
         } else {
             res.status = 400;

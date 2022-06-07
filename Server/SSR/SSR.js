@@ -33,17 +33,7 @@ function loggedInDependent(page, isLoggedIn){
     }
 }
 
-function loadProfilePage(user){
-    SSR.directory = '../../Client/Public/Pages';
-    const profilePage = SSR.replace(templatePage, {
-        title: 'Smiles - ' + user.username + ' Profile',
-        styles: profileStyles,
-        content: '/Profile.html'
-    });
-    const {username, firstname, middlename, lastname} = user;
-    console.log({username, firstname, middlename, lastname});
-    return SSR.replace(profilePage, {username, firstname, middlename, lastname});
-}
+
 
 const pageStylesDirectory = './Css';
 const homeStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/HomeStyle.css">`;
@@ -51,11 +41,22 @@ const chatroomStyles = `<link rel="stylesheet" type="text/css" href="${pageStyle
 const smilePostsStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/SmilePostsStyle.css">`;
 const loginStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/LoginStyle.css">`;
 const editStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/EditStyle.css">`;
-const profileStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/ProfileStyle.css">`;
+const profileStyles = `<link rel="stylesheet" type="text/css" href="../Css/ProfileStyle.css">`;
 
 SSR.directory = '../../Client/Public/Pages';
 const templatePage_Template = SSR.loadFile('/TemplatePage.html');
 const templatePage = SSR.replace(templatePage_Template, {header});
+
+function loadProfilePage(user){
+    SSR.directory = '../../Client/Public/Pages';
+    const profilePage = SSR.replace(templatePage, {
+        title: 'Smiles - ' + user.username + ' Profile',
+        styles: profileStyles,
+        content: '/Profile.html'
+    });
+    const {id} = user;
+    return SSR.replace(profilePage, {id});
+}
 
 const homePage = SSR.replace(templatePage, {
     title: 'Smiles',

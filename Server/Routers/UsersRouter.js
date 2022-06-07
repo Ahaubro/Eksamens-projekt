@@ -21,22 +21,47 @@ router.get("/api/getUsername/:id", async (req, res) => {
     });
 });
 
-//Get one user by id LEGER LIDT HER
-router.get("/api/getUserById/:id", async (req, res) => {
-    const  id = req.params.id
+router.get("/api/getUserById/:id", (req, res) => {
+    const id = req.params.id
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
-    const foundUser = await db.query(sqlSelect, [id], function (err, result) {
+    db.query(sqlSelect, [id], function (err, result) {
         if (err) throw err;
 
-        res.send(result[0]);
+        if (result[0]) {
+            let { username: username, firstname: firstname, middlename: middlename,
+                lastname: lastname, birthday: birthday, address: address, country: country, city: city,
+                zipcode: zipcode, profilecolor: profilecolor, profilepicture: profilepicture } = result[0]
+                
+            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor, profilepicture}))
+        } else {
+            res.send("didnt find anything")
+        }
     });
 });
 
-router.get("/api/getProfile", async (req, res) => {
+//Get one user by id LEGER LIDT HER
+router.get("/api/user/:id", (req, res) => {
+    const id = req.params.id;
+    const sqlSelect = "SELECT * FROM users WHERE id = ?";
+    db.query(sqlSelect, [id], function (err, result) {
+        if (err) throw err;
 
-    const id = req.session.userID
-    let sqlSelect = "SELECT * FROM users WHERE id = ?";
-    const foundUser = await db.query(sqlSelect, [id], function (err, result) {
+        if (result[0]) {
+            let { username: username, firstname: firstname, middlename: middlename,
+                lastname: lastname, birthday: birthday, address: address, country: country, city: city,
+                zipcode: zipcode, profilecolor: profilecolor, profilepicture: profilepicture } = result[0]
+            
+            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor, profilepicture}))
+        } else {
+            res.send("didnt find anything")
+        }
+    });
+});
+
+router.get("/api/loggedInUser", (req, res) => {
+    const id = req.session.userID;
+    const sqlSelect = "SELECT * FROM users WHERE id = ?";
+    db.query(sqlSelect, [id], function (err, result) {
         if (err)
             res.send(err)
 
