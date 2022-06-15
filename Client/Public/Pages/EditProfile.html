@@ -25,7 +25,14 @@
 	<div id="editBtnPos">
 		<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
 	</div>
+
+	<div>
+		<p>Friends:</p>
+		<div id="friends"></div>
+	</div>
+
 </div>
+
 
 
 <!-- Modal starter her-->
@@ -87,6 +94,9 @@
 <!-- Modal slutter her -->
 
 <script>
+
+	let usernameForfriends = "";
+	
 	// Forsøg med image upload HER OG LINJE 244
 	async function uploadPicture() {
 		let input = document.querySelector('input[type="file"]')
@@ -102,6 +112,7 @@
 		})
 
 	}
+
 
     const image_input = document.querySelector("#image_input")
 	let uploaded_image = "";
@@ -243,8 +254,8 @@
         const res = await fetch(`/api/loggedInUser`)
         const user = await res.json()
 
-		console.log(user)
-
+		
+		usernameForfriends = user.username
         uname.value = user.username
         fname.value = user.firstname
         mname.value = user.middlename
@@ -264,6 +275,40 @@
 		profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
 		
     };
+
+	// HER
+	async function getFriends() {
+		const friendsDiv = document.getElementById("friends");
+		let friendList;
+		let users = [];
+		let arr = [];
+
+		const res = await fetch(`/api/friends`);
+		const result = await res.json();
+
+		friendList = result;
+
+		for(let friends in friendList) {
+			const { userOne, userTwo } = friendList[friends];
+
+			arr.push(userOne);
+			arr.push(userTwo); 
+		}
+
+		for(let i in arr) {
+
+			const userOneRes = await fetch(`/api/getUserById/${arr.at(i)}`)
+			const userOneResult = await userOneRes.json();
+
+			console.log("ALLE VORES LÆKRE USERES", userOneResult)
+
+			if(userOneResult.username != usernameForfriends) {
+				friendsDiv.innerHTML+=`<p> ${userOneResult.username} </p>`;
+			}	
+		}
+	}
+
+	getFriends();
 	
 
 	async function saveChanges(){

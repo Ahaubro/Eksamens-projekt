@@ -18,6 +18,12 @@
 	</div>
 </div>
 
+
+<button onclick="addFriend()"> Add friend</button>
+<p id="responseMessage"></p>
+
+
+
 <div id="infoModal" class="hidden-modal">
 	<h3>User information</h3>
 	<hr>
@@ -68,6 +74,9 @@
 
 	const postsDiv = document.getElementById("posts");
     let posts;
+
+    // Til friends
+    let loadedUserId = 0;
 
     loadPosts();
 
@@ -137,4 +146,20 @@
         
         
     };
+
+    async function addFriend() {
+        const userTwoId = userId
+
+        const res = await fetch(`/api/friends/`, {
+            headers: {
+                "content-type": "application/json",
+            },
+            method: "POST",
+            body: `{"userTwoId": "${userTwoId}"}`
+        })
+
+
+        response = document.getElementById("responseMessage");
+        response.innerText= await res.text();
+    }
 </script>

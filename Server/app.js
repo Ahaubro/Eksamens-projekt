@@ -5,6 +5,7 @@ import loginRouter from "./Routers/LoginRouter.js"
 import rateLimit from "express-rate-limit";
 import postsRouter from "./Routers/PostsRouter.js";
 import chatroomsRouter from "./Routers/ChatroomsRouter.js";
+import friendsRouter from "./Routers/FriendsRouter.js"
 import {Server} from "socket.io";
 import http from "http";
 import bodyParser from "body-parser";
@@ -110,6 +111,8 @@ app.use(loginRouter);
 app.use(postsRouter);
 
 app.use(chatroomsRouter);
+
+app.use(friendsRouter)
 
 app.get("/api/chat_messages/:roomId", (req, res) => {
     const {roomId} = req.params;

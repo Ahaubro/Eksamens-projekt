@@ -12,7 +12,9 @@ db.query(`DROP TABLE IF EXISTS chat_messages`);
 db.query(`DROP TABLE IF EXISTS likedPosts`);
 db.query(`DROP TABLE IF EXISTS posts`);
 db.query(`DROP TABLE IF EXISTS chatrooms`);
+db.query(`DROP TABLE IF EXISTS friends`);
 db.query(`DROP TABLE IF EXISTS users`);
+
 
 
 //Users table
@@ -84,6 +86,18 @@ db.query(`
         roomId INT,
         FOREIGN KEY(roomId) REFERENCES chatrooms(id),
         FOREIGN KEY(userId) REFERENCES users(id)
+    );
+`);
+
+//Friends table
+db.query(`
+    CREATE TABLE IF NOT EXISTS friends (
+        id INT AUTO_INCREMENT,
+        userOne INT,
+        userTwo INT,
+        PRIMARY KEY(id),
+        FOREIGN KEY(userOne) REFERENCES users(id),
+        FOREIGN KEY(userTwo) REFERENCES users(id)
     );
 `);
 
