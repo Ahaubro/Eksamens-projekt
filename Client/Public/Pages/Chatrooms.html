@@ -1,7 +1,8 @@
 <div id="content">
     <h1>Chatrooms</h1>
     <div id="chatroomsList"></div>
-    <input id="chatroomName"/>
+    <label>Name: </label><input id="chatroomName"/>
+    <label>Message Length: </label><input type="number" id="chatroomMessageLength"/>
     <button onclick="createChatroom()">Create</button>
 </div>
 <p id="response"></p>
@@ -31,6 +32,7 @@
     async function loadMessages(){
         const response = await fetch("/api/chat_messages/"+currentRoomId);
         const oldMessages = await response.json();
+        messages.innerHTML="";
         for(let i in oldMessages){
             const {userId, username, message} = oldMessages[i];
             messages.innerHTML+=`<p><a href="/profile/${userId}"><b>${username}:</a></b> ${message}</p>`;
@@ -49,8 +51,9 @@
         document.getElementById("response").innerText = "";
         const messageInput = document.getElementById("messageInput");
         const message = messageInput.value;
-        if(message.length > 200)
-            document.getElementById("response").innerText = "Message can not be over 200 characters";
+        let msgMaxLength = Number(document.getElementById("msgMaxLength").innerText);
+        if(message.length > msgMaxLength)
+            document.getElementById("response").innerText = `Message can not be over ${msgMaxLength} characters`;
         else{
             const response = await fetch("/api/chat_messages", {
                 headers: {"content-type": "application/json"},
@@ -69,10 +72,11 @@
         let messageInput = document.getElementById("messageInput");
         let lengthLimit = document.getElementById("lengthLimit");
         let msgLength = document.getElementById("msgLength");
+        let msgMaxLength = Number(document.getElementById("msgMaxLength").innerText);
         msgLength.innerText = messageInput.value.length;
-        if(messageInput.value.length > 200 && lengthLimit.style.color != "red")
+        if(messageInput.value.length > msgMaxLength && lengthLimit.style.color != "red")
             lengthLimit.style.color = "red";
-        else if(messageInput.value.length <= 200 && lengthLimit.style.color != "black")
+        else if(messageInput.value.length <= msgMaxLength && lengthLimit.style.color != "black")
             lengthLimit.style.color = "black";
     }
 
@@ -84,11 +88,13 @@
         const response = await fetch("/api/chatrooms");
         const result = await response.json();
         chatrooms = result;
+        console.log(chatrooms);
         chatroomsDiv.innerHTML = "";
         for(let i in chatrooms){
-            const {id, name, username} = chatrooms[i];
+            const {id, name, username, creatorId} = chatrooms[i];
             chatroomsDiv.innerHTML+= `<p>
-                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> <h2>${name}</h2><span>By ${username}<span></button>
+                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> <h2>${name}</h2></button><br>
+                <span>By <a href="./profile/${creatorId}">${username}</a><span>
             </p>`;
         }
     }
@@ -96,8 +102,10 @@
     loadChatrooms(chatroomsDiv);
     const contentDiv = document.getElementById("content");
 
-    function joinRoom(id, name) {
-        console.log(id + name)
+    async function joinRoom(id, name) {
+        const response = await fetch("/api/chatrooms/"+id);
+        const chatroom = await response.json();
+        console.log(chatroom);
 
         currentRoomId = id;
 
@@ -106,9 +114,9 @@
             <div id="messages"></div>
 
             <input placeholder="Message" id="messageInput" onkeyup="updateMessageLength()"/>
-            <span id="lengthLimit"><span id="msgLength">0</span>/200</span>
-            <button id="sendBtn" onclick="sendMessage(${id})">Send message</button>
-            <button id="leaveBtn" onclick="leaveChatroom()">Leave chatroom</button>
+            <span id="lengthLimit"><span id="msgLength">0</span>/<span id="msgMaxLength">${chatroom.max_message_length}</span></span>
+            <button id="sendBtn" onclick="sendMessage(${id})">Send Message</button>
+            <button id="leaveBtn" onclick="leaveChatroom()">Leave Chatroom</button>
         `;
 
         loadMessages();
@@ -119,7 +127,8 @@
         contentDiv.innerHTML= ` 
             <h1>Chatrooms</h1>
             <div id="chatroomsList"></div>
-            <input id="chatroomName"/>
+            <label>Name: </label><input id="chatroomName"/>
+            <label>Message Length: </label><input type="number" id="chatroomMessageLength"/>
             <button onclick="createChatroom()">Create</button>
         `;
 
@@ -132,12 +141,14 @@
         document.getElementById("response").innerText = "";
         let chatroomsDiv = document.getElementById("chatroomsList");
         const name = document.getElementById("chatroomName").value;
-
-
+        const maxMsgLength = Number(document.getElementById("chatroomMessageLength").value);
+        if(maxMsgLength < 100 || maxMsgLength > 200)
+            return document.getElementById("response").innerText = "Max message length must be between 100 and 2000";
+        
         const response = await fetch("/api/chatrooms", {
             headers: {"content-type": "application/json"},
             method: "POST",
-            body: JSON.stringify({name, charLength})
+            body: JSON.stringify({name, maxMsgLength})
         });
         const result = await response.text();
         document.getElementById("response").innerText = result;

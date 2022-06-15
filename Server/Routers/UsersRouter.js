@@ -21,6 +21,15 @@ router.get("/api/getUsername/:id", async (req, res) => {
     });
 });
 
+router.get("/api/getUserByUsername/:username", async (req, res) => {
+    const username = req.params.username;
+    const sqlSelect = "SELECT * FROM users WHERE username = ?";
+    const foundUser = await db.query(sqlSelect, [username], function (err, result) {
+        if (err) throw err;
+        res.send(result[0]);
+    });
+});
+
 router.get("/api/getUserById/:id", (req, res) => {
     const id = req.params.id
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
