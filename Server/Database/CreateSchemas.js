@@ -61,6 +61,7 @@ db.query(`
         id INT PRIMARY KEY AUTO_INCREMENT,
         creatorId INT,
         name VARCHAR(80),
+        max_message_length INT,
         FOREIGN KEY(creatorId) REFERENCES users(id)
     );
 `);
@@ -81,7 +82,7 @@ db.query(`
 db.query(`
     CREATE TABLE IF NOT EXISTS chat_messages (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        message VARCHAR(200),
+        message VARCHAR(2000),
         userId INT,
         roomId INT,
         FOREIGN KEY(roomId) REFERENCES chatrooms(id),
@@ -104,8 +105,8 @@ db.query(`
 
 // Dummy data til db
 db.query(`
-    INSERT INTO users(username, email, password) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}'),
-    ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}'), ('malte', 'malte@hartvith.dk', '${malteHashPass}');
+    INSERT INTO users(username, email, password, profilepicture) VALUES ('Ahaubro', 'alex_haubro@hotmail.com', '${alexHashPass}', 'ppic.jpg'),
+    ('Thorminathor', 'thorfa4444@gmail.com', '${thorHashPass}', 'PP.jpg'), ('malte', 'malte@hartvith.dk', '${malteHashPass}', 'Ca3pture.jpg');
 `);
 
 db.query(`
@@ -117,7 +118,7 @@ db.query(`
 `);
 
 db.query(`
-    INSERT INTO chatrooms(creatorId, name) VALUES (1, 'Chatroom - Alfa'), (1, 'Chatroom - Beta'), (2, 'Chatroom - Delta');
+    INSERT INTO chatrooms(creatorId, name, max_message_length) VALUES (1, 'Chatroom - Alfa', 200), (1, 'Chatroom - Beta', 400), (2, 'Chatroom - Delta', 600);
 `);
 
 db.end();
