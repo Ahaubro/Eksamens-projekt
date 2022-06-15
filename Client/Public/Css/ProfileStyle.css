@@ -80,7 +80,7 @@ p{
     border-radius: 20px;
 }
 
-#postsPos{
+#postsPos, #profile-posts-pos{
     position: absolute;
     left: 95%;
     top: 1%;
@@ -89,6 +89,11 @@ p{
     height: 41%;
     overflow: hidden;
     overflow-y: scroll;
+}
+
+#profile-posts-pos{
+    height: 98%;
+
 }
 
 #deletePostBtn{
