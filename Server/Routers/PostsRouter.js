@@ -112,7 +112,10 @@ router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
         let reactionCount = result[0][reaction]
         
         reactionCount--;
-
+        if(reactionCount < 0 ){
+            reactionCount = 0; 
+        }
+        
         db.query(`UPDATE posts SET ${reaction} = ? WHERE id = ?`, [reactionCount, postId], (error, result) => {
             if (error)
                 return res.send(error);

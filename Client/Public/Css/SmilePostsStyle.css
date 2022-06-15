@@ -51,7 +51,7 @@
 #like-count, #heart-count, #care-count{
     display: inline-block;
     position: relative;
-    
+    text-align: center;
 }
 
 #like-button, #heart-button, #care-button{
@@ -83,6 +83,7 @@
     top: 0.02em;
     left: 0.25em;
     opacity: 50%;
+    user-select: none;
 }
 
 #reaction-buttons{
