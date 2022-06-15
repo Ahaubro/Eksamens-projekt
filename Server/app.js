@@ -70,6 +70,27 @@ app.get("/profile/:id", async (req, res) => {
     })
 });
 
+/* --------------------------------------  AREX -------------------------------------*/
+app.get("/profileSearch/:username/:id", async (req, res) => {
+    const username = req.params.username;
+    const id = req.params.id
+    console.log(username)
+    db.query("SELECT * FROM users WHERE username = ?", [username], (error, result) => {
+        if (error)
+            res.send(error);
+        else if (result[0]) {
+            console.log("Herinde")
+            //let { username, firstname, middlename, lastname, birthday, address, country, city,
+            //zipcode, profilecolor, profilepicture } = result[0];
+            const user = result[0];
+            //return res.send(SSR.loggedInDependent(SSR.loadProfilePage(user), req.session.userID));
+            return res.redirect(`/profile/${result[0].id}`)
+        } else {
+            return res.status(400).send("didnt find anything")
+        }
+    })
+});
+
 //Skal nok ikke bruges
 /*const baseLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
