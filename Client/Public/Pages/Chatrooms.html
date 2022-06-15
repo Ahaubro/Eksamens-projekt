@@ -31,6 +31,7 @@
     async function loadMessages(){
         const response = await fetch("/api/chat_messages/"+currentRoomId);
         const oldMessages = await response.json();
+        messages.innerHTML="";
         for(let i in oldMessages){
             const {userId, username, message} = oldMessages[i];
             messages.innerHTML+=`<p><a href="/profile/${userId}"><b>${username}:</a></b> ${message}</p>`;
@@ -86,9 +87,10 @@
         chatrooms = result;
         chatroomsDiv.innerHTML = "";
         for(let i in chatrooms){
-            const {id, name, username} = chatrooms[i];
+            const {id, name, username, creatorId} = chatrooms[i];
             chatroomsDiv.innerHTML+= `<p>
-                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> <h2>${name}</h2><span>By ${username}<span></button>
+                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> <h2>${name}</h2></button><br>
+                <span>By <a href="./profile/${creatorId}">${username}</a><span>
             </p>`;
         }
     }
