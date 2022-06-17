@@ -178,7 +178,6 @@
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                             ${reactionArrayForPosts(id, numberArray, "activeReaction", 1)}
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
-
                         </div>`
                 } else if (likedPosts.find((post) => post.postId == id && post.reaction === 2)) {
                     SecondPostPart += `
@@ -205,35 +204,38 @@
             }
         }
     }
-    //lav en metode som disabler de andre knapper når man har liket en post. Så skal hele postet ikke laves om og man sparer alle if statements. Brug likebutton{id} til at se om brugeren har liket posten, og hvis de har - disable 
+    
     async function addReaction(id, reaction, numberArray) {
-
+        
         if (reaction === "likes") {
-            document.getElementById(`reaction-count${id}`).innerHTML = ` 
-                <div id="reaction-count${id}">
+            numberArray[0]++;
+            const html = `
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 0)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
-
-                </div>`
+                `;
+            console.log(html);
+            document.getElementById(`reaction-count${id}`).innerHTML = html;
         }
         if (reaction === "hearts") {
-            document.getElementById(`reaction-count${id}`).innerHTML = `
-                <div id="reaction-count${id}">
+            numberArray[1]++;
+            const html = `
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 1)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
-                </div>`
-            console.log(numberArray[1])
+                `
+            console.log(html);
+            document.getElementById(`reaction-count${id}`).innerHTML = html;
         }
         if (reaction === "cares") {
-            document.getElementById(`reaction-count${id}`).innerHTML = `
-                <div id="reaction-count${id}">
+            numberArray[2]++;
+            const html = `
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 2)}
-
-                </div>`
+                `
+            console.log(html);
+            document.getElementById(`reaction-count${id}`).innerHTML = html;
         }
 
         const response = await fetch(`/api/postsOnlyLikes/${id}`, {
@@ -248,32 +250,28 @@
 
     async function removeReaction(id, reaction, numberArray) {
 
-        debugger
         if (reaction === "likes") {
-            document.getElementById(`reaction-count${id}`).innerHTML = ` 
-                <div id="reaction-count${id}">
+            numberArray[0]--;
+            document.getElementById(`reaction-count${id}`).innerHTML = `
                     ${reactionArrayForPosts(id, numberArray, "removeReaction", 0)}
                     ${reactionArrayForPosts(id, numberArray, "enabledButton", 1)}
                     ${reactionArrayForPosts(id, numberArray, "enabledButton", 2)}
-
-                </div>`
+                    `
         } if (reaction === "hearts") {
+            numberArray[1]--;
             document.getElementById(`reaction-count${id}`).innerHTML = `
-                <div id="reaction-count${id}">
                     ${reactionArrayForPosts(id, numberArray, "enabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "removeReaction", 1)}
                     ${reactionArrayForPosts(id, numberArray, "enabledButton", 2)}
-
-                </div>`
+                    `
         } if (reaction === "cares") {
+            numberArray[2]--;
             console.log("den kommer herind")
             document.getElementById(`reaction-count${id}`).innerHTML = `
-                <div id="reaction-count${id}">
                     ${reactionArrayForPosts(id, numberArray, "enabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "enabledButton", 1)}
                     ${reactionArrayForPosts(id, numberArray, "removeReaction", 2)}
-
-                </div>`
+                `
         }
         const response = await fetch(`/api/postsOnlyUnLikes/${id}`, {
             headers: {
