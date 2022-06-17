@@ -19,8 +19,15 @@
 </div>
 
 
-<button onclick="addFriend()"> Add friend</button>
+<button id="add_friend_btn" onclick="addFriend()"> Add friend</button>
 <p id="responseMessage"></p>
+
+
+<div id="friends_pos">
+    <p>Friends:</p>
+    <hr>
+    <div id="friends"></div>
+</div>
 
 
 
@@ -76,7 +83,7 @@
     let posts;
 
     // Til friends
-    let loadedUserId = 0;
+    let loadedUsername;
 
     loadPosts();
 
@@ -128,6 +135,9 @@
     async function getProfileInformation() {
         const res = await fetch("/api/user/" + userId);
         const user = await res.json()
+
+        loadedUsername = user.username
+
         uname.innerText = user.username
         fname.innerText = user.firstname
         mname.innerText = user.middlename
@@ -162,4 +172,50 @@
         response = document.getElementById("responseMessage");
         response.innerText= await res.text();
     }
+
+    async function getFriends() {
+		const friendsDiv = document.getElementById("friends");
+		let friendList;
+		let users = [];
+		let arr = [];
+        let userNameList = [];
+
+		const res = await fetch(`/api/profileFriends/${userId}`);
+		const result = await res.json();
+
+		friendList = result;
+
+        console.log("NU FRIENDLIST", friendList)
+
+		for(let friends in friendList) {
+			const { userOne, userTwo } = friendList[friends];
+
+			arr.push(userOne);
+			arr.push(userTwo); 
+		}
+
+		for(let i in arr) {
+			const userOneRes = await fetch(`/api/getUserById/${arr.at(i)}`)
+			const userOneResult = await userOneRes.json();
+
+			if(userOneResult.username != loadedUsername) {
+                userNameList.push(userOneResult.username)
+                console.log("Usernamelistr", userNameList)
+            }
+		}
+        // Eventuelt udskift med filter funktion doh
+        let uniqueList = [];
+        userNameList.forEach((element) => {
+            if (!uniqueList.includes(element)) {
+                uniqueList.push(element);
+            }
+        });
+
+        for(let i in uniqueList) {
+            friendsDiv.innerHTML+=`<p> ${uniqueList[i]} </p>`;
+        }
+	}
+
+    getFriends();
+
 </script>

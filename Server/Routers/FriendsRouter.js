@@ -3,7 +3,17 @@ import db from "../Database/CreateConnection.js"
 
 const router = Router();
 
-router.get("/api/friends/", (req, res) => {
+//Reads friends belonging to a profile from id
+router.get("/api/profileFriends/:userId", (req, res) => {
+    const userId = req.params.userId
+    db.query("SELECT * FROM friends WHERE userOne = ? OR userTwo = ?;", [userId, userId], (error, result) => {
+        if (error) throw error;
+        res.send(result);
+    });
+});
+
+//Reads myFriends for myPage.html
+router.get("/api/Myfriends/", (req, res) => {
     const userId = req.session.userID
     db.query("SELECT * FROM friends WHERE userOne = ? OR userTwo = ?", [userId, userId], (error, result) => {
         if (error) throw error;
@@ -11,7 +21,7 @@ router.get("/api/friends/", (req, res) => {
     });
 });
 
-
+//Creates new friendship between users
 router.post("/api/friends", (req, res) => {
     const userOneId = req.session.userID
     console.log(userOneId)

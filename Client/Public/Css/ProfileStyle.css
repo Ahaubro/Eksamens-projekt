@@ -155,3 +155,20 @@ p{
     background-position: center;
     background-size: cover;
 }
+
+#add_friend_btn{
+    position: fixed;
+    left: 31%;
+    transform: translateX(-31%);
+    top: 65%;
+    padding: 6px;
+    background-color: rgb(34, 238, 34);
+    border-radius: 3px;
+    font-size: 18px;
+    color: white;
+}
+
+#add_friend_btn:hover{
+    background-color: rgb(36, 128, 36);
+    transition: 0.2s;
+}
