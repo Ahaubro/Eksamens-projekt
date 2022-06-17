@@ -158,7 +158,7 @@
             minutes = formatTime(minutes);
             hours = formatTime(hours);
 
-            if (categori === categorySelection || categori !== categorySelection && categori !== "home") {
+            if (categori === categorySelection || categorySelection === "all" && categori !== "home") {
                 const likes = posts[i].likes || 0;
                 const hearts = posts[i].hearts || 0;
                 const cares = posts[i].cares || 0;
