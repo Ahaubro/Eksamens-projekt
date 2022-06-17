@@ -12,6 +12,7 @@
 <script>
 
     setActive()
+    loadPosts();
     function setActive() {
 
         const currentPage = window.location.pathname.substring(1)
@@ -130,12 +131,7 @@
             return enableButtonsArray[index]
         }
     }
-
-    if(document.getElementById("category-selection").onchange){
-        loadPosts();
-    }
-    loadPosts();
-         
+  
     async function loadPosts() {
         const response = await fetch("/api/posts");
         const result = await response.json();
@@ -148,8 +144,6 @@
 
         let categorySelection = document.getElementById("category-selection").value;
         console.log(categorySelection)
-
-
         for (let i in posts) {
             const { id, text, userId, date, categori } = posts[i];
             let { minutes, hours } = posts[i];
