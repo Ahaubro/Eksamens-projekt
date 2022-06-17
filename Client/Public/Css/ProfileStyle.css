@@ -16,15 +16,15 @@
 }
 
 #myPage{
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 45%;
-    height: 75%;
     background-color: rgba(233, 240, 239, 0.973);
     border-radius: 5px;
     border: 1px solid rgb(105, 100, 100);
     opacity: 0.9;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45%;
+    height: 75%;
 }
 
 #editBtn{
@@ -157,7 +157,7 @@ p{
 }
 
 #add_friend_btn{
-    position: fixed;
+    position: absolute;
     left: 31%;
     transform: translateX(-31%);
     top: 65%;

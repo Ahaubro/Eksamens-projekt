@@ -77,7 +77,7 @@
 }
 
 #friends_pos{
-    position: fixed;
+    position: absolute;
     top: 75%;
     left: 31%;
     transform: translateX(-31%);
