@@ -27,6 +27,7 @@
     const postsDiv = document.getElementById("posts");
     let posts;
     let id, numberArray = ""
+
     function reactionArrayForPosts(id, numberArray, condition, index){
         if ( condition === "add" ) {
             const addReactionArray = [
@@ -34,21 +35,21 @@
                     <div id="like-div">
                         <button id="like-button" onclick="removeReaction(${id}, 'likes', [${numberArray}])">😍</button> <div id="remove-like" onclick="removeReaction(${id}, 'likes', [${numberArray}])" >X</div>
                     </div>  
-                        <b id="like-count">${numberArray[0] + 1}</b> 
+                        <b id="like-count">${numberArray[0]}</b> 
                 </div>`,
     
                 `<div id="heart-count"> 
                     <div id="heart-div">
                         <button id="heart-button" onclick="removeReaction(${id}, 'hearts', [${numberArray}])">❤️</button> <div id="remove-heart" onclick="removeReaction(${id}, 'hearts', [${numberArray}])" >X</div>
                     </div>  
-                        <b id="heart-count">${numberArray[1] + 1}</b>  
+                        <b id="heart-count">${numberArray[1]}</b>  
                 </div>`,
     
                 `<div id="care-count"> 
                     <div id="care-div">
                         <button id="care-button" onclick="removeReaction(${id}, 'cares', [${numberArray}])">🥰</button> <div id="remove-care" onclick="removeReaction(${id}, 'cares', [${numberArray}])" >X</div>
                     </div> 
-                        <b id="care-count">${numberArray[2] + 1}</b> 
+                        <b id="care-count">${numberArray[2]}</b> 
                 </div>`
             ]
                 return addReactionArray[index]
