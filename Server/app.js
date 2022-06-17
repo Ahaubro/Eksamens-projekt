@@ -51,6 +51,23 @@ app.get("/search/:query", (req, res) => {
     res.send(SSR.loggedInDependent(SSR.getSearchPage(req.params.query), req.session.userID));
 });
 
+app.get("/profile/:id", async (req, res) => {
+    if(!req.session.userID) return res.redirect("/");
+    const id = req.params.id;
+    db.query("SELECT * FROM users WHERE id = ?", [id], (error, result) => {
+        if (error)
+            res.send(error);
+        else if (result[0]) {
+            //let { username, firstname, middlename, lastname, birthday, address, country, city,
+            //zipcode, profilecolor, profilepicture } = result[0];
+            const user = result[0];
+            res.send(SSR.loggedInDependent(SSR.loadProfilePage(user), req.session.userID));
+        } else {
+            res.status = 400;
+            res.send("didnt find anything")
+        }
+    })
+});
 
 //Skal nok ikke bruges
 /*const baseLimiter = rateLimit({
