@@ -33,8 +33,6 @@ function loggedInDependent(page, isLoggedIn){
     }
 }
 
-
-
 const pageStylesDirectory = './Css';
 const homeStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/HomeStyle.css">`;
 const chatroomStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/ChatroomStyle.css">`;
@@ -100,6 +98,17 @@ const editPage = SSR.replace(templatePage, {
     content: '/EditProfile.html'
 })
 
+const searchPage = SSR.replace(templatePage, {
+    title: 'Smiles - Search',
+    styles: '',
+    content: '/UserSearch.html'
+})
+
+function getSearchPage(query){
+    SSR.directory = '../../Client/Public/Pages';
+    return SSR.replace(searchPage, {query});
+}
+
 export default {
     homePage,
     chatroomsPage,
@@ -108,6 +117,7 @@ export default {
     editPage,
     smilePostsPageOne,
     smilePostsPageTwo,
+    getSearchPage,
     loggedInDependent,
     loadProfilePage
 };

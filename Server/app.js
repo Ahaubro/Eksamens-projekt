@@ -5,7 +5,8 @@ import loginRouter from "./Routers/LoginRouter.js"
 import rateLimit from "express-rate-limit";
 import postsRouter from "./Routers/PostsRouter.js";
 import chatroomsRouter from "./Routers/ChatroomsRouter.js";
-import friendsRouter from "./Routers/FriendsRouter.js"
+import friendsRouter from "./Routers/FriendsRouter.js";
+import searchRouter from "./Routers/SearchRouter.js";
 import {Server} from "socket.io";
 import http from "http";
 import bodyParser from "body-parser";
@@ -52,7 +53,10 @@ app.get("/editProfile", (req, res) => {
     res.send(SSR.loggedInDependent(SSR.editPage, req.session.userID))
 });
 app.get("/login", (req, res) => res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID)) );
-
+app.get("/search/:query", (req, res) => {
+    if(!req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.getSearchPage(req.params.query), req.session.userID));
+});
 
 app.get("/profile/:id", async (req, res) => {
     const id = req.params.id;
@@ -112,7 +116,9 @@ app.use(postsRouter);
 
 app.use(chatroomsRouter);
 
-app.use(friendsRouter)
+app.use(friendsRouter);
+
+app.use(searchRouter);
 
 app.get("/api/chat_messages/:roomId", (req, res) => {
     const {roomId} = req.params;
