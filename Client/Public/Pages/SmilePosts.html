@@ -35,21 +35,21 @@
                     <div id="like-div">
                         <button id="like-button" onclick="removeReaction(${id}, 'likes', [${numberArray}])">😍</button> <div id="remove-like" onclick="removeReaction(${id}, 'likes', [${numberArray}])" >X</div>
                     </div>  
-                        <b id="like-count">${numberArray[0]}</b> 
+                        <b id="likes-count${id}">${numberArray[0]}</b> 
                 </div>`,
     
                 `<div id="heart-count"> 
                     <div id="heart-div">
                         <button id="heart-button" onclick="removeReaction(${id}, 'hearts', [${numberArray}])">❤️</button> <div id="remove-heart" onclick="removeReaction(${id}, 'hearts', [${numberArray}])" >X</div>
                     </div>  
-                        <b id="heart-count">${numberArray[1]}</b>  
+                        <b id="hearts-count${id}">${numberArray[1]}</b>  
                 </div>`,
     
                 `<div id="care-count"> 
                     <div id="care-div">
                         <button id="care-button" onclick="removeReaction(${id}, 'cares', [${numberArray}])">🥰</button> <div id="remove-care" onclick="removeReaction(${id}, 'cares', [${numberArray}])" >X</div>
                     </div> 
-                        <b id="care-count">${numberArray[2]}</b> 
+                        <b id="cares-count${id}">${numberArray[2]}</b> 
                 </div>`
             ]
 
@@ -61,21 +61,21 @@
                     <div id="like-div">
                         <button id="like-button" onclick="addReaction(${id}, 'likes', [${numberArray}])">😍</button> 
                     </div>  
-                    <b id="like-count">${numberArray[0]}</b> 
+                    <b id="likes-count">${numberArray[0]}</b> 
                 </div>`,
     
                 `<div id="heart-count"> 
                     <div id="heart-div">
                         <button id="heart-button" onclick="addReaction(${id}, 'hearts', [${numberArray}])">❤️</button>
                     </div>  
-                    <b id="heart-count">${numberArray[1]}</b>  
+                    <b id="hearts-count">${numberArray[1]}</b>  
                 </div>`,
     
                 `<div id="care-count"> 
                     <div id="care-div">
                         <button id="care-button" onclick="addReaction(${id}, 'cares', [${numberArray}])">🥰</button>
                     </div> 
-                    <b id="care-count">${numberArray[2]}</b> 
+                    <b id="cares-count">${numberArray[2]}</b> 
                 </div>`
             ]
                 return removeReactionArray[index] 
@@ -86,21 +86,21 @@
                     <div id="like-div">
                         <button id="like-button" disabled>😍</button>
                     </div>
-                         <b id="like-count">${numberArray[0]}</b> 
+                         <b id="likes-count">${numberArray[0]}</b> 
                 </div>`,
     
                 `<div id="heart-count"> 
                     <div id="heart-div">
                         <button id="heart-button" disabled>❤️</button>
                     </div> 
-                        <b id="heart-count">${numberArray[1]}</b>  
+                        <b id="hearts-count">${numberArray[1]}</b>  
                 </div> `,
     
                 `<div id="care-count"> 
                     <div id="care-div">
                         <button id="care-button" disabled>🥰</button>
                     </div> 
-                        <b id="care-count">${numberArray[2]}</b> 
+                        <b id="cares-count">${numberArray[2]}</b> 
                 </div>`
             ]
             return disabledButtonsArray[index]
@@ -111,21 +111,21 @@
                     <div id="like-div">
                         <button id="like-button" onclick="addReaction(${id}, 'likes', [${numberArray}])">😍</button>
                     </div>  
-                    <b id="like-count">${numberArray[0]}</b>  
+                    <b id="likes-count">${numberArray[0]}</b>  
                 </div>`,
     
                 `<div id="heart-count"> 
                     <div id="heart-div">
                         <button id="heart-button" onclick="addReaction(${id}, 'hearts', [${numberArray}])">❤️</button>
                     </div> 
-                    <b id="heart-count">${numberArray[1]}</b>  
+                    <b id="hearts-count">${numberArray[1]}</b>  
                 </div> `,
     
                 `<div id="care-count"> 
                     <div id="care-div">
                         <button id="care-button" onclick="addReaction(${id}, 'cares', [${numberArray}])">🥰</button>
                     </div> 
-                    <b id="care-count">${numberArray[2]}</b> 
+                    <b id="cares-count">${numberArray[2]}</b> 
                 </div>`
             ]    
             return enableButtonsArray[index]
@@ -198,7 +198,6 @@
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
                             ${reactionArrayForPosts(id, numberArray, "activeReaction", 2)}
-
                         </div>`
                 } else {
                 SecondPostPart += `
@@ -220,30 +219,29 @@
     //lav en metode som disabler de andre knapper når man har liket en post. Så skal hele postet ikke laves om og man sparer alle if statements. Brug likebutton{id} til at se om brugeren har liket posten, og hvis de har - disable 
     async function addReaction(id, reaction, numberArray) {
 
+        
         if (reaction === "likes") {
+            numberArray[0]++
             document.getElementById(`reaction-count${id}`).innerHTML = ` 
-                <div id="reaction-count${id}">
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 0)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
+                `
 
-                </div>`
         } if (reaction === "hearts") {
             document.getElementById(`reaction-count${id}`).innerHTML = `
-                <div id="reaction-count${id}">
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 1)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
-                </div>`
+                `
             console.log(numberArray[1])
         } if (reaction === "cares") {
             document.getElementById(`reaction-count${id}`).innerHTML = `
-                <div id="reaction-count${id}">
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 2)}
 
-                </div>`
+                `
             
         }
 
@@ -260,7 +258,6 @@
 
     async function removeReaction(id, reaction, numberArray) {
 
-        debugger
         if (reaction === "likes") {
             document.getElementById(`reaction-count${id}`).innerHTML = ` 
                 <div id="reaction-count${id}">
