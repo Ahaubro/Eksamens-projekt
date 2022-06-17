@@ -44,7 +44,6 @@ router.post("/auth/login", async (req, res) => {
 
         async function isSame() {
             const result = await bcrypt.compare(password, resPas);
-            //.log(password + " " + resPas)
 
             if (result && !req.session.loggedIn) {
                 req.session.loggedIn = true;

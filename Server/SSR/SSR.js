@@ -33,8 +33,6 @@ function loggedInDependent(page, isLoggedIn){
     }
 }
 
-
-
 const pageStylesDirectory = './Css';
 const homeStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/HomeStyle.css">`;
 const chatroomStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/ChatroomStyle.css">`;
