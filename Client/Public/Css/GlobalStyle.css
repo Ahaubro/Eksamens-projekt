@@ -75,3 +75,18 @@
     padding: 10px;
     color: white;
 }
+
+#friends_pos{
+    position: fixed;
+    top: 75%;
+    left: 31%;
+    transform: translateX(-31%);
+    border: 0.5px solid salmon;
+    padding: 8px;
+    width: 150px;
+}
+
+#search_btn{
+    width: 130%;
+}
+

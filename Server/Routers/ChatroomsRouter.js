@@ -11,6 +11,7 @@ router.get("/api/chatrooms", (req, res) => {
     });
 });
 
+
 router.get("/api/chatrooms/:id", (req, res) => {
     const id  = Number(req.params.id)
     db.query("SELECT * FROM chatrooms WHERE id = ?", [id], (err, result) => {
@@ -19,6 +20,7 @@ router.get("/api/chatrooms/:id", (req, res) => {
         res.send(result[0]);
     });
 });
+
 
 router.post("/api/chatrooms", (req, res) => {
     const { name, maxMsgLength } = req.body;
@@ -34,6 +36,27 @@ router.post("/api/chatrooms", (req, res) => {
             res.statusCode = 400;
             res.send("You can only create 3 chatrooms. You have already created 3 chatrooms");
         }
+    });
+});
+
+
+router.get("/api/chat_messages/:roomId", (req, res) => {
+    const {roomId} = req.params;
+    db.query("SELECT * FROM chat_messages LEFT JOIN users ON chat_messages.userId = users.id WHERE roomId = ?", [roomId], (error, messages) => {
+        console.log(messages)
+        res.send(messages);
+    });
+});
+
+
+router.post("/api/chat_messages", (req, res) => {
+    console.log("Saving message");
+    const {message, roomId} = req.body;
+    const userId = req.session.userID;
+    db.query("INSERT INTO chat_messages(userId, message, roomId) VALUES (?, ?, ?)", [userId, message, roomId], () => {
+        db.query("SELECT * FROM users WHERE id = ?", [userId], (error, users) => {
+            res.send(users[0].username);
+        });
     });
 });
 

@@ -9,17 +9,22 @@ h3{
 }
 
 #login-container{
-    width: 12%;
-    height: 30%;
+    width: 16em;
+    height: 23em;
     background-color: #f07272;
     border: 3px solid rgba(113, 210, 235, 0.973);
-    position: fixed;
+    position: relative;
     left: 50%;
-    top: 34%;
+    top: 28%;
     transform: translateX(-50%);
     border-radius: 7px;
 }
 
+#login-header{
+    
+    left: 42%;
+    top: 15%;
+}
 input{
     width: 91%;
     font-size: 15px;
