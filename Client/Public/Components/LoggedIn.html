@@ -49,13 +49,13 @@
 
 
     async function getUserBySearch(){
-        const username = document.getElementById("user_search").value
+        const searchQuery = document.getElementById("user_search").value;
 
-        const userObjRes = await fetch(`/api/getUserByUsername/${username}`)
-        const userInformation = await userObjRes.json();
+        //const userObjRes = await fetch(`/api/getUserByUsername/${username}`)
+        //const userInformation = await userObjRes.json();
 
-        window.location.replace(`/profile/${userInformation.id}`)
-
+        //window.location.replace(`/search/${searchQuery}`);
+        window.location.replace('/search/' + searchQuery);
         
     }
 
