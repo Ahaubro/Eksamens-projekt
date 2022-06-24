@@ -98,7 +98,6 @@ router.patch("/api/editProfile", async (req, res) => {
                 const editQuery = await db.query(updateProfile, [req.body, id], function (err, result) {
 
                     if (err) {
-                        console.log(err)
                         return res.send("something went wrong")
                     }
                     return res.send("Your profile have now been changed")
@@ -118,7 +117,6 @@ router.post("/api/uploadPicture", (req, res) => {
     }
 
     const sampleFile = req.files.sampleFile
-    console.log(sampleFile)
     
     const uploadPath = '../Client/Public/Images/Uploads/' + sampleFile.name
     sampleFile.mv(uploadPath, function(err) {
@@ -150,12 +148,10 @@ router.get("/profile/:id", async (req, res) => {
 /*router.get("/api/profileSearch/:username/:id", async (req, res) => {
     const username = req.params.username;
     const id = req.params.id
-    console.log(username)
     db.query("SELECT * FROM users WHERE username = ?", [username], (error, result) => {
         if (error)
             res.send(error);
         else if (result[0]) {
-            console.log("Herinde")
             const user = result[0];
             return res.redirect(`/profile/${result[0].id}`)
         } else {

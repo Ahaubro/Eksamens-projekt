@@ -10,6 +10,10 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 
+    let chatroomsDiv = document.getElementById("chatroomsList");
+    let chatrooms;
+    const contentDiv = document.getElementById("content");
+
     //Set active function
     setActive();
     function setActive(){
@@ -47,6 +51,7 @@
         loadMessages();
     });
 
+
     async function sendMessage(roomId) {
         document.getElementById("response").innerText = "";
         const messageInput = document.getElementById("messageInput");
@@ -61,12 +66,12 @@
                 body: JSON.stringify({message, roomId})
             });
             const username = await response.text();
-            console.log(username);
             socket.emit("sent-message", {username, message, roomId});
             messageInput.value = "";
             updateMessageLength();
         }
     }
+
 
     function updateMessageLength(){
         let messageInput = document.getElementById("messageInput");
@@ -80,15 +85,12 @@
             lengthLimit.style.color = "black";
     }
 
-    let chatroomsDiv = document.getElementById("chatroomsList");
-    let chatrooms;
 
     async function loadChatrooms(chatroomsDiv){
 
         const response = await fetch("/api/chatrooms");
         const result = await response.json();
         chatrooms = result;
-        console.log(chatrooms);
         chatroomsDiv.innerHTML = "";
         for(let i in chatrooms){
             const {id, name, username, creatorId} = chatrooms[i];
@@ -100,12 +102,11 @@
     }
 
     loadChatrooms(chatroomsDiv);
-    const contentDiv = document.getElementById("content");
+    
 
     async function joinRoom(id, name) {
         const response = await fetch("/api/chatrooms/"+id);
         const chatroom = await response.json();
-        console.log(chatroom);
 
         currentRoomId = id;
 
@@ -118,7 +119,6 @@
             <button id="sendBtn" onclick="sendMessage(${id})">Send Message</button>
             <button id="leaveBtn" onclick="leaveChatroom()">Leave Chatroom</button>
         `;
-
         loadMessages();
     }
 

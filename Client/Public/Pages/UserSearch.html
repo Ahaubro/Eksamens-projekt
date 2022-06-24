@@ -6,6 +6,7 @@
     <div id="search-results"></div>
 </div>
 
+
 <script>
 
     let searchInput = document.getElementById("search-input");
@@ -21,7 +22,6 @@
 
     async function search(searchQuery){
         searchInput.value = searchQuery;
-        console.log("Searching for:", searchQuery);
         const response = await fetch('/api/search/' + searchQuery);
         const users = await response.json();
         showResults(users);

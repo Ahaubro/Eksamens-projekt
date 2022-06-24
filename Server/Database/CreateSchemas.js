@@ -16,7 +16,6 @@ db.query(`DROP TABLE IF EXISTS friends`);
 db.query(`DROP TABLE IF EXISTS users`);
 
 
-
 //Users table
 db.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -37,6 +36,7 @@ db.query(`
     );
 `);
 
+
 // Posts table
 db.query(`
     CREATE TABLE IF NOT EXISTS posts (
@@ -55,6 +55,7 @@ db.query(`
     );
 `);
 
+
 //Chatrooms table
 db.query(`
     CREATE TABLE IF NOT EXISTS chatrooms (
@@ -65,6 +66,7 @@ db.query(`
         FOREIGN KEY(creatorId) REFERENCES users(id)
     );
 `);
+
 
 // Posts table
 db.query(`
@@ -78,6 +80,7 @@ db.query(`
     );
 `);
 
+
 // Messages table
 db.query(`
     CREATE TABLE IF NOT EXISTS chat_messages (
@@ -89,6 +92,7 @@ db.query(`
         FOREIGN KEY(userId) REFERENCES users(id)
     );
 `);
+
 
 //Friends table
 db.query(`
