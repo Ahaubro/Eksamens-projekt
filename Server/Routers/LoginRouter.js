@@ -124,7 +124,7 @@ function sendMail(email) {
         service: 'gmail',
         auth: {
             user: 'sharethatsmileforever@gmail.com',
-            pass: 'thorogalexprojekt'
+            pass: 'cnakhhtvmxzfgous'
         }
     });
 
@@ -136,7 +136,11 @@ function sendMail(email) {
     };
 
     mailTransporter.sendMail(mailDetails, function (err, data) {
-        if (err) throw err;
+        if (err) {
+            console.log(err)
+        } else {
+            console.log("Mail sent")
+        }
     });
 }
 
