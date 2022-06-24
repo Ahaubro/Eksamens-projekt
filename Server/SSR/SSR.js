@@ -75,17 +75,6 @@ const smilePostsPage = SSR.replace(templatePage, {
     content: '/SmilePosts.html'
 });
 
-const smilePostsPageOne = SSR.replace(templatePage, {
-    title: 'Smiles - Smile Posts',
-    styles: smilePostsStyles,
-    content: '/SmilePostsOne.html'
-});
-
-const smilePostsPageTwo = SSR.replace(templatePage, {
-    title: 'Smiles - Smile Posts',
-    styles: smilePostsStyles,
-    content: '/SmilePostsTwo.html'
-});
 
 const loginPage = SSR.replace(templatePage, {
     title: 'Smiles - Login',
@@ -116,8 +105,6 @@ export default {
     smilePostsPage,
     loginPage, 
     editPage,
-    smilePostsPageOne,
-    smilePostsPageTwo,
     getSearchPage,
     loggedInDependent,
     loadProfilePage
