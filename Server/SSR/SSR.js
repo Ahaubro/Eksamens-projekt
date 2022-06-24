@@ -23,6 +23,7 @@ const SSR = {
 SSR.directory = '../../Client/Public/Components';
 const headerTemplate = SSR.loadFile("/Header.html");
 const header = SSR.replace(headerTemplate, {navbar: '/Navbar.html'});
+const footer = SSR.loadFile("/Footer.html")
 
 function loggedInDependent(page, isLoggedIn){
     SSR.directory = '../../Client/Public/Components';
@@ -43,7 +44,7 @@ const profileStyles = `<link rel="stylesheet" type="text/css" href="../Css/Profi
 
 SSR.directory = '../../Client/Public/Pages';
 const templatePage_Template = SSR.loadFile('/TemplatePage.html');
-const templatePage = SSR.replace(templatePage_Template, {header});
+const templatePage = SSR.replace(templatePage_Template, {header, footer});
 
 function loadProfilePage(user){
     SSR.directory = '../../Client/Public/Pages';
@@ -74,17 +75,6 @@ const smilePostsPage = SSR.replace(templatePage, {
     content: '/SmilePosts.html'
 });
 
-const smilePostsPageOne = SSR.replace(templatePage, {
-    title: 'Smiles - Smile Posts',
-    styles: smilePostsStyles,
-    content: '/SmilePostsOne.html'
-});
-
-const smilePostsPageTwo = SSR.replace(templatePage, {
-    title: 'Smiles - Smile Posts',
-    styles: smilePostsStyles,
-    content: '/SmilePostsTwo.html'
-});
 
 const loginPage = SSR.replace(templatePage, {
     title: 'Smiles - Login',
@@ -115,8 +105,6 @@ export default {
     smilePostsPage,
     loginPage, 
     editPage,
-    smilePostsPageOne,
-    smilePostsPageTwo,
     getSearchPage,
     loggedInDependent,
     loadProfilePage
