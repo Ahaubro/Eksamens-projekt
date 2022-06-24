@@ -9,7 +9,10 @@ nav ul {
     margin: 0;
     overflow: hidden;
     background-color: #f07272;
-    width: 100%;
+    width: 90%;
+    border-radius: 1em;
+    padding: 0;
+    transform: translateX(5%);
 }
 
 nav a{
@@ -78,7 +81,26 @@ nav ul li{
 
  /*   ---------------- */
 
-
+#user_search{
+    height: 1.35em;
+    padding: 0.55em;
+    margin: 1px 0px 1px 0px;
+    text-align: center;
+    width: 90%;
+    border-radius: 7px;
+    border: 0.1em solid;
+}
+nav ul li#search {
+    float: none;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+#search_btn{
+    width: 100%;
+    border-radius: 4px;
+    border: 0px;
+}
 #logoutBtn{
     display: block;
     font-family: Comic Sans MS;
