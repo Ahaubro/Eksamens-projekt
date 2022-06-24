@@ -11,7 +11,7 @@ const router = Router();
 //Limiter
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 30,
+    max: 3,
     standardHeaders: true,
     legacyHeaders: false
 });
@@ -28,7 +28,6 @@ router.post("/auth/login", async (req, res) => {
     let sqlSelect = "SELECT * FROM users WHERE username = ?";
     const foundUser = await db.query(sqlSelect, [username], function (err, result) {
         if (err) {
-            //console.log(err)
             return res.status(400).send();
         }
 
@@ -107,8 +106,6 @@ router.post("/auth/signup", async (req, res) => {
                 const res1 = await db.query(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
                     if (err) throw err;
 
-                    //console.log(result)
-
                     sendMail(email);
                     return res.status(201).send("You have signed up new user " + username)
 
@@ -139,11 +136,7 @@ function sendMail(email) {
     };
 
     mailTransporter.sendMail(mailDetails, function (err, data) {
-        if (err) {
-            console.log('Error Occurs');
-        } else {
-            console.log('Email sent successfully');
-        }
+        if (err) throw err;
     });
 }
 
