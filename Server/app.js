@@ -25,27 +25,23 @@ app.use(session({
 
 
 app.get("/", (req, res) => res.send(SSR.loggedInDependent(SSR.homePage, req.session.userID)));
+
 app.get("/chatrooms", (req, res) => {
     if(!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.chatroomsPage, req.session.userID));
 });
+
 app.get("/smileposts", (req, res) => {
     if(!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.smilePostsPage, req.session.userID))
 });
-app.get("/smilepostsOne", (req, res) => {
-    if(!req.session.userID) return res.redirect("/");
-    res.send(SSR.loggedInDependent(SSR.smilePostsPageOne, req.session.userID))
-});
-app.get("/smilepostsTwo", (req, res) => {
-    if(!req.session.userID) return res.redirect("/");
-    res.send(SSR.loggedInDependent(SSR.smilePostsPageTwo, req.session.userID))
-});
+
 app.get("/editProfile", (req, res) => {
     if(!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.editPage, req.session.userID))
 });
 app.get("/login", (req, res) => res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID)) );
+
 app.get("/search/:query", (req, res) => {
     if(!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.getSearchPage(req.params.query), req.session.userID));
@@ -68,16 +64,6 @@ app.get("/profile/:id", async (req, res) => {
         }
     })
 });
-
-//Skal nok ikke bruges
-/*const baseLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 50,
-    standardHeaders: true,
-    legacyHeaders: false
-});
-
-app.use(baseLimiter); */
 
 app.use(express.json());
 
