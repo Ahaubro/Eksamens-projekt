@@ -1,7 +1,6 @@
-<div>
-<li> <a href="/smileposts" id="smileposts">Smile Posts</a></li>
-<li> <a href="/chatrooms"  id="chatrooms">Chatrooms</a></li>
-<li> <a href="/editProfile">My Profile</a></li>
+<li> <a href="/smileposts" id="smileposts" >Smile Posts</a></li>
+<li> <a href="/chatrooms"  id="chatrooms" >Chatrooms</a></li>
+<li> <a href="/mypage" id="mypage" >My Profile</a></li>
 <li id="search"> 
     <input id="user_search" placeholder="Search for user"> 
     <button id="search_btn" onclick="getUserBySearch()"> Search </button> 
@@ -17,34 +16,7 @@
     <p id="username"></p>
     <p id="firstname"></p>
 </div>
-</div>
 
 
-<script>
-    showUsername();
-
-    async function showUsername(){
-
-        let username = document.getElementById("username")
-        let firstname = document.getElementById("firstname")
-        const res = await fetch(`/api/loggedInUser`);
-        const user = await res.json();
-
-        username.innerText = "Logged in as " + user.username
-    }
-
-
-
-    async function getUserBySearch(){
-        const searchQuery = document.getElementById("user_search").value;
-
-        //const userObjRes = await fetch(`/api/getUserByUsername/${username}`)
-        //const userInformation = await userObjRes.json();
-
-        //window.location.replace(`/search/${searchQuery}`);
-        window.location.replace('/search/' + searchQuery);
-        
-    }
-
-
-</script>
+<script src="../JS/navBar.js"></script>
+<script src="../JS/setActive.js"></script>

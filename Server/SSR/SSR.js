@@ -39,22 +39,22 @@ const homeStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDir
 const chatroomStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/ChatroomStyle.css">`;
 const smilePostsStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/SmilePostsStyle.css">`;
 const loginStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/LoginStyle.css">`;
-const editStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/EditStyle.css">`;
+const myPageStyles = `<link rel="stylesheet" type="text/css" href="${pageStylesDirectory}/MyPageStyle.css">`;
 const profileStyles = `<link rel="stylesheet" type="text/css" href="../Css/ProfileStyle.css">`;
 
 SSR.directory = '../../Client/Public/Pages';
 const templatePage_Template = SSR.loadFile('/TemplatePage.html');
 const templatePage = SSR.replace(templatePage_Template, {header, footer});
 
-function loadProfilePage(user){
+function loadUserProfilePage(user){
     SSR.directory = '../../Client/Public/Pages';
-    const profilePage = SSR.replace(templatePage, {
+    const userProfilePage = SSR.replace(templatePage, {
         title: 'Smiles - ' + user.username + ' Profile',
         styles: profileStyles,
-        content: '/Profile.html'
+        content: '/UserProfile.html'
     });
     const {id} = user;
-    return SSR.replace(profilePage, {id});
+    return SSR.replace(userProfilePage, {id});
 }
 
 const homePage = SSR.replace(templatePage, {
@@ -82,10 +82,10 @@ const loginPage = SSR.replace(templatePage, {
     content: '/Login.html'
 });
 
-const editPage = SSR.replace(templatePage, {
-    title: 'Smiles - edit Profile',
-    styles: editStyles,
-    content: '/EditProfile.html'
+const myPage = SSR.replace(templatePage, {
+    title: 'Smiles - My Page',
+    styles: myPageStyles,
+    content: '/MyPage.html'
 })
 
 const searchPage = SSR.replace(templatePage, {
@@ -104,8 +104,8 @@ export default {
     chatroomsPage,
     smilePostsPage,
     loginPage, 
-    editPage,
+    myPage,
     getSearchPage,
     loggedInDependent,
-    loadProfilePage
+    loadUserProfilePage
 };

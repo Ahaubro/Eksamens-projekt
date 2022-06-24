@@ -1,0 +1,99 @@
+<h1 id="welcome"></h1>
+<p>Here you can edit your smile posts and personal information</p>
+
+<div id="myPage">
+	<div id="profile_picture_div"></div>
+	<br>
+	<br>
+	<br>
+	<div id="postsPos">
+		<div id="posts"></div>
+	</div>
+	<br>
+	<div id="createPost">
+		<textarea id="createText"></textarea>
+		<select id="categoriSelect">
+			<option value="love"> Love post</option>
+			<option value="work"> Work post</option>
+			<option value="random"> Random post</option>
+		</select>
+		<br>
+		<button id="createPostBtn" onclick="createPost()">Create New Post</button>
+	</div>
+	<br>
+	<br>
+	<div id="editBtnPos">
+		<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
+	</div>
+
+</div>
+
+<div id="friends_pos">
+	<p>Friends:</p>
+	<hr>
+	<div id="friends"></div>
+</div>
+
+
+
+<!-- Modal starter her-->
+
+<div id="editModal" class="hidden-modal">
+	<h3>Update user information</h3>
+	<hr>
+	<p>Update your information below</p>
+
+	<label for="uname">Edit username</label>
+	<input id="uname" type="text"></input>
+	<br>
+	<label for="pass">Edit password</label>
+	<input id="pass" type="password"></input>
+	<br>
+	<label for="cpass">Confirm password</label>
+	<input id="cpass" type="password"></input>
+	<br>
+	<label for="fname">Edit firstname</label>
+	<input id="fname" type="text"></input>
+	<br>
+	<label for="mname">Edit middlename</label>
+	<input id="mname" type="text"></input>
+	<br>
+	<label for="lname">Edit lastname</label>
+	<input id="lname" type="text"></input>
+	<br>
+	<label for="bday">Edit birthday</label>
+	<input id="bday" type="date" value="2022-01-01"></input>
+	<br>
+	<label for="address">Edit address</label>
+	<input id="address" type="text"></input>
+	<br>
+	<label for="country">Edit country</label>
+	<div id="country"></div>
+	<br>
+	<label for="city">Edit city</label>
+	<input id="city" type="text"></input>
+	<br>
+	<label for="zip">Edit zipcode</label>
+	<input id="zip" type="number"></input>
+	<br>
+	<label for="pcolor">Edit profile color</label>
+	<div id="pcolor"></div>
+
+	<label for="profilePic"> Upload profile picture</label>
+	<input type="file" id="image_input" accept="image/jpeg, image/png">
+	<div id="display_image"></div>
+	<button>Upload & Save image</button>
+
+
+	<div id="reponse"></div>
+	<br>
+	<div style="display: flex"></div>
+	<button id="close-regmodal" onclick="hideEditModal()" style="margin-left: 0; margin-right: auto">Close</button>
+	<button onclick="saveChanges()" style="margin-left: auto; margin-right: 0">Save Changes</button>
+
+</div>
+<!-- Modal slutter her -->
+
+
+<script src="../JS/MyPage.js"></script>
+<script src="../JS/SelectOptions.js"></script>

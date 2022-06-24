@@ -129,14 +129,14 @@ router.post("/api/uploadPicture", (req, res) => {
 })
 
 //Get that sends user object by id for profile.html using SSR
-router.get("/profile/:id", async (req, res) => {
+router.get("/userProfile/:id", async (req, res) => {
     const id = req.params.id;
     db.query("SELECT * FROM users WHERE id = ?", [id], (error, result) => {
         if (error)
             res.send(error);
         else if (result[0]) {
             const user = result[0];
-            res.send(SSR.loggedInDependent(SSR.loadProfilePage(user), req.session.userID));
+            res.send(SSR.loggedInDependent(SSR.loadUserProfilePage(user), req.session.userID));
         } else {
             res.status = 400;
             res.send("didnt find anything")

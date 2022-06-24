@@ -36,9 +36,9 @@ app.get("/smileposts", (req, res) => {
     res.send(SSR.loggedInDependent(SSR.smilePostsPage, req.session.userID))
 });
 
-app.get("/editProfile", (req, res) => {
+app.get("/mypage", (req, res) => {
     if(!req.session.userID) return res.redirect("/");
-    res.send(SSR.loggedInDependent(SSR.editPage, req.session.userID))
+    res.send(SSR.loggedInDependent(SSR.myPage, req.session.userID))
 });
 app.get("/login", (req, res) => res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID)) );
 
@@ -57,7 +57,7 @@ app.get("/profile/:id", async (req, res) => {
             //let { username, firstname, middlename, lastname, birthday, address, country, city,
             //zipcode, profilecolor, profilepicture } = result[0];
             const user = result[0];
-            res.send(SSR.loggedInDependent(SSR.loadProfilePage(user), req.session.userID));
+            res.send(SSR.loggedInDependent(SSR.loadUserProfilePage(user), req.session.userID));
         } else {
             res.status = 400;
             res.send("didnt find anything")

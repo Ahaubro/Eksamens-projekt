@@ -1,16 +1,16 @@
 <div id="login-header">
-<h2>Login or register page</h2>
+    <h2>Login or register page</h2>
 
-<p>Login or register now to access our smile posts and chatrooms</p>
+    <p>Login or register now to access our smile posts and chatrooms</p>
 </div>
 <div id="login-container">
     <br>
     <h3 id="itxt">Login at Smiles.com</h3>
     <hr>
     <br>
-    <input type="text" placeholder="Username" id="username" value="malte"/>
+    <input type="text" placeholder="Username" id="username" value="malte" />
     </br>
-    <input type="password" placeholder="Password" id="password" value="0"/>
+    <input type="password" placeholder="Password" id="password" value="0" />
     </br>
 
     <div>
@@ -30,12 +30,12 @@
     <h3>Register now</h3>
     <hr>
     <p>Fill out the information below to register and join Smiles today!</p>
-  
-    <input id="reg_email" placeholder="Email"/>
+
+    <input id="reg_email" placeholder="Email" />
     <br>
-    <input id="reg_username" placeholder="Username"/>
+    <input id="reg_username" placeholder="Username" />
     <br>
-    <input id="reg_password" placeholder="Password"/>
+    <input id="reg_password" placeholder="Password" />
 
     <div id="regBtnsPos">
         <button id="reg-button" onclick="register()">Register new user</button>
@@ -43,138 +43,16 @@
         <br>
         <button id="close-regmodal" onclick="hideRegisterModal()">Close</button>
     </div>
-    
+
 </div>
 <!-- Modal slutter her -->
 
 <!------------- Leg med notification -------------------->
 
- <div id="snackbar"> Login succes! </div>
+<div id="snackbar"> Login succes! </div>
 
- <!------------- Leg med notification -------------------->
+<!------------- Leg med notification -------------------->
 
- <p id="response"></p>
+<p id="response"></p>
 
-
-<script>
-
-    setActive()
-    function setActive(){
-
-        const currentPage = window.location.pathname.substring(1)
-        let aTags = document.getElementsByTagName('a')
-        
-            for (let i = 0; i < 4; i++) {
-            if(aTags[i].className === "active"){
-                aTags[i].id === aTags[i].className
-            }
-        
-        document.getElementById(currentPage).className = "active"
-        }
-    }
-
-
-    // Login funktion
-    async function login() {
-
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        let user = {};
-        let responseMessage = "";
-        if (username && password != undefined) {
-            user.username = username;
-            user.password = password;
-        }
-        const res = await fetch(`/auth/login`, {
-            headers: {
-                "content-type": "application/json",
-            },
-            method: "POST",
-            body: JSON.stringify(user),
-        });
-
-        if(res.status == 201) {
-
-            responseMessage = await res.text();
-
-            document.getElementById("response").innerText=responseMessage
-
-            setTimeout( () => {
-            window.location.replace("/smileposts")
-            }, 1000);
-        } else {
-            responseMessage = await res.text();
-
-            document.getElementById("response").innerText=responseMessage
-        }
-    }
-
-    // Register funktion
-    async function register() {
-
-        const email = document.getElementById("reg_email").value;
-        const username = document.getElementById("reg_username").value;
-        const password = document.getElementById("reg_password").value;
-
-        let user = {};
-        let responseMessage = "";
-
-        if(username && password && email) {
-            user.email = email;
-            user.username = username;
-            user.password = password;
-        }
-
-        const res = await fetch(`/auth/signup`, {
-                headers: {
-                    "content-type": "application/json"
-                },
-                method: "POST",
-                body: JSON.stringify(user)
-            });
-
-
-            if(res.status == 201) {
-
-                responseMessage = await res.text();
-
-                document.getElementById("response").innerText=responseMessage
-
-                setTimeout( () => {
-                window.location.replace("/")
-                }, 2000);
-            } else {
-                responseMessage = await res.text();
-
-                document.getElementById("response").innerText=responseMessage
-            }
-                
-    }
-
-
-
-    // MODAL
-
-    function showRegisterModal() {
-        registerModal.className = 'shown-modal';
-    }
-
-    function hideRegisterModal() {
-        registerModal.className = 'hidden-modal';
-    }
-
-    document.addEventListener('mouseup', function(event) {
-        if (!registerModal.contains(event.target))
-            hideRegisterModal();
-    });
-
-    // ------------- Leg med notification --------------------
-    function showSnackbar() {
-    var x = document.getElementById("snackbar");
-    x.className = "show";
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-  }
-
-    
-
-</script>
+<script src="../JS/login.js"></script>
