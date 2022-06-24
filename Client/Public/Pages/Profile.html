@@ -83,8 +83,6 @@
     // Til friends
     let loadedUsername;
 
-    loadPosts();
-
     async function loadPosts(){
         const response = await fetch("/api/posts/byUserId/"+userId);
         const result = await response.json();
@@ -111,6 +109,8 @@
             <br>`;
         }
     }
+
+    loadPosts();
 
     // MODAL
 

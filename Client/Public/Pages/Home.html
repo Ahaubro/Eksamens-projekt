@@ -21,13 +21,13 @@
     let posts;
 
 
-
     //Global metode som vi kan bruge til vi implemintere JS filer
-    //setActive()
+
+    setActive()
     function setActive(){
         let currentPage = window.location.pathname
         let aTags = document.getElementsByTagName('a')
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 2; i++) {
             if(aTags[i].className === "active"){
                 aTags[i].id === aTags[i].className
             }
