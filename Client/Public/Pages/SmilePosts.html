@@ -143,7 +143,6 @@
         likedPosts = likedResult
 
         let categorySelection = document.getElementById("category-selection").value;
-        console.log(categorySelection)
         for (let i in posts) {
             const { id, text, userId, date, categori } = posts[i];
             let { minutes, hours } = posts[i];
@@ -220,7 +219,6 @@
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
                 `;
-            console.log(html);
             document.getElementById(`reaction-count${id}`).innerHTML = html;
         }
         if (reaction === "hearts") {
@@ -230,7 +228,6 @@
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 1)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
                 `
-            console.log(html);
             document.getElementById(`reaction-count${id}`).innerHTML = html;
         }
         if (reaction === "cares") {
@@ -240,7 +237,6 @@
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 2)}
                 `
-            console.log(html);
             document.getElementById(`reaction-count${id}`).innerHTML = html;
         }
 
@@ -272,7 +268,6 @@
                     `
         } if (reaction === "cares") {
             numberArray[2]--;
-            console.log("den kommer herind")
             document.getElementById(`reaction-count${id}`).innerHTML = `
                     ${reactionArrayForPosts(id, numberArray, "enabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "enabledButton", 1)}

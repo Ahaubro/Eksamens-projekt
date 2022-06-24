@@ -30,7 +30,6 @@
 </div>
 
 
-
 <div id="infoModal" class="hidden-modal">
 	<h3>User information</h3>
 	<hr>
@@ -68,7 +67,6 @@
 	<label for="profilePic">Profile picture</label>
 	<div id="display_image"></div>
 
-
 	<div id="reponse"></div>
 	<br>
     <div style="display: flex"></div>
@@ -93,7 +91,6 @@
         posts = result;
         postsDiv.innerHTML = ""; 
         for(let i in posts){
-            console.log(posts)
             const {id, text, userId, date, hours, minutes} = posts[i];
 
             const resObj = await fetch(`/api/getUserById/${userId}`);
@@ -185,7 +182,6 @@
 
 		friendList = result;
 
-        console.log("NU FRIENDLIST", friendList)
 
 		for(let friends in friendList) {
 			const { userOne, userTwo } = friendList[friends];
@@ -200,7 +196,6 @@
 
 			if(userOneResult.username != loadedUsername) {
                 userNameList.push(userOneResult.username)
-                console.log("Usernamelistr", userNameList)
             }
 		}
         // Eventuelt udskift med filter funktion doh
