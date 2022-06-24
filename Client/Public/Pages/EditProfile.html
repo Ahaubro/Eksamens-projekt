@@ -110,21 +110,22 @@
 		reader.readAsDataURL(this.files[0]);
 	})
 
-	function setActive(){
-        let currentPage = window.location.pathname
-        let aTags = document.getElementsByTagName('a')
-        for (let i = 0; i < 4; i++) {
-            if(aTags[i].className === "active"){
-                aTags[i].id === aTags[i].className
-            }
-        }
-        if(currentPage === "/") {
-            currentPage = "home"
-        }
-        document.getElementById(currentPage).className = "active"
-    }
+	// setActive()
 
-    setActive()
+	// function setActive(){
+    //     let currentPage = window.location.pathname
+    //     let aTags = document.getElementsByTagName('a')
+    //     for (let i = 0; i < 4; i++) {
+    //         if(aTags[i].className === "active"){
+    //             aTags[i].id === aTags[i].className
+    //         }
+    //     }
+    //     if(currentPage === "/") {
+    //         currentPage = "home"
+    //     }
+    //     document.getElementById(currentPage).className = "active"
+    // }
+
 
     
 	// CRUD posts
