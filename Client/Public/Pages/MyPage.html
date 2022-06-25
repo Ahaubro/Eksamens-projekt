@@ -1,6 +1,6 @@
 <h1 id="welcome"></h1>
 <p>Here you can edit your smile posts and personal information</p>
-
+<!-- 
 <div id="myPage">
 	<div id="profile_picture_div"></div>
 	<br>
@@ -32,6 +32,35 @@
 	<p>Friends:</p>
 	<hr>
 	<div id="friends"></div>
+</div> -->
+
+
+<div style="display:flex;border:1px solid black;width: 70%;margin: auto;">
+	<div style="display:flex;align-items: center;flex-direction: column; border-right: 1px dashed black">
+		<img style="margin:10px;height: auto;width: 72%; border-radius:10px" src="../Images/Uploads/Ca3pture.JPG">
+		
+		<button id="editBtn" onclick="showEditModal()"> Press here to edit your profile information</button>
+		<div style="margin: 5px;width: 345px; text-align: center;">
+			<p>Friends:</p>
+			<hr>
+			<div id="friends" style="display:flex;justify-content: space-around;"></div>
+		</div>
+	</div>
+
+
+	<div style="display: flex; width: 100%;    flex-direction: column;    align-items: flex-start;">
+		<div id="posts" style="height: 560px;overflow: scroll;width: 100%;overflow-x: hidden;"></div>
+		<div id="createPost">
+			<textarea id="createText"></textarea>
+			<select id="categoriSelect" style="width: 8.5%; text-align: center">
+				<option value="love"> Love post</option>
+				<option value="work"> Work post</option>
+				<option value="random"> Random post</option>
+			</select>
+
+			<button id="createPostBtn" onclick="createPost()">Create New Post</button>
+		</div>
+	</div>
 </div>
 
 
