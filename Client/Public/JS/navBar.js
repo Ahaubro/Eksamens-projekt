@@ -14,7 +14,7 @@ async function showUsername() {
 
 async function getUserBySearch() {
     const searchQuery = document.getElementById("user_search").value;
-
+    
     //const userObjRes = await fetch(`/api/getUserByUsername/${username}`)
     //const userInformation = await userObjRes.json();
 

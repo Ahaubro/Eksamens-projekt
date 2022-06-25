@@ -1,7 +1,10 @@
 let searchInput = document.getElementById("search-input");
 let searchResults = document.getElementById("search-results");
 
-let searchQuery = "%%QUERY%%";
+//I stedet for %%query%% - til thor <3
+let query = window.location.pathname.substring(8)
+
+let searchQuery = query;
 search(searchQuery);
 
 function newSearch(){
