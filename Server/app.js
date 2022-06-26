@@ -40,7 +40,10 @@ app.get("/mypage", (req, res) => {
     if(!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.myPage, req.session.userID))
 });
-app.get("/login", (req, res) => res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID)) );
+app.get("/login", (req, res) => {
+    if(req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID))
+});
 
 app.get("/search/:query", (req, res) => {
     if(!req.session.userID) return res.redirect("/");
