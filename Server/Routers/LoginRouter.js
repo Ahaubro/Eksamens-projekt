@@ -36,7 +36,10 @@ router.post("/auth/login", async (req, res) => {
             resPas = result[0].password
             resID = result[0].id
         }
+        db.query("UPDATE users set loggedin = 1 WHERE username = ?",[resUser], (error, result) =>{
+            if(error) throw error;
 
+        })
         if (!resUser) {
             return res.send("Wrong username or password");
         }
@@ -53,11 +56,11 @@ router.post("/auth/login", async (req, res) => {
                 return res.send("Wrong username or password");
             }
         }
-
+        
         isSame();
 
         if (req.session.loggedIn) {
-            return res.send("You are already loged in")
+            return res.send("You are already logged in")
         }
 
     });
@@ -71,6 +74,9 @@ router.get("/auth/logout", (req, res) => {
         const username = req.session.username;
         req.session.username = "";
         req.session.userID = 0;
+        db.query("UPDATE users set loggedin = 0 WHERE username = ?",[username], (error, result) =>{
+            if(error) throw error;
+        })
         return res.status(201).send("You have been logged out from user: " + username);
     } else {
         return res.status(404).send("You are not logged in");

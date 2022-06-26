@@ -32,7 +32,8 @@ db.query(`
         city VARCHAR(45),
         zipcode VARCHAR(4),
         profilecolor VARCHAR(7),
-        profilepicture VARCHAR(255)
+        profilepicture VARCHAR(255),
+        loggedin BOOLEAN DEFAULT false
     );
 `);
 

@@ -1,3 +1,5 @@
+
+
 let usernameForfriends = "";
 
 const image_input = document.querySelector("#image_input")
@@ -27,8 +29,11 @@ async function loadPosts() {
     posts = result;
     postsDiv.innerHTML = "";
     for (let i in posts) {
-        const { id, text, userId, date, hours, minutes } = posts[i];
+        let { id, text, userId, date, hours, minutes } = posts[i];
+        let reverseDate = date.split("-").reverse().join("-")
 
+        minutes = formatTime(minutes);
+        hours = formatTime(hours);
         const resObj = await fetch(`/api/getUserById/${userId}`);
         const foundUser = await resObj.json();
 
@@ -44,7 +49,7 @@ async function loadPosts() {
                 </div>
                 <br>
                 <br>
-                <b id="date"> ${date} </b> <b id="time"> ${hours}:${minutes}</b>
+                <b id="date"> ${reverseDate} </b> <b id="time"> ${hours}:${minutes}</b>
                 <br>
             </article> 
             <br>`;
@@ -159,7 +164,7 @@ async function getProfileInformation() {
     document.getElementById("welcome").innerText = "Hello " + user.username + ", welcome to your page"
 
     display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
-    profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
+    profile_picture.src = `../Images/Uploads/${user.profilepicture}`
 
 };
 
@@ -232,3 +237,4 @@ async function saveChanges() {
     });
 
 }
+

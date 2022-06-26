@@ -12,5 +12,6 @@ footer {
     flex-wrap: wrap;
     align-content: stretch;
     justify-content: space-around;
+    z-index: 2;
 }
 

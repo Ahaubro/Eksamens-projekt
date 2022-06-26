@@ -1,4 +1,31 @@
+const socket = io();
+socket.on("logon-indicator", ({ user, status }) => {
+    const active = document.getElementById("status-emoji")
+    if (user.id === user) {
+        if (status) {
+            active.innerText = "🟢"
+        } else {
+            active.innerText = "🔘"
+        }
+    }
+})
+
+
+
+
 const userId = document.getElementById("userid").innerText;
+
+async function checkUserOnline(userId) {
+    
+    const response = await fetch("/api/getUserById/" + userId);
+    const foundUser = await response.json()
+
+    const active = document.getElementById("status-emoji")
+    if (foundUser.loggedin === 1) {
+        active.innerText = "🟢"
+    }
+}
+checkUserOnline(userId)
 
 const postsDiv = document.getElementById("posts");
 let posts;
@@ -6,17 +33,17 @@ let posts;
 // Til friends
 let loadedUsername;
 
-async function loadPosts(){
-    const response = await fetch("/api/posts/byUserId/"+userId);
+async function loadPosts() {
+    const response = await fetch("/api/posts/byUserId/" + userId);
     const result = await response.json();
     posts = result;
-    postsDiv.innerHTML = ""; 
-    for(let i in posts){
-        const {id, text, userId, date, hours, minutes} = posts[i];
+    postsDiv.innerHTML = "";
+    for (let i in posts) {
+        const { id, text, userId, date, hours, minutes } = posts[i];
 
         const resObj = await fetch(`/api/getUserById/${userId}`);
         const foundUser = await resObj.json();
-       
+
         postsDiv.innerHTML += ` <br> 
         <article class="postArticle">
             <b id="username">${foundUser.username}</b>
@@ -45,7 +72,7 @@ function hideInfoModal() {
     infoModal.className = 'hidden-modal';
 }
 
-document.addEventListener('mouseup', function(event) {
+document.addEventListener('mouseup', function (event) {
     if (!infoModal.contains(event.target))
         hideInfoModal();
 });
@@ -71,10 +98,10 @@ async function getProfileInformation() {
 
     document.getElementById("welcome").innerText = "Hello, welcome to " + user.username + "'s page";
 
-    
-    profile_picture_div.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
-    
-    
+
+    profile_picture.src = `../Images/Uploads/${user.profilepicture}`
+
+
 };
 
 async function addFriend() {
@@ -90,7 +117,7 @@ async function addFriend() {
 
 
     response = document.getElementById("responseMessage");
-    response.innerText= await res.text();
+    response.innerText = await res.text();
 }
 
 async function getFriends() {
@@ -106,18 +133,18 @@ async function getFriends() {
     friendList = result;
 
 
-    for(let friends in friendList) {
+    for (let friends in friendList) {
         const { userOne, userTwo } = friendList[friends];
 
         arr.push(userOne);
-        arr.push(userTwo); 
+        arr.push(userTwo);
     }
 
-    for(let i in arr) {
+    for (let i in arr) {
         const userOneRes = await fetch(`/api/getUserById/${arr.at(i)}`)
         const userOneResult = await userOneRes.json();
 
-        if(userOneResult.username != loadedUsername) {
+        if (userOneResult.username != loadedUsername) {
             userNameList.push(userOneResult.username)
         }
     }
@@ -129,8 +156,8 @@ async function getFriends() {
         }
     });
 
-    for(let i in uniqueList) {
-        friendsDiv.innerHTML+=`<p> ${uniqueList[i]} </p>`;
+    for (let i in uniqueList) {
+        friendsDiv.innerHTML += `<p> ${uniqueList[i]} </p>`;
     }
 }
 
