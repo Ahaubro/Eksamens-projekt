@@ -52,14 +52,9 @@ body{
 }
 
 #userPos{
-      position: absolute;
-      left: 95%;
-      transform: translateX(-50%);
-      background-color: #f07272;
-      padding: 7px;
-      font-size: 16px;
-      height: fit-content;
-      font-size: 2em;
+    padding: 7px 25px 0px 15px;
+    height: fit-content;
+    font-size: 2em;
 }
 
 .show-info:hover + .hide{

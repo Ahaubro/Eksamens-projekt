@@ -2,9 +2,7 @@ function setActive() {
 
     let currentPage = window.location.pathname.substring(1)
 
-
-    
-
+ 
     if (currentPage === "") currentPage = "home"
     let aTags = document.getElementsByTagName('a')
 
@@ -18,3 +16,24 @@ function setActive() {
     }
 }
 setActive();
+let responseMessage = "";
+
+async function logout() {
+    const res = await fetch(`/auth/logout`);
+
+    if(res.status == 201) {
+
+        responseMessage = await res.text();
+
+        document.getElementById("response").innerText=responseMessage
+
+        setTimeout( () => {
+        window.location.replace("/")
+        }, 2000);
+
+    } else {
+        responseMessage = await res.text();
+
+        document.getElementById("response").innerText=responseMessage
+    }
+}
