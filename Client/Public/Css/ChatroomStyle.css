@@ -52,9 +52,9 @@ input{
     display: block;
     position: absolute;
     width: 16%;
-    height: 30%;
+    height: 25%;
     left: 50%;
-    top: 28%;
+    top: 26%;
     transform: translateX(-50%);
     z-index: 1;
     border-radius: 7px;
