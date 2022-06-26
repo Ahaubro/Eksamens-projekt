@@ -25,6 +25,7 @@ socket.on("recieved-message", ({ username, message, roomId }) => {
 });
 
 
+
 async function sendMessage(roomId) {
     document.getElementById("response").innerText = "";
     const messageInput = document.getElementById("messageInput");
@@ -115,7 +116,7 @@ async function createChatroom() {
     let chatroomsDiv = document.getElementById("chatroomsList");
     const name = document.getElementById("chatroomName").value;
     const maxMsgLength = Number(document.getElementById("chatroomMessageLength").value);
-    if (maxMsgLength < 100 || maxMsgLength > 200)
+    if (maxMsgLength <= 100 || maxMsgLength >= 2000)
         return document.getElementById("response").innerText = "Max message length must be between 100 and 2000";
 
     const response = await fetch("/api/chatrooms", {
