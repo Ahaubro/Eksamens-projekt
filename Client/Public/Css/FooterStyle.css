@@ -1,10 +1,16 @@
 footer {
     position: fixed;
     left: 0;
-    bottom: -1%;
+    bottom: 0%;
     width: 100%;
     background-color: rgb(252, 140, 128);
     color: white;
-    height: 3em;
+    height: 4em;
+    padding: 6px 0px 0px 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: space-around;
 }
 

@@ -50,7 +50,7 @@ h3{
 p{
     font-size: 20px;
     font-weight: 600;
-    text-align: center;
+    
 }
 
 #editBtnPos{
@@ -69,6 +69,8 @@ p{
     padding: 10px;
     border: 0.1px solid black;
     border-radius: 5px;
+    width: 95%;
+    margin: auto;
 }
 
 #profile_picture_div{
@@ -125,6 +127,7 @@ p{
     padding: 8px;
     text-align: center;
     border: none;
+    width: 8.5%;
     color: white;
 }
 
@@ -135,12 +138,15 @@ p{
 
 #createPost{
     display: flex;
+    margin: 10px;
+    margin-left: -12.5px;
+    width: 100%;
+    /* align-items: center; */
     justify-content: center;
 }
 
 #createText{
-    height: 4em;
-    width: 40em;
+    width: 77.5%;
     font-size: 18px;
 }
 
