@@ -103,7 +103,7 @@ h3{
 
 #close-chatroom_modal:hover{
     transition: 0.25s;
-    background-color: rgb(194, 8, 8);
+    background-color: rgb(223, 19, 19);
 
 }
 
@@ -112,4 +112,3 @@ h3{
     justify-content: center;
     text-align: center;
 }
-
