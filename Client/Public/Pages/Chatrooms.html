@@ -6,13 +6,36 @@
     <br>
 
     <div id="create_chatroom">
-        <label>Name: </label><input id="chatroomName" />
-        <label>Message Length: </label><input type="number" id="chatroomMessageLength" />
-        <button onclick="createChatroom()">Create</button>
+        <button id="create_chatroom_btn" onclick="showChatroomModal()">Create new chatroom</button>
     </div>
 
 </div>
 <p id="response"></p>
+
+
+
+
+<div id="chatroom_modal" class="hidden-modal">
+    <h3>Creating new chatroom</h3>
+    <hr>
+
+    <div id="center_chatroom_modal">
+        <input id="chatroomName" placeholder="Chatroom name" />
+        <br>
+        <input type="number" id="chatroomMessageLength" placeholder="Message length"/>
+    </div>
+
+    <br>
+
+    <div id="center_chatroom_modal_btns">
+        <button id="create_chatroom_btn" onclick="createChatroom()">Create chatroom</button>
+        <br>
+        <br>
+        <button id="close-chatroom_modal" onclick="hideChatroomModal()">Close window</button>
+    </div>
+    
+</div>
+
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="../JS/ChatRooms.js"></script>

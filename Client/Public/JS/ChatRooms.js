@@ -128,3 +128,17 @@ async function createChatroom() {
     document.getElementById("response").innerText = result;
     loadChatrooms(chatroomsDiv);
 }
+
+// Modal
+function showChatroomModal() {
+    chatroom_modal.className = 'shown-chatroom_modal';
+}
+
+function hideChatroomModal() {
+    chatroom_modal.className = 'hidden-modal';
+}
+
+document.addEventListener('mouseup', function (event) {
+    if (!chatroom_modal.contains(event.target))
+        hideChatroomModal();
+});
