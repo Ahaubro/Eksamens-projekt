@@ -2,7 +2,7 @@
 <h1 id="welcome"></h1>
 <p>Here you see their smile posts and personal information</p>
 
-<div id="myPage">
+<!-- <div id="myPage">
 	<div id="profile_picture_div"></div>
     <br>
     <br>
@@ -27,8 +27,27 @@
     <p>Friends:</p>
     <hr>
     <div id="friends"></div>
-</div>
+</div> -->
+<div style="display:flex;align-items: flex-start;border:1px solid black">
+	<div style="display:flex;align-items: center;flex-direction: column; border-right: 1px dashed black">
+		<img style="margin:10px;height: auto;width: 72%; border-radius:10px" src="../Images/Uploads/Ca3pture.JPG">
+		
+		<div style="display:flex">
+			<button id="editBtn" onclick="showInfoModal()"> Press here to see profile information</button>
+			<button id="add_friend_btn" onclick="addFriend()"> Add friend</button>
+		</div>
+		<div style="margin: 5px;width: 345px; ">
+			<p>Friends:</p>
+			<hr>
+			<div id="friends" style="display:flex;justify-content: space-around;"></div>
+		</div>
+	</div>
 
+
+	<div style="display:flex;flex:4;flex-direction: column;">
+		<div id="posts" style="height: 560px; overflow: scroll; overflow-x: hidden;"></div>
+	</div>
+</div>
 
 <div id="infoModal" class="hidden-modal">
 	<h3>User information</h3>

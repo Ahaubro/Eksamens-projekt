@@ -1,4 +1,4 @@
-showUsername();
+
 
 async function showUsername() {
 
@@ -9,7 +9,7 @@ async function showUsername() {
 
     username.innerText = "Logged in as " + user.username
 }
-
+showUsername();
 
 
 async function getUserBySearch() {
