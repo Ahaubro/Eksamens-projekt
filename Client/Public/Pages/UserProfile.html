@@ -28,10 +28,10 @@
     <hr>
     <div id="friends"></div>
 </div> -->
-<div style="display:flex;align-items: flex-start;border:1px solid black">
+<div style="display:flex;border:1px solid black;width: 90%;margin: auto;">
 	<div style="display:flex;align-items: center;flex-direction: column; border-right: 1px dashed black">
-		<img style="margin:10px;height: auto;width: 72%; border-radius:10px" src="../Images/Uploads/Ca3pture.JPG">
-		
+		<img style="margin:10px;height: auto;width: 72%; border-radius:10px" id="profile_picture" src="../Images/Uploads/Ca3pture.JPG">
+		<div style="display:flex;align-items: center;">Is online: <p id="status-emoji">🔘</p></div>
 		<div style="display:flex">
 			<button id="editBtn" onclick="showInfoModal()"> Press here to see profile information</button>
 			<button id="add_friend_btn" onclick="addFriend()"> Add friend</button>
@@ -93,4 +93,5 @@
 
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script src="../JS/UserProfile.js"></script>
