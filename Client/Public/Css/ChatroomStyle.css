@@ -8,6 +8,8 @@
 
 .chatroomBtns{
     background-color: rgb(82, 243, 82);
+    width: 14em;
+    height: 8em;
 }
 
 #response{
@@ -19,4 +21,16 @@
 
 #messageInput{
     width: 500px;
+}
+
+#chatroomsList {
+    display: grid;
+    grid-template-columns: repeat(4, 15em);
+    justify-content: center;
+    overflow-y: scroll;
+}
+
+#create_chatroom{
+    display: flex;
+    justify-content: center;
 }
