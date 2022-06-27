@@ -11,7 +11,7 @@ const router = Router();
 //Limiter
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 4,
+    max: 5,
     standardHeaders: true,
     legacyHeaders: false
 });

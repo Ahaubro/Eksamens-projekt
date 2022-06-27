@@ -2,10 +2,10 @@ footer {
     position: fixed;
     left: 0;
     bottom: 0%;
-    width: 100%;
+    width: 90%;
     background-color: rgb(252, 140, 128);
     color: white;
-    height: 4em;
+    height: 3em;
     padding: 6px 0px 0px 0px;
     display: flex;
     flex-direction: row;
@@ -13,5 +13,11 @@ footer {
     align-content: stretch;
     justify-content: space-around;
     z-index: 2;
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 1em;
+    transform: translateX(5%);
+    min-width: 1289.690px;
 }
 

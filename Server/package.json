@@ -3,6 +3,7 @@
     "ext": "js,html"
   },
   "scripts": {
+    "start": "node app.js",
     "n": "nodemon.cmd app.js"
   },
   "type": "module",
@@ -15,6 +16,7 @@
     "express-rate-limit": "^6.4.0",
     "express-session": "^1.17.2",
     "fs": "^0.0.1-security",
+    "heroku": "^7.60.2",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.4",
