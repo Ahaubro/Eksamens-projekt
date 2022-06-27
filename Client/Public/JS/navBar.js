@@ -19,6 +19,9 @@ async function getUserBySearch() {
     //const userInformation = await userObjRes.json();
 
     //window.location.replace(`/search/${searchQuery}`);
-    window.location.replace('/search/' + searchQuery);
+    if(searchQuery)
+        window.location.replace('/search/' + searchQuery);
+    else
+        window.location.replace('/search');
 
 }

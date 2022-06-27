@@ -50,6 +50,11 @@ app.get("/search/:query", (req, res) => {
     res.send(SSR.loggedInDependent(SSR.getSearchPage(req.params.query), req.session.userID));
 });
 
+app.get("/search", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.getSearchPage(req.params.query), req.session.userID));
+});
+
 app.get("/profile/:id", async (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const id = req.params.id;
@@ -109,13 +114,13 @@ io.on("connection", socket => {
     //     })
         
     // })
-    socket.broadcast.emit("logon-indicator", ({ user }) => {
-        const data = db.query("SELECT loggedin FROM users WHERE username = ?", [user], (error, result) => {
-            if (error) throw error
-            console.log(result[0])
-        })
-        console.log(data)
-    })
+    // socket.broadcast.emit("logon-indicator", ({ user }) => {
+    //     const data = db.query("SELECT loggedin FROM users WHERE username = ?", [user], (error, result) => {
+    //        if (error) throw error
+    //        console.log(result[0])
+    //     })
+    //     console.log(data)
+    // })
 
 
 })
