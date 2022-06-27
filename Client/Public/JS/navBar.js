@@ -1,4 +1,8 @@
 async function getUserBySearch() {
     const searchQuery = document.getElementById("user_search").value;
-    window.location.replace('/search/' + searchQuery);
+
+    if(searchQuery)
+        window.location.replace('/search/' + searchQuery);
+    else
+        window.location.replace('/search');
 }

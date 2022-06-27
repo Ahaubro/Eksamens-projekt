@@ -22,6 +22,7 @@ let responseMessage = "";
 
 //Function that logs out user from the active session
 async function logout() {
+
     const res = await fetch(`/auth/logout`);
 
     if (res.status == 201) {
@@ -37,3 +38,4 @@ async function logout() {
         document.getElementById("response").innerText = responseMessage
     }
 }
+

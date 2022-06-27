@@ -6,9 +6,14 @@ async function checkUserOnline(userId) {
     const foundUser = await response.json()
 
     const active = document.getElementById("status-emoji")
+    let bol = "0"
     if (foundUser.loggedin === 1) {
+        console.log("kommer den ind her?")
         active.innerText = "🟢"
+        bol = 1
     }
+    
+    
 }
 
 checkUserOnline(userId)

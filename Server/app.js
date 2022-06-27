@@ -56,6 +56,10 @@ app.get("/search/:query", (req, res) => {
     res.send(SSR.loggedInDependent(SSR.getSearchPage(req.params.query), req.session.userID));
 });
 
+app.get("/search", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
+    res.send(SSR.loggedInDependent(SSR.getSearchPage(req.params.query), req.session.userID));
+});
 
 app.get("/profile/:id", async (req, res) => {
     if (!req.session.userID) return res.redirect("/");
@@ -107,7 +111,6 @@ io.on("connection", socket => {
         });
     })
 })
-
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {

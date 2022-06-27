@@ -7,6 +7,7 @@ const router = Router();
 
 //Get specific information about chatrooms, along with user information used for chatrooms
 router.get("/api/chatrooms", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     db.query("SELECT chatrooms.id AS id, creatorId, name, max_message_length, users.id AS userid, username FROM chatrooms LEFT JOIN users ON chatrooms.creatorId = users.id", (err, result) => {
         if (err) throw err;
         res.send(result);
@@ -16,7 +17,8 @@ router.get("/api/chatrooms", (req, res) => {
 
 //Get chatrooms by id
 router.get("/api/chatrooms/:id", (req, res) => {
-    const id = Number(req.params.id)
+    if (!req.session.userID) return res.redirect("/");
+    const id  = Number(req.params.id)
     db.query("SELECT * FROM chatrooms WHERE id = ?", [id], (err, result) => {
         if (err) throw err;
         res.send(result[0]);
@@ -26,6 +28,7 @@ router.get("/api/chatrooms/:id", (req, res) => {
 
 //Chatroom post method create new chatrooms(max 3 pr user)
 router.post("/api/chatrooms", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const { name, maxMsgLength } = req.body;
     const userId = req.session.userID;
     db.query("SELECT COUNT(*) AS count FROM chatrooms WHERE creatorId = ?", [userId], (error, result) => {
@@ -43,7 +46,8 @@ router.post("/api/chatrooms", (req, res) => {
 
 //Get method that reads chat messages into the correct rooms along with user info
 router.get("/api/chat_messages/:roomId", (req, res) => {
-    const { roomId } = req.params;
+    if (!req.session.userID) return res.redirect("/");
+    const {roomId} = req.params;
     db.query("SELECT * FROM chat_messages LEFT JOIN users ON chat_messages.userId = users.id WHERE roomId = ?", [roomId], (error, messages) => {
         res.send(messages);
     });
@@ -52,7 +56,8 @@ router.get("/api/chat_messages/:roomId", (req, res) => {
 
 //Post method that saves chatmessages in db
 router.post("/api/chat_messages", (req, res) => {
-    const { message, roomId } = req.body;
+    if (!req.session.userID) return res.redirect("/");
+    const {message, roomId} = req.body; 
     const userId = req.session.userID;
     db.query("INSERT INTO chat_messages(userId, message, roomId) VALUES (?, ?, ?)", [userId, message, roomId], () => {
         db.query("SELECT * FROM users WHERE id = ?", [userId], (error, users) => {

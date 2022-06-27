@@ -13,7 +13,8 @@ router.use(fileUpload())
 
 //Get username from user id
 router.get("/api/getUsername/:id", async (req, res) => {
-    const id = req.params.id
+    if (!req.session.userID) return res.redirect("/");
+    const  id = req.params.id
     const sqlSelect = "SELECT username FROM users WHERE id = ?";
     db.query(sqlSelect, [id], function (err, result) {
         if (err) throw err;
@@ -25,15 +26,18 @@ router.get("/api/getUsername/:id", async (req, res) => {
 
 //Get user object from id 
 router.get("/api/getUserById/:id", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id = req.params.id
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
     db.query(sqlSelect, [id], function (err, result) {
         if (err) throw err;
 
         if (result[0]) {
-            let { username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor, profilepicture, loggedin } = result[0]
-
-            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor, profilepicture, loggedin }))
+            let { username, firstname, middlename,lastname, birthday, address, country, city, 
+                zipcode, profilecolor, profilepicture, loggedin } = result[0]
+                
+            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, 
+                zipcode, profilecolor, profilepicture, loggedin}))
         } else {
             res.send("didnt find anything")
         }
@@ -43,6 +47,7 @@ router.get("/api/getUserById/:id", (req, res) => {
 
 //Get logged in user object
 router.get("/api/loggedInUser", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id = req.session.userID;
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
     db.query(sqlSelect, [id], function (err, result) {
@@ -62,6 +67,7 @@ router.get("/api/loggedInUser", (req, res) => {
 
 //Edit profile
 router.patch("/api/editProfile", async (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id = req.session.userID
     let password = req.body.password;
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
@@ -100,8 +106,8 @@ router.patch("/api/editProfile", async (req, res) => {
 
 //Upload profile picture
 router.post("/api/uploadPicture", (req, res) => {
-
-    if (!req.files || Object.keys(req.files).length === 0) {
+    if (!req.session.userID) return res.redirect("/");
+    if(!req.files || Object.keys(req.files).length === 0){
         return res.status(400).send("No files were uploaded")
     }
 
