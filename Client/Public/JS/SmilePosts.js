@@ -1,4 +1,3 @@
-const socket = io();
 socket.on("reaction-change", ({id, likeCount, heartCount, careCount}) => {
     //let reactionPost = document.getElementById("reaction_count"+id);
 

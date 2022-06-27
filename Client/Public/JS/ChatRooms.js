@@ -1,4 +1,3 @@
-
 let chatroomsDiv = document.getElementById("chatroomsList");
 let chatrooms;
 const contentDiv = document.getElementById("content");
@@ -16,7 +15,6 @@ async function loadMessages() {
     }
 }
 
-const socket = io();
 socket.on("recieved-message", ({ username, message, roomId }) => {
     if (currentRoomId == roomId) {
         messages.innerHTML += `<p><b>${username}:</b> ${message}</p>`;
@@ -24,7 +22,9 @@ socket.on("recieved-message", ({ username, message, roomId }) => {
     loadMessages();
 });
 
-
+socket.on("new-chatroom", ({username, roomId, chatroomName}) => {
+    
+})
 
 async function sendMessage(roomId) {
     document.getElementById("response").innerText = "";

@@ -101,13 +101,24 @@ io.on("connection", socket => {
             socket.broadcast.emit("reaction-change", { id, likeCount, heartCount, careCount });
         });
     })
-    socket.on("logged-on", ({user, status}) => {
-        socket.emit("logon-indicator", {user, status});
-        socket.broadcast.emit("logon-indicator", {user, status});
+    // socket.on("logged-on", ({user, status}) => {
+    //     db.query("SELECT loggedin FROM users WHERE username = ?", [user], (error, result) => {
+    //         if (error) throw error
+    //         socket.emit("logon-indicator", {status});
+    //         socket.broadcast.emit("logon-indicator", { status});
+    //     })
+        
+    // })
+    socket.broadcast.emit("logon-indicator", ({ user }) => {
+        const data = db.query("SELECT loggedin FROM users WHERE username = ?", [user], (error, result) => {
+            if (error) throw error
+            console.log(result[0])
+        })
+        console.log(data)
     })
 
-})
 
+})
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {

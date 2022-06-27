@@ -24,7 +24,6 @@
             responseMessage = await res.text();
 
             document.getElementById("response").innerText = responseMessage
-
             setTimeout(() => {
                 window.location.replace("/smileposts")
             }, 1000);

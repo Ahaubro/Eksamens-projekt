@@ -1,13 +1,13 @@
-const socket = io();
-socket.on("logon-indicator", ({ user, status }) => {
+socket.on("logon-indicator", ({  user, status }) => {
+    console.log(user, status)
     const active = document.getElementById("status-emoji")
-    if (user.id === user) {
-        if (status) {
+    
+        if (status === 1) {
             active.innerText = "🟢"
         } else {
             active.innerText = "🔘"
         }
-    }
+    
 })
 
 
@@ -21,9 +21,14 @@ async function checkUserOnline(userId) {
     const foundUser = await response.json()
 
     const active = document.getElementById("status-emoji")
+    let bol = "0"
     if (foundUser.loggedin === 1) {
+        console.log("kommer den ind her?")
         active.innerText = "🟢"
+        bol = 1
     }
+    
+    
 }
 checkUserOnline(userId)
 

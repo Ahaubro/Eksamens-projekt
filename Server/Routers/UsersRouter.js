@@ -41,11 +41,11 @@ router.get("/api/getUserById/:id", (req, res) => {
         if (err) throw err;
 
         if (result[0]) {
-            let { username: username, firstname: firstname, middlename: middlename,
-                lastname: lastname, birthday: birthday, address: address, country: country, city: city,
-                zipcode: zipcode, profilecolor: profilecolor, profilepicture: profilepicture } = result[0]
+            let { username, firstname, middlename,lastname, birthday, address, country, city, 
+                zipcode, profilecolor, profilepicture, loggedin } = result[0]
                 
-            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, zipcode, profilecolor, profilepicture}))
+            res.send(JSON.stringify({ username, firstname, middlename, lastname, birthday, address, country, city, 
+                zipcode, profilecolor, profilepicture, loggedin}))
         } else {
             res.send("didnt find anything")
         }
