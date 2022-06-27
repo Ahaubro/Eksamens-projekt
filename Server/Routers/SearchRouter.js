@@ -8,7 +8,6 @@ const router = Router();
 router.get("/api/search/:query", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const query = req.params.query;
-    console.log(query);
     if(query){
         db.query("SELECT * FROM users WHERE UPPER(username) LIKE ?", ["%"+query.toUpperCase()+"%"], (error, result) => {
             if (error) return res.send(error);

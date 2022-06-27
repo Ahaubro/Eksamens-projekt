@@ -1,0 +1,76 @@
+/* ------------- Leg med notification -------------------- */
+
+#snackbar {
+    visibility: hidden;
+    min-width: 15%;
+    display: flex;
+    color: #fff;
+    border-radius: 2px;
+    padding: 14px;
+    font-size: 22px;
+    justify-content: center;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+#snack-container{
+    display: flex;
+    z-index: 4;
+    position: absolute;
+    justify-content: center;
+    transform: translateX(-50%);
+    left: 50%;
+}
+@-webkit-keyframes fadein {
+    0% {
+        -webkit-transform: translateY(-80px);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    0% {
+        -webkit-transform: translateY(-80px);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        top: 27.5%;
+        opacity: 1;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        top: 27.5%;
+        opacity: 1;
+    }
+
+    to {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+/* ------------- Leg med notification --------------------*/

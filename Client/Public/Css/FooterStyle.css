@@ -1,22 +1,15 @@
 footer {
     position: fixed;
-    left: 0;
-    bottom: 0%;
-    width: 90%;
-    background-color: rgb(252, 140, 128);
-    color: white;
-    height: 3em;
-    padding: 6px 0px 0px 0px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: stretch;
     justify-content: space-around;
     z-index: 2;
-    list-style-type: none;
-    margin: 0;
-    overflow: hidden;
+    background-color: #f07272;
+    width: 90%;
     border-radius: 1em;
     transform: translateX(5%);
-    min-width: 1289.690px;
+    min-width: 1289.69px;
+    height: 3em;
+    bottom: 0%;
+    align-items: center;
+    text-align: center;
 }

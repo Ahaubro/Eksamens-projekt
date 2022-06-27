@@ -7,6 +7,7 @@ image_input.addEventListener("change", function () {
     reader.addEventListener("load", () => {
         uploaded_image = reader.result;
         pic = document.getElementById("display_image").style.backgroundImage = `url(${uploaded_image})`;
+        pic2 = document.getElementById("profile_picture").src = `url(${uploaded_image})`;
     });
     reader.readAsDataURL(this.files[0]);
 })
@@ -113,7 +114,13 @@ async function deletePost(id) {
     });
 
     resMessage = await response.text();
-    document.getElementById("response").innerText = resMessage
+
+
+    let snackbar = document.getElementById("snackbar");
+    snackbar.className = "show";
+    snackbar.innerText = resMessage
+    snackbar.style.backgroundColor = "red"
+    setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
 
     loadPosts();
 }

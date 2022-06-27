@@ -5,7 +5,7 @@
     border: 0.1px solid black;
     border-radius: 5px;
     margin-bottom: 0px;
-    max-width: 33em;
+    width: 375px;
 }
 
 #postsPos {
@@ -21,15 +21,12 @@
 
 #date {
     flex: 1;
-    /* float: left;
-    text-align: left;
-    font-size: 7; */
+
 }
 
 #time {
     flex: 1;
-    /* float: right;
-    font-size: 7; */
+
     text-align: right;
 }
 

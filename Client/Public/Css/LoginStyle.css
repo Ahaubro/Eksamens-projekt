@@ -135,15 +135,12 @@ h2 {
 #snackbar {
     visibility: hidden;
     min-width: 15%;
-    margin-left: -125px;
-    background-color: rgb(141, 238, 84);
+    display: flex;
     color: #fff;
-    text-align: center;
     border-radius: 2px;
     padding: 14px;
-    z-index: 1;
-    top: 27.5%;
     font-size: 22px;
+    justify-content: center;
 }
 
 #snackbar.show {
@@ -152,26 +149,34 @@ h2 {
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
+#snack-container{
+    display: flex;
+    z-index: 4;
+    position: absolute;
+    justify-content: center;
+    transform: translateX(-50%);
+    left: 50%;
+}
 @-webkit-keyframes fadein {
-    from {
-        top: 0;
+    0% {
+        -webkit-transform: translateY(-80px);
         opacity: 0;
     }
 
-    to {
-        top: 27.5%;
+    100% {
+        -webkit-transform: translateY(0px);
         opacity: 1;
     }
 }
 
 @keyframes fadein {
-    from {
-        top: 0;
+    0% {
+        -webkit-transform: translateY(-80px);
         opacity: 0;
     }
 
-    to {
-        top: 27.5%;
+    100% {
+        -webkit-transform: translateY(0px);
         opacity: 1;
     }
 }

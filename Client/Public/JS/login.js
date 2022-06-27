@@ -26,13 +26,13 @@ async function login() {
 
         snackbar.style.backgroundColor = "rgb(141, 238, 84)";
         snackbar.innerText = responseMessage
+        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
 
         setTimeout(() => {
             window.location.replace("/smileposts")
         }, 1000);
 
-        
-        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+
     } else {
         responseMessage = await res.text();
 
@@ -51,33 +51,61 @@ async function register() {
     let user = {};
     let responseMessage = "";
 
-    if (username && password && email) {
-        user.email = email;
-        user.username = username;
-        user.password = password;
-    }
+    let snackbar = document.getElementById("snackbar");
+    snackbar.className = "show";
 
-    const res = await fetch(`/auth/signup`, {
-        headers: {
-            "content-type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify(user)
-    });
+    if (email.includes("@") && email.includes(".")) {
+        let check = email.split("@")
+        let check2 = check[1].split(".")
 
+        if (check[0] && check2[0] && check2[1]) {
+            if (username && password && password.length > 0) {
+                user.email = email;
+                user.username = username;
+                user.password = password;
 
 
-    if (res.status == 201) {
-        responseMessage = await res.text();
-        document.getElementById("response").innerText = responseMessage
+                const res = await fetch(`/auth/signup`, {
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    method: "POST",
+                    body: JSON.stringify(user)
+                });
 
-        setTimeout(() => {
-            window.location.replace("/login")
-        }, 1000);
+                if (res.status == 201) {
+
+                    responseMessage = await res.text();
+                    snackbar.style.backgroundColor = "rgb(141, 238, 84)"
+                    snackbar.innerText = responseMessage
+                    setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+
+                    setTimeout(() => {
+                        window.location.replace("/login")
+                    }, 1000);
+
+                } else {
+
+                    responseMessage = await res.text();
+                    snackbar.style.backgroundColor = "red"
+                    snackbar.innerText = responseMessage
+                    setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+                }
+
+            } else {
+                snackbar.style.backgroundColor = "red"
+                snackbar.innerText = "You must fill out all the information"
+                setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+            }
+        } else {
+            snackbar.style.backgroundColor = "red"
+            snackbar.innerText = "Check if it is the correct email"
+            setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+        }
     } else {
-        responseMessage = await res.text();
-        document.getElementById("response").innerText = responseMessage
-
+        snackbar.style.backgroundColor = "red"
+        snackbar.innerText = "You have to have both \"@\" and \".\" in your email"
+        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
     }
 }
 
@@ -93,7 +121,7 @@ function hideRegisterModal() {
     registerModal.className = 'hidden-modal';
 }
 
-document.addEventListener('mouseup', function (event) {
+document.addEventListener('mousedown', function (event) {
     if (!registerModal.contains(event.target))
         hideRegisterModal();
 });

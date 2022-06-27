@@ -6,11 +6,8 @@ async function checkUserOnline(userId) {
     const foundUser = await response.json()
 
     const active = document.getElementById("status-emoji")
-    let bol = "0"
     if (foundUser.loggedin === 1) {
-        console.log("kommer den ind her?")
         active.innerText = "🟢"
-        bol = 1
     }
     
     
@@ -110,8 +107,14 @@ async function addFriend() {
         method: "POST",
         body: `{"userTwoId": "${userTwoId}"}`
     })
-    response = document.getElementById("responseMessage");
-    response.innerText = await res.text();
+
+    let snackbar = document.getElementById("snackbar");
+    snackbar.className = "show";
+    snackbar.style.backgroundColor = "rgb(141, 238, 84)";
+    
+    snackbar.innerText = await res.text();
+
+    setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
 }
 
 

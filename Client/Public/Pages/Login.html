@@ -2,17 +2,21 @@
     <h2>Login or register page</h2>
 
     <p>Login or register now to access our smile posts and chatrooms</p>
-</div>
 
+</div>
+<div id="response"></div>
+<div id="snack-container">
+    <div id="snackbar"></div>
+</div>
 
 <div id="login-container">
     <br>
     <h3 id="itxt">Login at Smiles.com</h3>
     <hr>
     <br>
-    <input type="text" placeholder="Username" id="username" value="Ahaubro" />
+    <input type="text" placeholder="Username" id="username" required />
     </br>
-    <input type="password" placeholder="Password" id="password" value="0" />
+    <input type="password" placeholder="Password" id="password" required />
     </br>
 
     <div>
@@ -32,11 +36,11 @@
     <hr>
     <p>Fill out the information below to register and join Smiles today!</p>
 
-    <input id="reg_email" placeholder="Email" />
+    <input id="reg_email" type="email" placeholder="Email" required />
     <br>
-    <input id="reg_username" placeholder="Username" />
+    <input id="reg_username" placeholder="Username" required />
     <br>
-    <input id="reg_password" placeholder="Password" />
+    <input id="reg_password" type="password" placeholder="Password" required />
 
     <div id="regBtnsPos">
         <button id="reg-button" onclick="register()">Register new user</button>
@@ -48,8 +52,6 @@
 </div>
 <!-- Modal slutter her -->
 
-
-<div id="snackbar"></div>
 
 
 <script src="../JS/login.js"></script>

@@ -169,7 +169,7 @@ router.delete("/api/unlike/:postId", (req, res) => {
 
 
 //Delete posts (Due to foreign key constrains, we first delete from likedposts, then from posts)
-router.delete("/api/posts/:id/:userId", (req, res) => {
+router.delete("/api/posts/:id", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const id = Number(req.params.id);
     const userId = Number(req.session.userID);

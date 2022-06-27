@@ -68,11 +68,11 @@ async function loadChatrooms(chatroomsDiv) {
     chatrooms = result;
     chatroomsDiv.innerHTML = "";
     for (let i in chatrooms) {
-        const { id, name, username, creatorId } = chatrooms[i];
+        const { id, name, username, creatorId } = chatrooms[i];     
         chatroomsDiv.innerHTML += `<p>
-                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> <h2>${name}</h2></button><br>
+                <button onclick="joinRoom(${id}, '${name}')" id="chatroom${id}" class="chatroomBtns"> <h2 id="chatroomnametitle">${name}</h2></button><br>
                 <span>By <a href="./profile/${creatorId}">${username}</a><span>
-            </p>`;
+            </p>`; 
     }
 }
 
@@ -120,9 +120,8 @@ function leaveChatroom() {
 async function createChatroom() {
     document.getElementById("response").innerText = "";
     let chatroomsDiv = document.getElementById("chatroomsList");
-    const name = document.getElementById("chatroomName").value;
+    let name = document.getElementById("chatroomName").value;
     const maxMsgLength = Number(document.getElementById("chatroomMessageLength").value);
-
 
     if (maxMsgLength <= 100 || maxMsgLength >= 2000)
         return document.getElementById("response").innerText = "Max message length must be between 100 and 2000";
@@ -135,6 +134,7 @@ async function createChatroom() {
     const result = await response.text();
     document.getElementById("response").innerText = result;
     loadChatrooms(chatroomsDiv);
+
 }
 
 
