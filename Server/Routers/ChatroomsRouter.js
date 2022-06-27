@@ -4,6 +4,7 @@ import db from "../Database/CreateConnection.js";
 const router = Router();
 
 router.get("/api/chatrooms", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     db.query("SELECT chatrooms.id AS id, creatorId, name, max_message_length, users.id AS userid, username FROM chatrooms LEFT JOIN users ON chatrooms.creatorId = users.id", (err, result) => {
         if(err) throw err;
         res.send(result);
@@ -12,6 +13,7 @@ router.get("/api/chatrooms", (req, res) => {
 
 
 router.get("/api/chatrooms/:id", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id  = Number(req.params.id)
     db.query("SELECT * FROM chatrooms WHERE id = ?", [id], (err, result) => {
         if(err) throw err;
@@ -21,6 +23,7 @@ router.get("/api/chatrooms/:id", (req, res) => {
 
 
 router.post("/api/chatrooms", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const { name, maxMsgLength } = req.body;
     const userId = req.session.userID;
     db.query("SELECT COUNT(*) AS count FROM chatrooms WHERE creatorId = ?", [userId], (error, result) => {
@@ -37,6 +40,7 @@ router.post("/api/chatrooms", (req, res) => {
 
 
 router.get("/api/chat_messages/:roomId", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const {roomId} = req.params;
     db.query("SELECT * FROM chat_messages LEFT JOIN users ON chat_messages.userId = users.id WHERE roomId = ?", [roomId], (error, messages) => {
         res.send(messages);
@@ -45,7 +49,8 @@ router.get("/api/chat_messages/:roomId", (req, res) => {
 
 
 router.post("/api/chat_messages", (req, res) => {
-    const {message, roomId} = req.body;
+    if (!req.session.userID) return res.redirect("/");
+    const {message, roomId} = req.body; 
     const userId = req.session.userID;
     db.query("INSERT INTO chat_messages(userId, message, roomId) VALUES (?, ?, ?)", [userId, message, roomId], () => {
         db.query("SELECT * FROM users WHERE id = ?", [userId], (error, users) => {

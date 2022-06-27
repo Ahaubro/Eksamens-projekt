@@ -7,6 +7,7 @@ const router = Router();
 
 
 router.get("/api/posts", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     db.query("SELECT * FROM posts", (error, result) => {
         res.send(result);
     });
@@ -14,6 +15,7 @@ router.get("/api/posts", (req, res) => {
 
 //Posts that are liked by user
 router.get("/api/likedPosts/", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const userId = req.session.userID;
     db.query("SELECT * FROM likedposts WHERE userId = ?", [userId], (error, result) => {
         if (error) throw error;
@@ -23,6 +25,7 @@ router.get("/api/likedPosts/", (req, res) => {
 
 //Endpoint der kun læser posts tilhørende den user der er logget ind
 router.get("/api/posts/loggedInUser", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const userId = req.session.userID
     db.query("SELECT * FROM posts WHERE userId = ?", [userId], (error, result) => {
         res.send(result);
@@ -31,6 +34,7 @@ router.get("/api/posts/loggedInUser", (req, res) => {
 
 //Get posts object by user id
 router.get("/api/posts/byUserId/:id", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const userId = req.params.id
     db.query("SELECT * FROM posts WHERE userId = ?", [userId], (error, result) => {
         res.send(result);
@@ -39,6 +43,7 @@ router.get("/api/posts/byUserId/:id", (req, res) => {
 
 //Get posts objekt by posts id
 router.get("/api/getPostByID/:id", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id = Number(req.params.id)
     db.query("SELECT * FROM posts WHERE id = ?", [id], (error, result) => {
         res.send(result[0]);
@@ -47,6 +52,7 @@ router.get("/api/getPostByID/:id", (req, res) => {
 
 //Create new posts
 router.post("/api/posts/", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const dateNow = new Date();
     const hours = dateNow.getHours()
     const minutes = dateNow.getMinutes()
@@ -59,6 +65,7 @@ router.post("/api/posts/", (req, res) => {
 
 //Edit posts
 router.put("/api/posts/:id", async (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const postId = Number(req.params.id);
     const userId = req.session.userID;
 
@@ -73,6 +80,7 @@ router.put("/api/posts/:id", async (req, res) => {
 
 //Insert into likedPosts table
 router.put("/api/postsOnlyLikes/:id", async (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const postId = Number(req.params.id);
     const userId = req.session.userID;
 
@@ -100,6 +108,7 @@ router.put("/api/postsOnlyLikes/:id", async (req, res) => {
 });
 
 router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const postId = Number(req.params.id);
     const userId = req.session.userID;
 
@@ -130,6 +139,7 @@ router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
 });
 
 router.delete("/api/unlike/:postId", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const postId = Number(req.params.postId);
 
     db.query("DELETE FROM likedposts WHERE postId = ?", [postId], (error, result) => {
@@ -142,6 +152,7 @@ router.delete("/api/unlike/:postId", (req, res) => {
 
 //Delete posts
 router.delete("/api/posts/:id/:userId", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id = Number(req.params.id);
     const userId = Number(req.params.userId);
     if (userId == req.session.userID) {

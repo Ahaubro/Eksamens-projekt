@@ -14,6 +14,7 @@ router.use(fileUpload())
 
 //Get username from user id
 router.get("/api/getUsername/:id", async (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const  id = req.params.id
     const sqlSelect = "SELECT username FROM users WHERE id = ?";
     const foundUser = await db.query(sqlSelect, [id], function (err, result) {
@@ -25,6 +26,7 @@ router.get("/api/getUsername/:id", async (req, res) => {
 
 //Get user object from username
 router.get("/api/getUserByUsername/:username", async (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const username = req.params.username;
     const sqlSelect = "SELECT * FROM users WHERE username = ?";
     const foundUser = await db.query(sqlSelect, [username], function (err, result) {
@@ -35,6 +37,7 @@ router.get("/api/getUserByUsername/:username", async (req, res) => {
 
 //Get user object from id 
 router.get("/api/getUserById/:id", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id = req.params.id
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
     db.query(sqlSelect, [id], function (err, result) {
@@ -54,6 +57,7 @@ router.get("/api/getUserById/:id", (req, res) => {
 
 //Get logged in user object
 router.get("/api/loggedInUser", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id = req.session.userID;
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
     db.query(sqlSelect, [id], function (err, result) {
@@ -74,6 +78,7 @@ router.get("/api/loggedInUser", (req, res) => {
 
 //Edit profile
 router.patch("/api/editProfile", async (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
     const id = req.session.userID
     let password = req.body.password;
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
@@ -111,7 +116,7 @@ router.patch("/api/editProfile", async (req, res) => {
 
 //Upload profile picture
 router.post("/api/uploadPicture", (req, res) => {
-
+    if (!req.session.userID) return res.redirect("/");
     if(!req.files || Object.keys(req.files).length === 0){
         return res.status(400).send("No files were uploaded")
     }
