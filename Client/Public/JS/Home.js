@@ -4,7 +4,7 @@ let posts;
 
 //Function that loads welcoming posts on home.html
 async function loadPosts() {
-    const response = await fetch("/api/posts");
+    const response = await fetch("/api/postsHome");
     const result = await response.json();
     posts = result;
     postsDiv.innerHTML = "";

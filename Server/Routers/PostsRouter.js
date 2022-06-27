@@ -12,6 +12,14 @@ router.get("/api/posts", (req, res) => {
     });
 });
 
+//Get method that reads posts for home page
+router.get("/api/postsHome", (req, res) => {
+    const categori = 'home'
+    db.query("SELECT * FROM posts WHERE categori = ? ", [categori], (error, result) => {
+        res.send(result);
+    });
+});
+
 
 //Posts that are liked by user (likedPost)
 router.get("/api/likedPosts/", (req, res) => {

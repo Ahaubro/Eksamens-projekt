@@ -13,7 +13,6 @@ router.use(fileUpload())
 
 //Get username from user id
 router.get("/api/getUsername/:id", async (req, res) => {
-    if (!req.session.userID) return res.redirect("/");
     const  id = req.params.id
     const sqlSelect = "SELECT username FROM users WHERE id = ?";
     db.query(sqlSelect, [id], function (err, result) {

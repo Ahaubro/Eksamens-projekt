@@ -29,16 +29,16 @@ async function login() {
 
         setTimeout(() => {
             window.location.replace("/smileposts")
-        }, 100000000000000);
+        }, 1000);
 
         
-        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 30000000);
+        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
     } else {
         responseMessage = await res.text();
 
         snackbar.style.backgroundColor = "red"
         snackbar.innerText = responseMessage
-        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000000000000);
+        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
     }
 }
 
