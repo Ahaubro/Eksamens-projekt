@@ -2,58 +2,29 @@
 <h1 id="welcome"></h1>
 <p>Here you see their smile posts and personal information</p>
 
-<!-- <div id="myPage">
-	<div id="profile_picture_div"></div>
-    <br>
-    <br>
-    <br>
-	<div id="profile-posts-pos">
-		<div id="posts"></div>
-	</div>
-	<br>
-	<br>
-	<br>
-	<div id="editBtnPos">
-		<button id="editBtn" onclick="showInfoModal()"> Press here to see profile information</button>
-	</div>
-</div>
-
-
-<button id="add_friend_btn" onclick="addFriend()"> Add friend</button>
-
-
-
-<div id="friends_pos">
-    <p>Friends:</p>
-    <hr>
-    <div id="friends"></div>
-</div> -->
-
 <div id="snack-container">
     <div id="snackbar"></div>
 </div>
 
-<!---skal være det samme som ovenstående. Alle der har inline skal laves om til id-->
-<div style="display:flex;border:1px solid black;width: 90%;margin: auto;">
-	<div style="display:flex;align-items: center;flex-direction: column; border-right: 1px dashed black">
-		<img style="margin:10px;height: auto;width: 72%; border-radius:10px" id="profile_picture"
-			src="../Images/Uploads/Ca3pture.JPG">
-		<div style="display:flex;align-items: center;">Is online: <p id="status-emoji">🔘</p>
+
+<div id="profile_leftside_container">
+	<div id="profile_leftside_container_inner">
+		<div id="profile_picture"></div>
+		<div id="isOnline">Is online: <p id="status-emoji">🔘</p>
 		</div>
-		<div style="display:flex">
+		<div id="profile_container_btns">
 			<button id="editBtn" onclick="showInfoModal()"> Press here to see profile information</button>
 			<button id="add_friend_btn" onclick="addFriend()"> Add friend</button>
 		</div>
-		<div style="margin: 5px;width: 345px; ">
+		<div id="profile_friend_container">
 			<p>Friends:</p>
 			<hr>
-			<div id="friends" style="display:flex;justify-content: space-around;"></div>
+			<div id="friends"></div>
 		</div>
 	</div>
 
-
-	<div style="display:flex;flex:4;flex-direction: column;">
-		<div id="posts" style="height: 560px; overflow: scroll; overflow-x: hidden;"></div>
+	<div id="profile_posts_container">
+		<div id="posts"></div>
 	</div>
 </div>
 

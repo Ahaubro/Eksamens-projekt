@@ -88,7 +88,7 @@ async function getProfileInformation() {
     document.getElementById("welcome").innerText = "Hello, welcome to " + user.username + "'s page";
 
 
-    profile_picture.src = `../Images/Uploads/${user.profilepicture}`
+    profile_picture.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
 
 
 };

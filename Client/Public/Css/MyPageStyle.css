@@ -1,8 +1,8 @@
-.hidden-modal{
+.hidden-modal {
     display: none;
 }
 
-.shown-modal{
+.shown-modal {
     background-color: rgba(248, 243, 234, 0.945);
     border: 1px solid black;
     padding: 18px;
@@ -15,7 +15,7 @@
     padding: 5px;
 }
 
-#myPage{
+#myPage {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
@@ -27,7 +27,7 @@
     opacity: 0.9;
 }
 
-#editBtn{
+#editBtn {
     background-color: rgb(176, 225, 253);
     border-radius: 5px;
     text-align: center;
@@ -37,23 +37,23 @@
     width: 13em;
 }
 
-#editBtn:hover{
+#editBtn:hover {
     transition: 0.3s;
     background-color: rgb(104, 167, 204);
 }
 
-h3{
+h3 {
     font-size: 25px;
     font-weight: 600;
 }
 
-p{
+p {
     font-size: 20px;
     font-weight: 600;
-    
+
 }
 
-#editBtnPos{
+#editBtnPos {
     position: absolute;
     left: 1%;
     top: 35%;
@@ -73,7 +73,7 @@ p{
     margin: auto;
 }
 
-#profile_picture_div{
+#profile_picture_div {
     height: 32%;
     width: 20%;
     background-position: center;
@@ -82,7 +82,7 @@ p{
     border-radius: 20px;
 }
 
-#postsPos{
+#postsPos {
     position: absolute;
     left: 95%;
     top: 1%;
@@ -93,7 +93,7 @@ p{
     overflow-y: scroll;
 }
 
-#deletePostBtn{
+#deletePostBtn {
     background-color: rgb(248, 108, 108);
     border-radius: 5px;
     padding: 8px;
@@ -102,12 +102,12 @@ p{
     color: white;
 }
 
-#deletePostBtn:hover{
+#deletePostBtn:hover {
     background-color: rgb(236, 42, 42);
-    transition: 0.2s; 
+    transition: 0.2s;
 }
 
-#editPostBtn{
+#editPostBtn {
     background-color: rgb(41, 183, 202);
     border-radius: 5px;
     padding: 8px;
@@ -116,12 +116,12 @@ p{
     color: white;
 }
 
-#editPostBtn:hover{
+#editPostBtn:hover {
     background-color: rgb(28, 150, 167);
-    transition: 0.2s; 
+    transition: 0.2s;
 }
 
-#createPostBtn{
+#createPostBtn {
     background-color: rgb(25, 201, 119);
     border-radius: 5px;
     padding: 8px;
@@ -131,12 +131,12 @@ p{
     color: white;
 }
 
-#createPostBtn:hover{
+#createPostBtn:hover {
     background-color: rgb(21, 138, 69);
-    transition: 0.2s; 
+    transition: 0.2s;
 }
 
-#createPost{
+#createPost {
     display: flex;
     margin: 10px;
     margin-left: -12.5px;
@@ -144,14 +144,14 @@ p{
     justify-content: center;
 }
 
-#createText{
+#createText {
     width: 77.5%;
     font-size: 18px;
 }
 
 
 
-#display_image{
+#display_image {
     width: 120px;
     height: 175px;
     border: 1px solid black;
@@ -160,6 +160,66 @@ p{
 }
 
 
-textarea{
+textarea {
     resize: none;
+}
+
+#mypage_leftside_container {
+    display: flex;
+    border: 1px solid black;
+    width: 90%;
+    margin: auto;
+}
+
+#mypage_leftside_container_inner {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-right: 1px dashed black
+}
+
+#mypage_friend_container{
+    margin: 5px;
+    width: 345px; 
+    text-align: center;
+}
+
+img{
+    margin:10px;
+    height: auto;
+    width: 265px; 
+    border-radius:10px"
+}
+
+#friends{
+    display:flex;
+    justify-content: space-around
+}
+
+#mypage_posts_container{
+    display: flex; 
+    width: 100%;    
+    flex-direction: column;    
+    align-items: flex-start;
+}
+
+#posts{
+    height: 560px;
+    overflow: scroll;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+#categoriSelect{
+    width: 8.5%; 
+    text-align: center
+}
+
+#profile_picture{    
+     background-position: center;     
+     background-size: cover;     
+     margin: 10px;     
+     height: 60%;     
+     width: 85%;     
+     border-radius: 10px; 
 }

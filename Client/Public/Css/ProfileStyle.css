@@ -172,3 +172,73 @@ p {
     background-color: rgb(36, 128, 36);
     transition: 0.2s;
 }
+
+#profile_leftside_container{
+    display: flex;
+    border: 1px solid black;
+    width: 90%;
+    margin: auto;
+}
+
+#profile_leftside_container_inner {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-right: 1px dashed black
+}
+
+#profile_friend_container{
+    margin: 5px;
+    width: 345px; 
+    text-align: center;
+}
+
+img{
+    margin:10px;
+    height: auto;
+    width: 265px; 
+    border-radius:10px"
+}
+
+#friends{
+    display:flex;
+    justify-content: space-around
+}
+
+#profile_container_btns{
+    display:flex
+}
+
+#profile_posts_container{
+    display: flex; 
+    width: 100%;    
+    flex-direction: column;    
+    align-items: flex-start;
+}
+
+
+#posts{
+    height: 560px;
+    overflow: scroll;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+#categoriSelect{
+    width: 8.5%; 
+    text-align: center
+}
+
+#isOnline{
+    display:flex;
+    align-items: center;
+}
+
+#profile_picture{    
+    background-position: center;     
+    background-size: cover;     
+    margin: 10px;     
+    height: 60%;     
+    width: 85%;     
+    border-radius: 10px; 
+}

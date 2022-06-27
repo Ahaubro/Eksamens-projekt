@@ -7,7 +7,7 @@ image_input.addEventListener("change", function () {
     reader.addEventListener("load", () => {
         uploaded_image = reader.result;
         pic = document.getElementById("display_image").style.backgroundImage = `url(${uploaded_image})`;
-        pic2 = document.getElementById("profile_picture").src = `url(${uploaded_image})`;
+        pic2 = document.getElementById("profile_picture").style.backgroundImage = `url(${uploaded_image})`;
     });
     reader.readAsDataURL(this.files[0]);
 })
@@ -166,7 +166,7 @@ async function getProfileInformation() {
     document.getElementById("welcome").innerText = "Hello " + user.username + ", welcome to your page"
 
     display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
-    profile_picture.src = `../Images/Uploads/${user.profilepicture}`
+    profile_picture.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
 };
 
 getProfileInformation()
