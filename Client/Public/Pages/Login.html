@@ -3,6 +3,8 @@
 
     <p>Login or register now to access our smile posts and chatrooms</p>
 </div>
+
+
 <div id="login-container">
     <br>
     <h3 id="itxt">Login at Smiles.com</h3>
@@ -15,13 +17,12 @@
 
     <div>
         <br>
-        <button type="submit" onclick="login(), showSnackbar()" class="loginButton">Login</button>
+        <button type="submit" onclick="login()" class="loginButton">Login</button>
         <br>
         <br>
         <button onclick="showRegisterModal()" class="createButton">Opret ny bruger</button>
     </div>
 </div>
-
 
 
 <!-- Modal starter her-->
@@ -47,12 +48,8 @@
 </div>
 <!-- Modal slutter her -->
 
-<!------------- Leg med notification -------------------->
 
-<div id="snackbar"> Login succes! </div>
+<div id="snackbar"></div>
 
-<!------------- Leg med notification -------------------->
-
-<p id="response"></p>
 
 <script src="../JS/login.js"></script>

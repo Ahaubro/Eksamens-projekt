@@ -1,4 +1,3 @@
-
 {
     "watch": ["../Server", "../Client/Public"],
     "ext": ".js, .css, .html"

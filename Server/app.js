@@ -9,12 +9,12 @@ import searchRouter from "./Routers/SearchRouter.js";
 import { Server } from "socket.io";
 import http from "http";
 import SSR from "./SSR/SSR.js";
+import db from "./Database/CreateConnection.js";
 
 const app = express();
 
 app.use(express.static("../Client/Public/"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
     secret: 'We love teddys',
@@ -26,29 +26,36 @@ app.use(session({
 
 app.get("/", (req, res) => res.send(SSR.loggedInDependent(SSR.homePage, req.session.userID)));
 
+
 app.get("/chatrooms", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.chatroomsPage, req.session.userID));
 });
+
 
 app.get("/smileposts", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.smilePostsPage, req.session.userID))
 });
 
+
 app.get("/mypage", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.myPage, req.session.userID))
 });
+
+
 app.get("/login", (req, res) => {
-    if(req.session.userID) return res.redirect("/");
+    if (req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.loginPage, req.session.userID))
 });
+
 
 app.get("/search/:query", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     res.send(SSR.loggedInDependent(SSR.getSearchPage(req.params.query), req.session.userID));
 });
+
 
 app.get("/profile/:id", async (req, res) => {
     if (!req.session.userID) return res.redirect("/");
@@ -61,12 +68,10 @@ app.get("/profile/:id", async (req, res) => {
             res.send(SSR.loggedInDependent(SSR.loadUserProfilePage(user), req.session.userID));
         } else {
             res.status = 400;
-            res.send("didnt find anything")
+            res.send("didnt find anything1")
         }
     })
 });
-
-app.use(express.json());
 
 app.use(usersRouter);
 
@@ -80,11 +85,11 @@ app.use(friendsRouter);
 
 app.use(searchRouter);
 
+
 // Sockets
 const server = http.createServer(app);
 const io = new Server(server);
 
-import db from "./Database/CreateConnection.js";
 io.on("connection", socket => {
     socket.on("sent-message", ({ username, message, roomId }) => {
         socket.emit("recieved-message", { username, message, roomId });
@@ -95,17 +100,12 @@ io.on("connection", socket => {
         db.query("SELECT likes, hearts, cares FROM posts where id = ?", [id], (error, result) => {
             if (error) throw error;
             likeCount = result[0].likes
-            heartCount =result[0].hearts
+            heartCount = result[0].hearts
             careCount = result[0].cares
-            socket.emit("reaction-change", {id, likeCount, heartCount, careCount});
+            socket.emit("reaction-change", { id, likeCount, heartCount, careCount });
             socket.broadcast.emit("reaction-change", { id, likeCount, heartCount, careCount });
         });
     })
-    socket.on("logged-on", ({user, status}) => {
-        socket.emit("logon-indicator", {user, status});
-        socket.broadcast.emit("logon-indicator", {user, status});
-    })
-
 })
 
 

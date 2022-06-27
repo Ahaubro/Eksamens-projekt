@@ -1,23 +1,21 @@
-const socket = io();
-socket.on("reaction-change", ({id, likeCount, heartCount, careCount}) => {
-    //let reactionPost = document.getElementById("reaction_count"+id);
-
-    let likeCountElement = document.getElementById("likes-count"+id)
-    let heartCountElement = document.getElementById("hearts-count"+id)
-    let careCountElement = document.getElementById("cares-count"+id)
+//socket that changes the reaction count when changed in db
+socket.on("reaction-change", ({ id, likeCount, heartCount, careCount }) => {
+    let likeCountElement = document.getElementById("likes-count" + id)
+    let heartCountElement = document.getElementById("hearts-count" + id)
+    let careCountElement = document.getElementById("cares-count" + id)
 
     likeCountElement.innerText = likeCount || "0"
     heartCountElement.innerText = heartCount || "0"
     careCountElement.innerText = careCount || "0"
 })
 
-loadPosts();
+
 const postsDiv = document.getElementById("posts");
 let posts;
 let id, numberArray = ""
 
 
-
+//Function that loads posts and likes from db along with some html representatio
 async function loadPosts() {
     const response = await fetch("/api/posts");
     const result = await response.json();
@@ -41,8 +39,10 @@ async function loadPosts() {
             const likes = posts[i].likes || 0;
             const hearts = posts[i].hearts || 0;
             const cares = posts[i].cares || 0;
+
             const resObj = await fetch(`/api/getUserById/${userId}`);
             const foundUser = await resObj.json();
+
             let SecondPostPart = ""
             const firstPostPart = `
                     <br> 
@@ -56,21 +56,21 @@ async function loadPosts() {
                         <b id="date"> ${reverseDate} </b> `
             const numberArray = [likes, hearts, cares]
 
-            if (likedPosts.find((post) => post.postId == id && post.reaction === 0)) {
+            if (likedPosts.find((likedPost) => likedPost.postId === id && likedPost.reaction === 0)) {
                 SecondPostPart += ` 
                         <div id="reaction_count${id}">
                             ${reactionArrayForPosts(id, numberArray, "activeReaction", 0)}
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
                         </div>`
-            } else if (likedPosts.find((post) => post.postId == id && post.reaction === 1)) {
+            } else if (likedPosts.find((likedPost) => likedPost.postId == id && likedPost.reaction === 1)) {
                 SecondPostPart += `
                         <div id="reaction_count${id}">
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                             ${reactionArrayForPosts(id, numberArray, "activeReaction", 1)}
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 2)}
                         </div>`
-            } else if (likedPosts.find((post) => post.postId == id && post.reaction === 2)) {
+            } else if (likedPosts.find((likedPost) => likedPost.postId == id && likedPost.reaction === 2)) {
                 SecondPostPart += `
                         <div id="reaction_count${id}">
                             ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
@@ -93,10 +93,14 @@ async function loadPosts() {
             postsDiv.innerHTML += firstPostPart + SecondPostPart + thirdPostPart;
         }
     }
-    
 }
 
+loadPosts();
+
+
+//Function containing array of reaction button html representation 
 function reactionArrayForPosts(id, numberArray, condition, index) {
+
     if (condition === "activeReaction") {
         const activeReactionArray = [
             `<div id="like-count"> 
@@ -122,31 +126,6 @@ function reactionArrayForPosts(id, numberArray, condition, index) {
         ]
 
         return activeReactionArray[index]
-
-    } if (condition === "removeReaction") {
-        const removeReactionArray = [
-            `<div id="like-count"> 
-                    <div id="like-div">
-                        <button id="like-button" onclick="addReaction(${id}, 'likes', [${numberArray}])">😍</button> 
-                    </div>  
-                    <b id="likes-count${id}">${numberArray[0]}</b> 
-                </div>`,
-
-            `<div id="heart-count"> 
-                    <div id="heart-div">
-                        <button id="heart-button" onclick="addReaction(${id}, 'hearts', [${numberArray}])">❤️</button>
-                    </div>  
-                    <b id="hearts-count${id}">${numberArray[1]}</b>  
-                </div>`,
-
-            `<div id="care-count"> 
-                    <div id="care-div">
-                        <button id="care-button" onclick="addReaction(${id}, 'cares', [${numberArray}])">🥰</button>
-                    </div> 
-                    <b id="cares-count${id}">${numberArray[2]}</b> 
-                </div>`
-        ]
-        return removeReactionArray[index]
 
     } if (condition === "disabledButton") {
         const disabledButtonsArray = [
@@ -194,14 +173,16 @@ function reactionArrayForPosts(id, numberArray, condition, index) {
                     </div> 
                     <b id="cares-count${id}">${numberArray[2]}</b> 
                 </div>`]
+
         return enableButtonsArray[index]
     }
 }
 
+
+//add a reaction to a post, and then disables the rest of the buttons so you cant react put another reaction on the post
 async function addReaction(id, reaction, numberArray) {
 
     if (reaction === "likes") {
-        
         const html = `
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 0)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
@@ -210,7 +191,7 @@ async function addReaction(id, reaction, numberArray) {
         document.getElementById(`reaction_count${id}`).innerHTML = html;
     }
     if (reaction === "hearts") {
-        
+
         const html = `
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "activeReaction", 1)}
@@ -219,7 +200,7 @@ async function addReaction(id, reaction, numberArray) {
         document.getElementById(`reaction_count${id}`).innerHTML = html;
     }
     if (reaction === "cares") {
-        
+
         const html = `
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 0)}
                     ${reactionArrayForPosts(id, numberArray, "disabledButton", 1)}
@@ -228,7 +209,7 @@ async function addReaction(id, reaction, numberArray) {
         document.getElementById(`reaction_count${id}`).innerHTML = html;
     }
 
-    const response = await fetch(`/api/postsOnlyLikes/${id}`, {
+    await fetch(`/api/postsOnlyLikes/${id}`, {
         headers: {
             "content-type": "application/json",
         },
@@ -236,35 +217,20 @@ async function addReaction(id, reaction, numberArray) {
         body: JSON.stringify({ reaction })
     });
 
-    socket.emit("reactions", {id, likeCount:numberArray[0], heartCount:numberArray[1], careCount:numberArray[2]})
+    socket.emit("reactions", { id, likeCount: numberArray[0], heartCount: numberArray[1], careCount: numberArray[2] })
 
 }
 
+//removes a reaction from a post, and enables all buttons to be pressed again
 async function removeReaction(id, reaction, numberArray) {
 
-    if (reaction === "likes") {
-        
-        document.getElementById(`reaction_count${id}`).innerHTML = `
-                    ${reactionArrayForPosts(id, numberArray, "removeReaction", 0)}
-                    ${reactionArrayForPosts(id, numberArray, "enabledButton", 1)}
-                    ${reactionArrayForPosts(id, numberArray, "enabledButton", 2)}
-                    `
-    } if (reaction === "hearts") {
-       
-        document.getElementById(`reaction_count${id}`).innerHTML = `
-                    ${reactionArrayForPosts(id, numberArray, "enabledButton", 0)}
-                    ${reactionArrayForPosts(id, numberArray, "removeReaction", 1)}
-                    ${reactionArrayForPosts(id, numberArray, "enabledButton", 2)}
-                    `
-    } if (reaction === "cares") {
-        
-        document.getElementById(`reaction_count${id}`).innerHTML = `
-                    ${reactionArrayForPosts(id, numberArray, "enabledButton", 0)}
-                    ${reactionArrayForPosts(id, numberArray, "enabledButton", 1)}
-                    ${reactionArrayForPosts(id, numberArray, "removeReaction", 2)}
-                `
-    }
-    const response = await fetch(`/api/postsOnlyUnLikes/${id}`, {
+    document.getElementById(`reaction_count${id}`).innerHTML = `
+        ${reactionArrayForPosts(id, numberArray, "enabledButton", 0)}
+        ${reactionArrayForPosts(id, numberArray, "enabledButton", 1)}
+        ${reactionArrayForPosts(id, numberArray, "enabledButton", 2)}
+        `
+
+    await fetch(`/api/postsOnlyUnLikes/${id}`, {
         headers: {
             "content-type": "application/json",
         },
@@ -272,14 +238,11 @@ async function removeReaction(id, reaction, numberArray) {
         body: JSON.stringify({ reaction })
     });
 
-    const deleteResponse = await fetch(`/api/unlike/` + id, {
+    await fetch(`/api/unlike/` + id, {
         method: "DELETE",
     });
 
-    socket.emit("reactions", {id, likeCount:numberArray[0], heartCount:numberArray[1], careCount:numberArray[2]})
+    socket.emit("reactions", { id, likeCount: numberArray[0], heartCount: numberArray[1], careCount: numberArray[2] })
 
 }
 
-// async function checkLikedPosts() {
-//     const res = await fetch(`/api/likedPosts`);
-// }

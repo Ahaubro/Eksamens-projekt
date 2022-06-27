@@ -1,12 +1,8 @@
-
 const postsDiv = document.getElementById("posts");
 let posts;
 
 
-//Global metode som vi kan bruge til vi implemintere JS filer
-
-
-
+//Function that loads welcoming posts on home.html
 async function loadPosts() {
     const response = await fetch("/api/posts");
     const result = await response.json();
@@ -15,7 +11,7 @@ async function loadPosts() {
     for (let i in posts) {
         const { id, text, userId, date, hours, minutes, categori } = posts[i];
 
-        if (categori == 'home') {
+        if (categori === 'home') {
             const res = await fetch(`/api/getUsername/${userId}`);
             const foundUsername = await res.text();
             postsDiv.innerHTML += ` <br> 
@@ -29,7 +25,6 @@ async function loadPosts() {
                     <br>
                 </article> 
             <br>`;
-
         }
     }
 }

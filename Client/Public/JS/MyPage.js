@@ -1,7 +1,4 @@
-
-
-let usernameForfriends = "";
-
+//For image upload and refresh
 const image_input = document.querySelector("#image_input")
 let uploaded_image = "";
 
@@ -16,13 +13,10 @@ image_input.addEventListener("change", function () {
 
 
 
-
-// CRUD posts
 const postsDiv = document.getElementById("posts");
 let posts;
 
-loadPosts();
-
+//Function that loads posts beloning to the logged in user
 async function loadPosts() {
     const response = await fetch("/api/posts/loggedInUser");
     const result = await response.json();
@@ -53,11 +47,13 @@ async function loadPosts() {
                 <br>
             </article> 
             <br>`;
-
     }
 }
 
+loadPosts();
 
+
+//Function that creates new posts in the db
 async function createPost() {
     const text = document.getElementById("createText").value;
     const categori = document.getElementById("categoriSelect").value;
@@ -72,6 +68,8 @@ async function createPost() {
     loadPosts();
 }
 
+
+//Function that enables edit on posts
 function openEdit(id) {
     const element = document.getElementById("edit" + id);
     const text = document.getElementById("text" + id).innerText;
@@ -81,13 +79,14 @@ function openEdit(id) {
             </div>`;
 }
 
+
+//Function that edits post in the database
 async function editPost(id) {
     let resMessage = "";
 
-    const firstResponse = await fetch(`/api/getPostByID/${id}`);
+    const firstResponse = await fetch(`/api/posts/${id}`);
     const firstResult = await firstResponse.json();
-    const post = firstResult;
-    const userId = post.userId
+    const userId = firstResult.userId
 
     const text = document.getElementById("input" + id).value;
     const response = await fetch(`/api/posts/` + id, {
@@ -105,16 +104,11 @@ async function editPost(id) {
 }
 
 
-
+//Funtions that deletes a post in the db
 async function deletePost(id) {
     let resMessage = "";
 
-    const firstResponse = await fetch(`/api/getPostByID/${id}`);
-    const firstResult = await firstResponse.json();
-    const post = firstResult;
-    const userId = post.userId
-
-    const response = await fetch(`/api/posts/${id}/${userId}`, {
+    const response = await fetch(`/api/posts/${id}`, {
         method: "DELETE",
     });
 
@@ -125,7 +119,7 @@ async function deletePost(id) {
 }
 
 
-// MODAL
+// Edit myPage modal
 
 function showEditModal() {
     editModal.className = 'shown-modal';
@@ -140,14 +134,16 @@ document.addEventListener('mouseup', function (event) {
         hideEditModal();
 });
 
+
+let thisProfilesUsername = "";
 responseMessage = "";
-getProfileInformation()
+
+//Function that reads profile information on the logged in user
 async function getProfileInformation() {
     const res = await fetch(`/api/loggedInUser`)
     const user = await res.json()
 
-
-    usernameForfriends = user.username
+    thisProfilesUsername = user.username
     uname.value = user.username
     fname.value = user.firstname
     mname.value = user.middlename
@@ -160,20 +156,20 @@ async function getProfileInformation() {
     colorSelect.value = user.profilecolor
     display_image.value = user.profilePicture
 
-
     document.getElementById("welcome").innerText = "Hello " + user.username + ", welcome to your page"
 
     display_image.style.backgroundImage = `url('../Images/Uploads/${user.profilepicture}')`
     profile_picture.src = `../Images/Uploads/${user.profilepicture}`
-
 };
 
-// HER
+getProfileInformation()
+
+
+// Get friends from db using session ID, and display friends on myPage
 async function getFriends() {
     const friendsDiv = document.getElementById("friends");
     let friendList;
-    let users = [];
-    let arr = [];
+    let friendArr = [];
 
     const res = await fetch(`/api/Myfriends`);
     const result = await res.json();
@@ -182,17 +178,15 @@ async function getFriends() {
 
     for (let friends in friendList) {
         const { userOne, userTwo } = friendList[friends];
-
-        arr.push(userOne);
-        arr.push(userTwo);
+        friendArr.push(userOne);
+        friendArr.push(userTwo);
     }
 
-    for (let i in arr) {
-
-        const userOneRes = await fetch(`/api/getUserById/${arr.at(i)}`)
+    for (let i in friendArr) {
+        const userOneRes = await fetch(`/api/getUserById/${friendArr.at(i)}`)
         const userOneResult = await userOneRes.json();
 
-        if (userOneResult.username != usernameForfriends) {
+        if (userOneResult.username != thisProfilesUsername) {
             friendsDiv.innerHTML += `<p> ${userOneResult.username} </p>`;
         }
     }
@@ -200,35 +194,34 @@ async function getFriends() {
 
 getFriends();
 
+
+//Saves inputs from modal to the correct user in the database
 async function saveChanges() {
     let user = {}
     let input = document.querySelector('input[type="file"]')
 
-    user.username = uname.value
+    user.username = uname.value;
     if (pass.value) {
         if (pass.value !== null)
-            user.password = pass.value
-    }
-    user.firstname = fname.value
-    user.middlename = mname.value
-    user.lastname = lname.value
-    if (bday.value)
-        user.birthday = bday.value
+            user.password = pass.value;
+    };
 
-    user.address = address.value
-    user.country = countrySelect.value
-    user.city = city.value
-    user.zipcode = zip.value
-    user.profilecolor = colorSelect.value
-    
-    if(input.files[0] !== undefined)
-    user.profilePicture = input.files[0].name
+    user.firstname = fname.value;
+    user.middlename = mname.value;
+    user.lastname = lname.value;
+    if (bday.value) user.birthday = bday.value;
 
+    user.address = address.value;
+    user.country = countrySelect.value;
+    user.city = city.value;
+    user.zipcode = zip.value;
+    user.profilecolor = colorSelect.value;
 
+    if (input.files[0] !== undefined) user.profilePicture = input.files[0].name;
 
-    if (pass.value != cpass.value)
-        return alert("the two passwords are not the same")
-    const res = await fetch(`/api/editProfile`, {
+    if (pass.value != cpass.value) return alert("the two passwords are not the same");
+
+    await fetch(`/api/editProfile`, {
         headers: {
             "content-type": "application/json"
         },

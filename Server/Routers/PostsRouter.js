@@ -1,18 +1,18 @@
 import { Router } from "express";
-import { readSync } from "fs";
 import db from "../Database/CreateConnection.js";
-import ssr from "../SSR/SSR.js"
 
 const router = Router();
 
 
+//Get method that reads all posts
 router.get("/api/posts", (req, res) => {
     db.query("SELECT * FROM posts", (error, result) => {
         res.send(result);
     });
 });
 
-//Posts that are liked by user
+
+//Posts that are liked by user (likedPost)
 router.get("/api/likedPosts/", (req, res) => {
     const userId = req.session.userID;
     db.query("SELECT * FROM likedposts WHERE userId = ?", [userId], (error, result) => {
@@ -21,7 +21,8 @@ router.get("/api/likedPosts/", (req, res) => {
     });
 });
 
-//Endpoint der kun læser posts tilhørende den user der er logget ind
+
+//Get method that shows posts belonging to the logged in user (sessionID)
 router.get("/api/posts/loggedInUser", (req, res) => {
     const userId = req.session.userID
     db.query("SELECT * FROM posts WHERE userId = ?", [userId], (error, result) => {
@@ -29,7 +30,8 @@ router.get("/api/posts/loggedInUser", (req, res) => {
     });
 });
 
-//Get posts object by user id
+
+//Get posts belonging to a user by id
 router.get("/api/posts/byUserId/:id", (req, res) => {
     const userId = req.params.id
     db.query("SELECT * FROM posts WHERE userId = ?", [userId], (error, result) => {
@@ -37,13 +39,15 @@ router.get("/api/posts/byUserId/:id", (req, res) => {
     });
 });
 
-//Get posts objekt by posts id
-router.get("/api/getPostByID/:id", (req, res) => {
+
+//Get posts by postsID
+router.get("/api/posts/:id", (req, res) => {
     const id = Number(req.params.id)
     db.query("SELECT * FROM posts WHERE id = ?", [id], (error, result) => {
         res.send(result[0]);
     });
 });
+
 
 //Create new posts
 router.post("/api/posts/", (req, res) => {
@@ -56,6 +60,7 @@ router.post("/api/posts/", (req, res) => {
         res.send(result);
     });
 });
+
 
 //Edit posts
 router.put("/api/posts/:id", async (req, res) => {
@@ -71,7 +76,8 @@ router.put("/api/posts/:id", async (req, res) => {
 
 });
 
-//Insert into likedPosts table
+
+//Add reaction to the likedPosts
 router.put("/api/postsOnlyLikes/:id", async (req, res) => {
     const postId = Number(req.params.id);
     const userId = req.session.userID;
@@ -99,6 +105,8 @@ router.put("/api/postsOnlyLikes/:id", async (req, res) => {
     });
 });
 
+
+// Does the opposite then the method above
 router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
     const postId = Number(req.params.id);
     const userId = req.session.userID;
@@ -108,18 +116,18 @@ router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
     let reactionsArray = ['likes', 'hearts', 'cares']
 
     const reactionId = reactionsArray.indexOf(reaction);
-   
+
     db.query("INSERT INTO likedPosts (userId, postId, reaction) VALUES (?, ?, ?)", [userId, postId, reactionId])
 
     db.query(`SELECT ${reaction} FROM posts WHERE id = ?`, [postId], (error, result) => {
         if (error) throw error;
         let reactionCount = result[0][reaction]
-        
+
         reactionCount--;
-        if(reactionCount < 0 ){
-            reactionCount = 0; 
+        if (reactionCount < 0) {
+            reactionCount = 0;
         }
-        
+
         db.query(`UPDATE posts SET ${reaction} = ? WHERE id = ?`, [reactionCount, postId], (error, result) => {
             if (error)
                 return res.send(error);
@@ -129,6 +137,8 @@ router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
     });
 });
 
+
+//When unbliking post, we have to delete the row which indicates your reaction to a post
 router.delete("/api/unlike/:postId", (req, res) => {
     const postId = Number(req.params.postId);
 
@@ -140,10 +150,10 @@ router.delete("/api/unlike/:postId", (req, res) => {
 });
 
 
-//Delete posts
-router.delete("/api/posts/:id/:userId", (req, res) => {
+//Delete posts (Due to foreign key constrains, we first delete from likedposts, then from posts)
+router.delete("/api/posts/:id", (req, res) => {
     const id = Number(req.params.id);
-    const userId = Number(req.params.userId);
+    const userId = Number(req.session.userID);
     if (userId == req.session.userID) {
         db.query("DELETE FROM likedposts WHERE postId = ?", [id], (error) => {
             if (error) throw error;
@@ -157,5 +167,7 @@ router.delete("/api/posts/:id/:userId", (req, res) => {
         res.status(400).send("You can only delete your own posts")
     }
 });
+
+
 
 export default router;

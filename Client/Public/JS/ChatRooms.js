@@ -1,11 +1,10 @@
-
 let chatroomsDiv = document.getElementById("chatroomsList");
 let chatrooms;
 const contentDiv = document.getElementById("content");
-
-// Chatrooms
 let currentRoomId = 0;
 
+
+//Function that loads chat messages into the correct chatroom
 async function loadMessages() {
     const response = await fetch("/api/chat_messages/" + currentRoomId);
     const oldMessages = await response.json();
@@ -16,22 +15,22 @@ async function loadMessages() {
     }
 }
 
-const socket = io();
 socket.on("recieved-message", ({ username, message, roomId }) => {
-    if (currentRoomId == roomId) {
+    if (currentRoomId === roomId) {
         messages.innerHTML += `<p><b>${username}:</b> ${message}</p>`;
     }
     loadMessages();
 });
 
 
-
+//Function that saves chatmessage to db and emit sent chat message 
 async function sendMessage(roomId) {
     document.getElementById("response").innerText = "";
     const messageInput = document.getElementById("messageInput");
     const message = messageInput.value;
     let msgMaxLength = Number(document.getElementById("msgMaxLength").innerText);
-    if (message.length > msgMaxLength)
+
+    if (message.length >= msgMaxLength)
         document.getElementById("response").innerText = `Message can not be over ${msgMaxLength} characters`;
     else {
         const response = await fetch("/api/chat_messages", {
@@ -47,6 +46,7 @@ async function sendMessage(roomId) {
 }
 
 
+//Function that count message length
 function updateMessageLength() {
     let messageInput = document.getElementById("messageInput");
     let lengthLimit = document.getElementById("lengthLimit");
@@ -60,6 +60,7 @@ function updateMessageLength() {
 }
 
 
+//Function that loads chatrooms from db, along with some html representation
 async function loadChatrooms(chatroomsDiv) {
 
     const response = await fetch("/api/chatrooms");
@@ -78,6 +79,7 @@ async function loadChatrooms(chatroomsDiv) {
 loadChatrooms(chatroomsDiv);
 
 
+//Fnction that joins a chatroom
 async function joinRoom(id, name) {
     const response = await fetch("/api/chatrooms/" + id);
     const chatroom = await response.json();
@@ -96,14 +98,16 @@ async function joinRoom(id, name) {
     loadMessages();
 }
 
+
+//Function that takes us out of a chatroom and display chatroom lobby
 function leaveChatroom() {
     currentRoomId = 0;
     contentDiv.innerHTML = ` 
             <h1>Chatrooms</h1>
             <div id="chatroomsList"></div>
-            <label>Name: </label><input id="chatroomName"/>
-            <label>Message Length: </label><input type="number" id="chatroomMessageLength"/>
-            <button onclick="createChatroom()">Create</button>
+            <div id="create_chatroom">
+                <button id="create_chatroom_btn" onclick="showChatroomModal()">Create new chatroom</button>
+            </div>
         `;
 
     let chatroomsDiv = document.getElementById("chatroomsList");
@@ -111,11 +115,15 @@ function leaveChatroom() {
     loadChatrooms(chatroomsDiv);
 }
 
+
+//Function that creates a new chatroom in the db
 async function createChatroom() {
     document.getElementById("response").innerText = "";
     let chatroomsDiv = document.getElementById("chatroomsList");
     const name = document.getElementById("chatroomName").value;
     const maxMsgLength = Number(document.getElementById("chatroomMessageLength").value);
+
+
     if (maxMsgLength <= 100 || maxMsgLength >= 2000)
         return document.getElementById("response").innerText = "Max message length must be between 100 and 2000";
 
@@ -129,7 +137,8 @@ async function createChatroom() {
     loadChatrooms(chatroomsDiv);
 }
 
-// Modal
+
+// Chatroom modal
 function showChatroomModal() {
     chatroom_modal.className = 'shown-chatroom_modal';
 }

@@ -1,8 +1,7 @@
+//Set the navbar element to active when you are on the current page
 function setActive() {
-
     let currentPage = window.location.pathname.substring(1)
 
- 
     if (currentPage === "") currentPage = "home"
     let aTags = document.getElementsByTagName('a')
 
@@ -15,25 +14,26 @@ function setActive() {
         }
     }
 }
+
 setActive();
+
+
 let responseMessage = "";
 
+//Function that logs out user from the active session
 async function logout() {
     const res = await fetch(`/auth/logout`);
 
-    if(res.status == 201) {
-
+    if (res.status == 201) {
         responseMessage = await res.text();
+        document.getElementById("response").innerText = responseMessage
 
-        document.getElementById("response").innerText=responseMessage
-
-        setTimeout( () => {
-        window.location.replace("/")
+        setTimeout(() => {
+            window.location.replace("/")
         }, 2000);
-
     } else {
         responseMessage = await res.text();
 
-        document.getElementById("response").innerText=responseMessage
+        document.getElementById("response").innerText = responseMessage
     }
 }

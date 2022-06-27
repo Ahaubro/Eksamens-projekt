@@ -1,13 +1,15 @@
-nav{
+nav {
     position: sticky;
     top: 0%;
     z-index: 100;
     overflow: scroll;
-    
+
 }
+
 ::-webkit-scrollbar {
     width: 0px;
-    background: transparent; /* make scrollbar transparent */
+    background: transparent;
+    /* make scrollbar transparent */
 }
 
 nav ul {
@@ -22,7 +24,7 @@ nav ul {
     min-width: 1289.690px;
 }
 
-nav a{
+nav a {
     display: block;
     font-family: Comic Sans MS;
     padding: 18px 55px;
@@ -31,19 +33,19 @@ nav a{
     color: white;
 }
 
-nav a:hover:not(.active){
+nav a:hover:not(.active) {
     background-color: #e93030;
     transition: 0.3s;
 }
 
-nav ul li{
+nav ul li {
     float: left;
     width: 200px;
     text-align: center;
 }
 
 /*   Leger her    */
-.dropbtn{
+.dropbtn {
     display: block;
     font-family: Comic Sans MS;
     padding: 18px 55px;
@@ -55,21 +57,21 @@ nav ul li{
     font-size: 16px;
 }
 
-.dropbtn:hover{
+.dropbtn:hover {
     background-color: #e93030;
     transition: 0.2s;
 }
 
-.dropdown{
+.dropdown {
     background-color: #f07272;
 }
 
-.dropdown-content{
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f07272;
     min-width: 191px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -79,16 +81,20 @@ nav ul li{
     text-decoration: none;
     display: block;
 }
-  
- 
-.dropdown-content a:hover {background-color: #ddd}
-  
 
-.show {display:block;}
 
- /*   ---------------- */
+.dropdown-content a:hover {
+    background-color: #ddd
+}
 
-#user_search{
+
+.show {
+    display: block;
+}
+
+/*   ---------------- */
+
+#user_search {
     height: 1.35em;
     padding: 0.55em;
     margin: 1px 0px 1px 0px;
@@ -97,31 +103,33 @@ nav ul li{
     border-radius: 7px;
     border: 0.1em solid;
 }
-nav ul li#search {
 
-}
-#funni{
+nav ul li#search {}
+
+#funni {
     position: absolute;
     display: flex;
     right: 1%;
 }
-#search_btn{
+
+#search_btn {
     width: 100%;
     border-radius: 4px;
     border: 0px;
 }
 
 
-#logoutBtn:hover{
+#logoutBtn:hover {
     background-color: #e93030;
     transition: 0.2s;
 }
 
-.active{
+.active {
     background-color: #e93030;
-    
+
 }
 
-textarea:focus, input:focus{
+textarea:focus,
+input:focus {
     outline: none;
 }

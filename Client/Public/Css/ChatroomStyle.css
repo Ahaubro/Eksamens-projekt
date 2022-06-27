@@ -1,30 +1,30 @@
-#leaveBtn{
+#leaveBtn {
     background-color: rgb(253, 86, 86);
 }
 
-#sendBtn{
+#sendBtn {
     background-color: lightblue;
 }
 
-.chatroomBtns{
+.chatroomBtns {
     background-color: rgb(151, 246, 253);
     width: 14em;
     height: 8em;
 }
 
-.chatroomBtns:hover{
+.chatroomBtns:hover {
     transition: 0.25s;
     background-color: rgb(7, 173, 185);
 }
 
-#response{
+#response {
     position: fixed;
     top: 65%;
     left: 50%;
     transform: translateX(-50%);
 }
 
-#messageInput{
+#messageInput {
     width: 500px;
 }
 
@@ -35,17 +35,17 @@
     overflow-y: scroll;
 }
 
-#create_chatroom{
+#create_chatroom {
     display: flex;
     justify-content: center;
 }
 
-input{
+input {
     width: 17em;
     height: 1.5em;
 }
 
-.shown-chatroom_modal{
+.shown-chatroom_modal {
     background-color: rgba(248, 243, 234, 0.945);
     border: 1px solid black;
     padding: 18px;
@@ -62,7 +62,7 @@ input{
     padding: 5px;
 }
 
-#create_chatroom_btn{
+#create_chatroom_btn {
     background-color: rgb(27, 252, 27);
     padding: 5px;
     border-radius: 5px;
@@ -73,24 +73,24 @@ input{
     border: none;
 }
 
-#create_chatroom_btn:hover{
+#create_chatroom_btn:hover {
     transition: 0.25s;
     background-color: rgb(6, 179, 6);
-    
+
 }
 
-#center_chatroom_modal{
+#center_chatroom_modal {
     display: block;
     justify-content: center;
     text-align: center;
 }
 
-h3{
+h3 {
     font-weight: 700;
     font-size: 24px;
 }
 
-#close-chatroom_modal{
+#close-chatroom_modal {
     background-color: rgb(247, 81, 81);
     border-radius: 4px;
     font-weight: 500;
@@ -101,13 +101,13 @@ h3{
     color: white;
 }
 
-#close-chatroom_modal:hover{
+#close-chatroom_modal:hover {
     transition: 0.25s;
     background-color: rgb(223, 19, 19);
 
 }
 
-#center_chatroom_modal_btns{
+#center_chatroom_modal_btns {
     display: block;
     justify-content: center;
     text-align: center;

@@ -9,7 +9,7 @@
     display: block;
     width: fit-content;
     height: fit-content;
-    z-index: 1;
+    z-index: 3;
     border-radius: 7px;
     margin: auto;
     padding: 5px;

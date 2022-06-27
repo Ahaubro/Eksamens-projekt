@@ -1,22 +1,7 @@
-const socket = io();
-socket.on("logon-indicator", ({ user, status }) => {
-    const active = document.getElementById("status-emoji")
-    if (user.id === user) {
-        if (status) {
-            active.innerText = "🟢"
-        } else {
-            active.innerText = "🔘"
-        }
-    }
-})
-
-
-
-
 const userId = document.getElementById("userid").innerText;
 
+//Show if a user is online or offline 
 async function checkUserOnline(userId) {
-    
     const response = await fetch("/api/getUserById/" + userId);
     const foundUser = await response.json()
 
@@ -25,14 +10,13 @@ async function checkUserOnline(userId) {
         active.innerText = "🟢"
     }
 }
+
 checkUserOnline(userId)
 
 const postsDiv = document.getElementById("posts");
 let posts;
 
-// Til friends
-let loadedUsername;
-
+//Loads post written by the user being visited
 async function loadPosts() {
     const response = await fetch("/api/posts/byUserId/" + userId);
     const result = await response.json();
@@ -62,8 +46,8 @@ async function loadPosts() {
 
 loadPosts();
 
-// MODAL
 
+// User profile information modal
 function showInfoModal() {
     infoModal.className = 'shown-modal';
 }
@@ -77,8 +61,11 @@ document.addEventListener('mouseup', function (event) {
         hideInfoModal();
 });
 
+
 responseMessage = "";
-getProfileInformation()
+let loadedUsername;
+
+// Loads user profile information for display
 async function getProfileInformation() {
     const res = await fetch("/api/getUserById/" + userId);
     const user = await res.json()
@@ -104,6 +91,10 @@ async function getProfileInformation() {
 
 };
 
+getProfileInformation()
+
+
+// Adds the visited user profile as a friend
 async function addFriend() {
     const userTwoId = userId
 
@@ -114,50 +105,35 @@ async function addFriend() {
         method: "POST",
         body: `{"userTwoId": "${userTwoId}"}`
     })
-
-
     response = document.getElementById("responseMessage");
     response.innerText = await res.text();
 }
 
+
+// Displays the users friends
 async function getFriends() {
     const friendsDiv = document.getElementById("friends");
     let friendList;
-    let users = [];
-    let arr = [];
-    let userNameList = [];
+    let friendArr = [];
 
     const res = await fetch(`/api/profileFriends/${userId}`);
     const result = await res.json();
 
     friendList = result;
 
-
     for (let friends in friendList) {
         const { userOne, userTwo } = friendList[friends];
-
-        arr.push(userOne);
-        arr.push(userTwo);
+        friendArr.push(userOne);
+        friendArr.push(userTwo);
     }
 
-    for (let i in arr) {
-        const userOneRes = await fetch(`/api/getUserById/${arr.at(i)}`)
+    for (let i in friendArr) {
+        const userOneRes = await fetch(`/api/getUserById/${friendArr.at(i)}`)
         const userOneResult = await userOneRes.json();
 
         if (userOneResult.username != loadedUsername) {
-            userNameList.push(userOneResult.username)
+            friendsDiv.innerHTML += `<p> ${userOneResult.username} </p>`;
         }
-    }
-    // Eventuelt udskift med filter funktion doh
-    let uniqueList = [];
-    userNameList.forEach((element) => {
-        if (!uniqueList.includes(element)) {
-            uniqueList.push(element);
-        }
-    });
-
-    for (let i in uniqueList) {
-        friendsDiv.innerHTML += `<p> ${uniqueList[i]} </p>`;
     }
 }
 

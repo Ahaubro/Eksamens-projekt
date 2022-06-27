@@ -1,13 +1,13 @@
-body{
+body {
     padding-bottom: 4em;
 }
 
 
-.hidden-modal{
+.hidden-modal {
     display: none;
 }
 
-.shown-modal{
+.shown-modal {
     background-color: rgba(248, 243, 234, 0.945);
     border: 1px solid black;
     padding: 18px;
@@ -24,7 +24,7 @@ body{
     padding: 5px;
 }
 
-#response{
+#response {
     position: fixed;
     left: 50%;
     top: 75%;
@@ -37,9 +37,9 @@ body{
 .dropdown {
     float: left;
     overflow: hidden;
-  }
-  
-  
+}
+
+
 .dropdown .dropbtn {
     font-size: 16px;
     border: none;
@@ -48,26 +48,26 @@ body{
     padding: 14px 16px;
     background-color: inherit;
     font-family: inherit;
-    margin: 0; 
+    margin: 0;
 }
 
-#userPos{
+#userPos {
     padding: 7px 25px 0px 15px;
     height: fit-content;
     font-size: 2em;
 }
 
-.show-info:hover + .hide{
+.show-info:hover+.hide {
     display: block;
     font-size: 20px;
     font-weight: 700;
 }
 
-.hide{
+.hide {
     display: none;
 }
 
-#info-pos{
+#info-pos {
     position: fixed;
     left: 92%;
     top: 15%;
@@ -76,7 +76,7 @@ body{
     color: white;
 }
 
-#friends_pos{
+#friends_pos {
     position: absolute;
     top: 75%;
     left: 31%;
@@ -86,14 +86,12 @@ body{
     width: 150px;
 }
 
-#user_search_pos{
+#user_search_pos {
     display: flex;
     justify-content: center;
 }
 
-#user_search_bar{
+#user_search_bar {
     display: flex;
     justify-content: center;
 }
-
-

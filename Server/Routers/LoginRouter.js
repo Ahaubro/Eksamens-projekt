@@ -8,7 +8,7 @@ const saltRounds = parseInt(process.env.SALTROUNDS);
 
 const router = Router();
 
-//Limiter
+//Authlimitter, sætter max login forsøg 
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
@@ -36,8 +36,8 @@ router.post("/auth/login", async (req, res) => {
             resPas = result[0].password
             resID = result[0].id
         }
-        db.query("UPDATE users set loggedin = 1 WHERE username = ?",[resUser], (error, result) =>{
-            if(error) throw error;
+        db.query("UPDATE users set loggedin = 1 WHERE username = ?", [resUser], (error, result) => {
+            if (error) throw error;
 
         })
         if (!resUser) {
@@ -56,7 +56,7 @@ router.post("/auth/login", async (req, res) => {
                 return res.send("Wrong username or password");
             }
         }
-        
+
         isSame();
 
         if (req.session.loggedIn) {
@@ -67,15 +67,15 @@ router.post("/auth/login", async (req, res) => {
 });
 
 
-//Log-out function
+//Log-out function 
 router.get("/auth/logout", (req, res) => {
     if (req.session.loggedIn) {
         req.session.loggedIn = false;
         const username = req.session.username;
         req.session.username = "";
         req.session.userID = 0;
-        db.query("UPDATE users set loggedin = 0 WHERE username = ?",[username], (error, result) =>{
-            if(error) throw error;
+        db.query("UPDATE users set loggedin = 0 WHERE username = ?", [username], (error, result) => {
+            if (error) throw error;
         })
         return res.status(201).send("You have been logged out from user: " + username);
     } else {
@@ -91,11 +91,10 @@ router.post("/auth/signup", async (req, res) => {
     let resMail = "";
     let resUsername = "";
     let foundUsername = "";
-    let foundUsermail = "";
 
-    // Username check
+    // Username / email check
     const sqlSelect1 = "SELECT * FROM users WHERE username = ? OR email = ?";
-    foundUsername = await db.query(sqlSelect1, [username, email], function (err, result) {
+    foundUsername = db.query(sqlSelect1, [username, email], function (err, result) {
         if (err) throw err;
 
         if (result[0]) {
@@ -109,7 +108,7 @@ router.post("/auth/signup", async (req, res) => {
                 const hashedPassword = await bcrypt.hash(password, saltRounds);
 
                 const sqlInsertQuery = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-                const res1 = await db.query(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
+                db.query(sqlInsertQuery, [username, email, hashedPassword], function (err, result) {
                     if (err) throw err;
 
                     sendMail(email);
@@ -138,15 +137,11 @@ function sendMail(email) {
         from: 'sharethatsmileforever@gmail.com',
         to: email,
         subject: 'Smiles INC',
-        html: '<p> Thanks for signing up at "navn"! <br> Get to sharing the little everyday things that makes you smile at: <a href="http://localhost:9998/"> Smiles™ </a> </p>'
+        html: '<p> Thanks for signing up at "navn"! <br> Get to sharing the little everyday things that makes you smile at: <a href="https://sharethatsmile2.herokuapp.com/"> Smiles™ </a> </p>'
     };
 
-    mailTransporter.sendMail(mailDetails, function (err, data) {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log("Mail sent")
-        }
+    mailTransporter.sendMail(mailDetails, function (err) {
+        if (err) throw err;
     });
 }
 

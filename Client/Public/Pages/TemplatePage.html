@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../Css/GlobalStyle.css">
@@ -9,12 +10,20 @@
     %%STYLES%%
     <link rel="icon" href="/Images/favicon.ico">
     <title>%%TITLE%%</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>const socket = io();</script>
 </head>
+
+
 <body>
-%%HEADER%%
-<div class="page-content">
-%%CONTENT%%
-</div>
-%%FOOTER%%
+    %%HEADER%%
+    <div class="page-content">
+        %%CONTENT%%
+
+    </div>
+    %%FOOTER%%
 </body>
+
+
+
 </html>
