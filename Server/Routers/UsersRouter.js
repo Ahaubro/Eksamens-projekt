@@ -103,24 +103,4 @@ router.patch("/api/users", async (req, res) => {
 });
 
 
-//Upload profile picture
-router.post("/api/uploadPicture", (req, res) => {
-    if (!req.session.userID) return res.redirect("/");
-    if(!req.files || Object.keys(req.files).length === 0){
-        return res.status(400).send("No files were uploaded")
-    }
-
-    const sampleFile = req.files.sampleFile
-
-    const uploadPath = '../Client/Public/Images/Uploads/' + sampleFile.name
-    sampleFile.mv(uploadPath, function (err) {
-        if (err) return res.status(500).send(err)
-
-        res.send('file uploaded!')
-
-
-    })
-})
-
-
 export default router;
