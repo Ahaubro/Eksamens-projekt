@@ -1,3 +1,4 @@
+const socket = io();
 let chatroomsDiv = document.getElementById("chatroomsList");
 let chatrooms;
 const contentDiv = document.getElementById("content");

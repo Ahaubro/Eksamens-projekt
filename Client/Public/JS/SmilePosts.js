@@ -1,3 +1,5 @@
+const socket = io();
+
 //socket that changes the reaction count when changed in db
 socket.on("reaction-change", ({ id, likeCount, heartCount, careCount }) => {
     let likeCountElement = document.getElementById("likes-count" + id)
