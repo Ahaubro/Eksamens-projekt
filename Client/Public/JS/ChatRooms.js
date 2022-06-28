@@ -18,9 +18,10 @@ async function loadMessages() {
 
 socket.on("recieved-message", ({ username, message, roomId }) => {
     if (currentRoomId === roomId) {
-        messages.innerHTML += `<p><b>${username}:</b> ${message}</p>`;
+        messages.innerHTML += `<p><b>${username}:</b> ${message} ${alle}</p>`;
+        //loadMessages();
     }
-    loadMessages();
+
 });
 
 
@@ -39,8 +40,12 @@ async function sendMessage(roomId) {
             method: "POST",
             body: JSON.stringify({ message, roomId })
         });
+    
         const username = await response.text();
-        socket.emit("sent-message", { username, message, roomId });
+
+
+        socket.emit("sent-message", { username, message, roomId});
+
         messageInput.value = "";
         updateMessageLength();
     }
@@ -80,7 +85,7 @@ async function loadChatrooms(chatroomsDiv) {
 loadChatrooms(chatroomsDiv);
 
 
-//Fnction that joins a chatroom
+//Function that joins a chatroom
 async function joinRoom(id, name) {
     const response = await fetch("/api/chatrooms/" + id);
     const chatroom = await response.json();
