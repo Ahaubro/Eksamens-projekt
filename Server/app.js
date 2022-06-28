@@ -6,6 +6,7 @@ import postsRouter from "./Routers/PostsRouter.js";
 import chatroomsRouter from "./Routers/ChatroomsRouter.js";
 import friendsRouter from "./Routers/FriendsRouter.js";
 import searchRouter from "./Routers/SearchRouter.js";
+import likedpostsRouter from "./Routers/LikedpostsRouter.js"
 import { Server } from "socket.io";
 import http from "http";
 import SSR from "./SSR/SSR.js";
@@ -88,6 +89,8 @@ app.use(chatroomsRouter);
 app.use(friendsRouter);
 
 app.use(searchRouter);
+
+app.use(likedpostsRouter)
 
 
 // Sockets
