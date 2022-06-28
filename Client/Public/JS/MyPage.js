@@ -23,8 +23,10 @@ async function loadPosts() {
     const result = await response.json();
     posts = result;
     postsDiv.innerHTML = "";
-    for (let i in posts) {
-        let { id, text, userId, date, hours, minutes } = posts[i];
+
+    posts.forEach( async (post) => {
+        let {id, text, userId, date, hours, minutes } = post
+
         let reverseDate = date.split("-").reverse().join("-")
 
         minutes = formatTime(minutes);
@@ -48,7 +50,7 @@ async function loadPosts() {
                 <br>
             </article> 
             <br>`;
-    }
+    });
 }
 
 loadPosts();
