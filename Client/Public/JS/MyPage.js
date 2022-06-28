@@ -192,9 +192,8 @@ async function getFriends() {
     }
 
     for (let i in friendArr) {
-        const userOneRes = await fetch(`/api/users/${friendArr.at(i)}`)
+        const userOneRes = await fetch(`/api/users/${friendArr[i]}`)
         const userOneResult = await userOneRes.json();
-        console.log()
 
         if (userOneResult.username != thisProfilesUsername) {
             friendsDiv.innerHTML += `<p> ${userOneResult.username} </p>`;
