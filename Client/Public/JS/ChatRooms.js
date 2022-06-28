@@ -90,10 +90,12 @@ async function joinRoom(id, name) {
             <h1> ${name} </h1>
             <div id="messages"></div>
 
-            <input placeholder="Message" id="messageInput" onkeyup="updateMessageLength()"/>
-            <span id="lengthLimit"><span id="msgLength">0</span>/<span id="msgMaxLength">${chatroom.max_message_length}</span></span>
-            <button id="sendBtn" onclick="sendMessage(${id})">Send Message</button>
-            <button id="leaveBtn" onclick="leaveChatroom()">Leave Chatroom</button>
+            <div id="chatmessage_interaction">
+                <input placeholder="Message" id="messageInput" onkeyup="updateMessageLength()"/>
+                <span id="lengthLimit"><span id="msgLength">0</span>/<span id="msgMaxLength">${chatroom.max_message_length}</span></span>
+                <button id="sendBtn" onclick="sendMessage(${id})">Send Message</button>
+                <button id="leaveBtn" onclick="leaveChatroom()">Leave Chatroom</button>
+            </div>
         `;
     loadMessages();
 }

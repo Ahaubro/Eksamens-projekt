@@ -29,7 +29,7 @@ async function loadPosts() {
 
         minutes = formatTime(minutes);
         hours = formatTime(hours);
-        const resObj = await fetch(`/api/getUserById/${userId}`);
+        const resObj = await fetch(`/api/users/${userId}`);
         const foundUser = await resObj.json();
 
         postsDiv.innerHTML += ` <br> 
@@ -147,8 +147,10 @@ responseMessage = "";
 
 //Function that reads profile information on the logged in user
 async function getProfileInformation() {
-    const res = await fetch(`/api/loggedInUser`)
+    const res = await fetch(`/api/user/loggedin`)
     const user = await res.json()
+
+    console.log("HER",user.username)
 
     thisProfilesUsername = user.username
     uname.value = user.username
@@ -178,7 +180,7 @@ async function getFriends() {
     let friendList;
     let friendArr = [];
 
-    const res = await fetch(`/api/Myfriends`);
+    const res = await fetch(`/api/friends/myfriends`);
     const result = await res.json();
 
     friendList = result;
@@ -190,8 +192,9 @@ async function getFriends() {
     }
 
     for (let i in friendArr) {
-        const userOneRes = await fetch(`/api/getUserById/${friendArr.at(i)}`)
+        const userOneRes = await fetch(`/api/users/${friendArr.at(i)}`)
         const userOneResult = await userOneRes.json();
+        console.log()
 
         if (userOneResult.username != thisProfilesUsername) {
             friendsDiv.innerHTML += `<p> ${userOneResult.username} </p>`;
@@ -228,7 +231,7 @@ async function saveChanges() {
 
     if (pass.value != cpass.value) return alert("the two passwords are not the same");
 
-    await fetch(`/api/editProfile`, {
+    await fetch(`/api/users`, {
         headers: {
             "content-type": "application/json"
         },

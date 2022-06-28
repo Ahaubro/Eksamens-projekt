@@ -2,7 +2,7 @@ const userId = document.getElementById("userid").innerText;
 
 //Show if a user is online or offline 
 async function checkUserOnline(userId) {
-    const response = await fetch("/api/getUserById/" + userId);
+    const response = await fetch("/api/users/" + userId);
     const foundUser = await response.json()
 
     const active = document.getElementById("status-emoji")
@@ -27,7 +27,7 @@ async function loadPosts() {
     for (let i in posts) {
         const { id, text, userId, date, hours, minutes } = posts[i];
 
-        const resObj = await fetch(`/api/getUserById/${userId}`);
+        const resObj = await fetch(`/api/users/${userId}`);
         const foundUser = await resObj.json();
 
         postsDiv.innerHTML += ` <br> 
@@ -69,7 +69,7 @@ let loadedUsername;
 
 // Loads user profile information for display
 async function getProfileInformation() {
-    const res = await fetch("/api/getUserById/" + userId);
+    const res = await fetch("/api/users/" + userId);
     const user = await res.json()
 
     loadedUsername = user.username
@@ -124,7 +124,7 @@ async function getFriends() {
     let friendList;
     let friendArr = [];
 
-    const res = await fetch(`/api/profileFriends/${userId}`);
+    const res = await fetch(`/api/friends/profilefriends/${userId}`);
     const result = await res.json();
 
     friendList = result;
@@ -136,7 +136,7 @@ async function getFriends() {
     }
 
     for (let i in friendArr) {
-        const userOneRes = await fetch(`/api/getUserById/${friendArr.at(i)}`)
+        const userOneRes = await fetch(`/api/users/${friendArr.at(i)}`)
         const userOneResult = await userOneRes.json();
 
         if (userOneResult.username != loadedUsername) {

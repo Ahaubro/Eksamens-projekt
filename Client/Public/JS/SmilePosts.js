@@ -22,7 +22,7 @@ async function loadPosts() {
     posts = result;
     postsDiv.innerHTML = "";
 
-    const likedResponse = await fetch(`/api/likedPosts/`);
+    const likedResponse = await fetch(`/api/likedposts/`);
     const likedResult = await likedResponse.json();
     likedPosts = likedResult
 
@@ -40,7 +40,7 @@ async function loadPosts() {
             const hearts = posts[i].hearts || 0;
             const cares = posts[i].cares || 0;
 
-            const resObj = await fetch(`/api/getUserById/${userId}`);
+            const resObj = await fetch(`/api/users/${userId}`);
             const foundUser = await resObj.json();
 
             let SecondPostPart = ""
@@ -209,7 +209,7 @@ async function addReaction(id, reaction, numberArray) {
         document.getElementById(`reaction_count${id}`).innerHTML = html;
     }
 
-    await fetch(`/api/postsOnlyLikes/${id}`, {
+    await fetch(`/api/likedposts/addReaction/${id}`, {
         headers: {
             "content-type": "application/json",
         },
@@ -230,7 +230,7 @@ async function removeReaction(id, reaction, numberArray) {
         ${reactionArrayForPosts(id, numberArray, "enabledButton", 2)}
         `
 
-    await fetch(`/api/postsOnlyUnLikes/${id}`, {
+    await fetch(`/api/likedposts/removeReaction/${id}`, {
         headers: {
             "content-type": "application/json",
         },
@@ -238,7 +238,7 @@ async function removeReaction(id, reaction, numberArray) {
         body: JSON.stringify({ reaction })
     });
 
-    await fetch(`/api/unlike/` + id, {
+    await fetch(`/api/likedposts/` + id, {
         method: "DELETE",
     });
 

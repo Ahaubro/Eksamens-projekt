@@ -5,7 +5,7 @@ const router = Router();
 
 
 //Reads friends belonging to a profile from id
-router.get("/api/profileFriends/:userId", (req, res) => {
+router.get("/api/friends/profilefriends/:userId", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const userId = req.params.userId
     db.query("SELECT * FROM friends WHERE userOne = ? OR userTwo = ?;", [userId, userId], (error, result) => {
@@ -16,7 +16,7 @@ router.get("/api/profileFriends/:userId", (req, res) => {
 
 
 //Reads myFriends for myPage.html
-router.get("/api/Myfriends/", (req, res) => {
+router.get("/api/friends/myfriends", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const userId = req.session.userID
     db.query("SELECT * FROM friends WHERE userOne = ? OR userTwo = ?", [userId, userId], (error, result) => {

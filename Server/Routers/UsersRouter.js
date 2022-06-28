@@ -12,7 +12,7 @@ router.use(fileUpload())
 
 
 //Get username from user id
-router.get("/api/getUsername/:id", async (req, res) => {
+router.get("/api/users/username/:id", async (req, res) => {
     const  id = req.params.id
     const sqlSelect = "SELECT username FROM users WHERE id = ?";
     db.query(sqlSelect, [id], function (err, result) {
@@ -24,7 +24,7 @@ router.get("/api/getUsername/:id", async (req, res) => {
 
 
 //Get user object from id 
-router.get("/api/getUserById/:id", (req, res) => {
+router.get("/api/users/:id", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const id = req.params.id
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
@@ -45,7 +45,7 @@ router.get("/api/getUserById/:id", (req, res) => {
 
 
 //Get logged in user object
-router.get("/api/loggedInUser", (req, res) => {
+router.get("/api/user/loggedin", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const id = req.session.userID;
     const sqlSelect = "SELECT * FROM users WHERE id = ?";
@@ -65,7 +65,7 @@ router.get("/api/loggedInUser", (req, res) => {
 
 
 //Edit profile
-router.patch("/api/editProfile", async (req, res) => {
+router.patch("/api/users", async (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const id = req.session.userID
     let password = req.body.password;

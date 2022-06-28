@@ -6,27 +6,7 @@ const router = Router();
 
 //Get method that reads all posts
 router.get("/api/posts", (req, res) => {
-    if (!req.session.userID) return res.redirect("/");
     db.query("SELECT * FROM posts", (error, result) => {
-        res.send(result);
-    });
-});
-
-//Get method that reads posts for home page
-router.get("/api/postsHome", (req, res) => {
-    const categori = 'home'
-    db.query("SELECT * FROM posts WHERE categori = ? ", [categori], (error, result) => {
-        res.send(result);
-    });
-});
-
-
-//Posts that are liked by user (likedPost)
-router.get("/api/likedPosts/", (req, res) => {
-    if (!req.session.userID) return res.redirect("/");
-    const userId = req.session.userID;
-    db.query("SELECT * FROM likedposts WHERE userId = ?", [userId], (error, result) => {
-        if (error) throw error;
         res.send(result);
     });
 });
@@ -92,8 +72,40 @@ router.put("/api/posts/:id", async (req, res) => {
 });
 
 
+//Delete posts (Due to foreign key constrains, we first delete from likedposts, then from posts)
+router.delete("/api/posts/:id", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
+    const id = Number(req.params.id);
+    const userId = Number(req.session.userID);
+    if (userId == req.session.userID) {
+        db.query("DELETE FROM likedposts WHERE postId = ?", [id], (error) => {
+            if (error) throw error;
+        })
+        db.query("DELETE FROM posts WHERE id = ?", [id], (error, result) => {
+            if (error)
+                return res.send(error);
+            res.send("The post have been deleted");
+        });
+    } else {
+        res.status(400).send("You can only delete your own posts")
+    }
+});
+
+
+//Posts that are liked by user (likedPost)
+router.get("/api/likedposts/", (req, res) => {
+    if (!req.session.userID) return res.redirect("/");
+    const userId = req.session.userID;
+    db.query("SELECT * FROM likedposts WHERE userId = ?", [userId], (error, result) => {
+        if (error) throw error;
+        res.send(result);
+    });
+});
+
+
+
 //Add reaction to the likedPosts
-router.put("/api/postsOnlyLikes/:id", async (req, res) => {
+router.put("/api/likedposts/addReaction/:id", async (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const postId = Number(req.params.id);
     const userId = req.session.userID;
@@ -123,7 +135,7 @@ router.put("/api/postsOnlyLikes/:id", async (req, res) => {
 
 
 // Does the opposite then the method above
-router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
+router.put("/api/likedposts/removeReaction/:id", async (req, res) => {
     if (!req.session.userID) return res.redirect("/");
     const postId = Number(req.params.id);
     const userId = req.session.userID;
@@ -156,35 +168,15 @@ router.put("/api/postsOnlyUnLikes/:id", async (req, res) => {
 
 
 //When unbliking post, we have to delete the row which indicates your reaction to a post
-router.delete("/api/unlike/:postId", (req, res) => {
+router.delete("/api/likedposts/:id", (req, res) => {
     if (!req.session.userID) return res.redirect("/");
-    const postId = Number(req.params.postId);
+    const postId = Number(req.params.id);
 
     db.query("DELETE FROM likedposts WHERE postId = ?", [postId], (error, result) => {
         if (error)
             return res.send(error);
         res.send("The post have been deleted");
     });
-});
-
-
-//Delete posts (Due to foreign key constrains, we first delete from likedposts, then from posts)
-router.delete("/api/posts/:id", (req, res) => {
-    if (!req.session.userID) return res.redirect("/");
-    const id = Number(req.params.id);
-    const userId = Number(req.session.userID);
-    if (userId == req.session.userID) {
-        db.query("DELETE FROM likedposts WHERE postId = ?", [id], (error) => {
-            if (error) throw error;
-        })
-        db.query("DELETE FROM posts WHERE id = ?", [id], (error, result) => {
-            if (error)
-                return res.send(error);
-            res.send("The post have been deleted");
-        });
-    } else {
-        res.status(400).send("You can only delete your own posts")
-    }
 });
 
 

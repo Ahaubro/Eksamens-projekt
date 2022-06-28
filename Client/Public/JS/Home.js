@@ -4,7 +4,7 @@ let posts;
 
 //Function that loads welcoming posts on home.html
 async function loadPosts() {
-    const response = await fetch("/api/postsHome");
+    const response = await fetch("/api/posts");
     const result = await response.json();
     posts = result;
     postsDiv.innerHTML = "";
@@ -12,7 +12,7 @@ async function loadPosts() {
         const { id, text, userId, date, hours, minutes, categori } = posts[i];
 
         if (categori === 'home') {
-            const res = await fetch(`/api/getUsername/${userId}`);
+            const res = await fetch(`/api/users/username/${userId}`);
             const foundUsername = await res.text();
             postsDiv.innerHTML += ` <br> 
                 <article class="postArticle">
