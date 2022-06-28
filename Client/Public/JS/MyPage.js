@@ -150,8 +150,6 @@ async function getProfileInformation() {
     const res = await fetch(`/api/user/loggedin`)
     const user = await res.json()
 
-    console.log("HER",user.username)
-
     thisProfilesUsername = user.username
     uname.value = user.username
     fname.value = user.firstname
